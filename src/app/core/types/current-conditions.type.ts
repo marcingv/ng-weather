@@ -1,3 +1,5 @@
+import { Coord, Weather } from './forecast.type';
+
 export interface CurrentConditions {
   coord: Coord;
   weather: Weather[];
@@ -18,11 +20,6 @@ export interface Clouds {
   all: number;
 }
 
-export interface Coord {
-  lon: number;
-  lat: number;
-}
-
 export interface Main {
   temp: number;
   feels_like: number;
@@ -38,13 +35,6 @@ export interface Sys {
   country: string;
   sunrise: number;
   sunset: number;
-}
-
-export interface Weather {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
 }
 
 export interface Wind {

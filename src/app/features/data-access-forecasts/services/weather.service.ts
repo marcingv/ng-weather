@@ -1,12 +1,11 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
-import { CurrentConditions } from './current-conditions/current-conditions.type';
-import { ConditionsAndZip } from './conditions-and-zip.type';
-import { Forecast } from './forecasts-list/forecast.type';
+import { CurrentConditions } from '@core/types/current-conditions.type';
+import { ConditionsAndZip } from '@core/types/conditions-and-zip.type';
+import { Forecast } from 'src/app/core/types';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class WeatherService {
   static URL = 'http://api.openweathermap.org/data/2.5';
   static APPID = '5a4b2d457ecbef9eb2a71e480b947604';
@@ -33,7 +32,9 @@ export class WeatherService {
   removeCurrentConditions(zipcode: string) {
     this.currentConditions.update(conditions => {
       for (const i in conditions) {
-        if (conditions[i].zip == zipcode) conditions.splice(+i, 1);
+        if (conditions[i].zip == zipcode) {
+          conditions.splice(+i, 1);
+        }
       }
       return conditions;
     });
@@ -51,18 +52,20 @@ export class WeatherService {
   }
 
   getWeatherIcon(id: number): string {
-    if (id >= 200 && id <= 232)
+    if (id >= 200 && id <= 232) {
       return WeatherService.ICON_URL + 'art_storm.png';
-    else if (id >= 501 && id <= 511)
+    } else if (id >= 501 && id <= 511) {
       return WeatherService.ICON_URL + 'art_rain.png';
-    else if (id === 500 || (id >= 520 && id <= 531))
+    } else if (id === 500 || (id >= 520 && id <= 531)) {
       return WeatherService.ICON_URL + 'art_light_rain.png';
-    else if (id >= 600 && id <= 622)
+    } else if (id >= 600 && id <= 622) {
       return WeatherService.ICON_URL + 'art_snow.png';
-    else if (id >= 801 && id <= 804)
+    } else if (id >= 801 && id <= 804) {
       return WeatherService.ICON_URL + 'art_clouds.png';
-    else if (id === 741 || id === 761)
+    } else if (id === 741 || id === 761) {
       return WeatherService.ICON_URL + 'art_fog.png';
-    else return WeatherService.ICON_URL + 'art_clear.png';
+    } else {
+      return WeatherService.ICON_URL + 'art_clear.png';
+    }
   }
 }

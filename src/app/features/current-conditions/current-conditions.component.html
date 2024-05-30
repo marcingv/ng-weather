@@ -13,7 +13,7 @@
         {{ location.data.main.temp_min | number: '.0-0' }}
       </p>
       <p>
-        <a [routerLink]="['/forecast', location.zip]"
+        <a [routerLink]="[Paths.ROOT, Paths.FORECAST, location.zip]"
           >Show 5-day forecast for {{ location.data.name }}</a
         >
       </p>
