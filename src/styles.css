@@ -18,3 +18,19 @@ body {
 h1, h2, h3, h4, h5, h6 {
   @apply font-normal;
 }
+
+.app-button {
+  @apply py-2 px-4 inline-flex items-center rounded disabled:opacity-25 transition-colors duration-75;
+}
+
+.app-button-primary {
+  @apply bg-slate-700 hover:bg-slate-800 active:bg-slate-900 text-white;
+}
+
+.app-button-secondary {
+  @apply bg-gray-300 hover:bg-gray-400 active:bg-gray-500 text-gray-700;
+}
+
+.app-button-transparent {
+  @apply hover:bg-gray-100 active:bg-gray-200;
+}

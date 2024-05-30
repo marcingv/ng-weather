@@ -8,6 +8,8 @@
       placeholder="Zipcode"
       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-slate-300 focus:ring focus:ring-slate-200 focus:ring-opacity-50" />
 
-    <button (click)="addLocation(zipcode.value)">Add location</button>
+    <button appButton="primary" (click)="addLocation(zipcode.value)">
+      Add location
+    </button>
   </div>
 </div>

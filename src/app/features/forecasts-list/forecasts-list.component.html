@@ -1,4 +1,4 @@
-<div class="app-panel mb-4">
+<div class="app-panel mb-8">
   <div class="-m-4 p-4 mb-4 bg-slate-300 rounded-t">
     <h3 class="text-xl">5-day forecast for {{ forecast()?.city.name }}</h3>
   </div>
@@ -22,4 +22,4 @@
   </ul>
 </div>
 
-<button [routerLink]="Paths.ROOT">< Back to main page</button>
+<app-back-button label="Back to main page"></app-back-button>
