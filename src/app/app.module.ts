@@ -16,22 +16,23 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ZipcodeEntryComponent,
-        ForecastsListComponent,
-        CurrentConditionsComponent,
-        MainPageComponent
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        RouterModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    ],
-    providers: [LocationService, WeatherService, provideRouter(appRoutes)],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    ZipcodeEntryComponent,
+    ForecastsListComponent,
+    CurrentConditionsComponent,
+    MainPageComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
+    }),
+  ],
+  providers: [LocationService, WeatherService, provideRouter(appRoutes)],
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
