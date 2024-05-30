@@ -10,13 +10,13 @@ import {Forecast} from './forecast.type';
 })
 export class ForecastsListComponent {
 
-  zipcode: string;
-  forecast: Forecast;
+  zipcode?: string;
+  forecast?: Forecast;
 
   constructor(protected weatherService: WeatherService, route : ActivatedRoute) {
     route.params.subscribe(params => {
       this.zipcode = params['zipcode'];
-      weatherService.getForecast(this.zipcode)
+      weatherService.getForecast(this.zipcode!)
         .subscribe(data => this.forecast = data);
     });
   }
