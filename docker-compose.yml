@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  angular:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/app
+      - node_modules:/app/node_modules/
+      - frontend_angular_cache:/app/.angular/
+      - dist:/app/dist/
+    ports:
+      - 4200:4200
+
+volumes:
+  node_modules:
+  frontend_angular_cache:
+  dist:
