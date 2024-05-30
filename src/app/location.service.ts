@@ -9,10 +9,10 @@ export class LocationService {
   locations : string[] = [];
 
   constructor(private weatherService : WeatherService) {
-    let locString = localStorage.getItem(LOCATIONS);
+    const locString = localStorage.getItem(LOCATIONS);
     if (locString)
       this.locations = JSON.parse(locString);
-    for (let loc of this.locations)
+    for (const loc of this.locations)
       this.weatherService.addCurrentConditions(loc);
   }
 
@@ -23,7 +23,7 @@ export class LocationService {
   }
 
   removeLocation(zipcode : string) {
-    let index = this.locations.indexOf(zipcode);
+    const index = this.locations.indexOf(zipcode);
     if (index !== -1){
       this.locations.splice(index, 1);
       localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));

@@ -24,7 +24,7 @@ export class WeatherService {
 
   removeCurrentConditions(zipcode: string) {
     this.currentConditions.update(conditions => {
-      for (let i in conditions) {
+      for (const i in conditions) {
         if (conditions[i].zip == zipcode)
           conditions.splice(+i, 1);
       }
