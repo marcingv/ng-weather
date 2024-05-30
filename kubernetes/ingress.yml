@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ng-weather-http-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    # You will probably want to re-run this manifest with this
+    # set to true later. For now it *must* be false, or the
+    # ACME challenge will fail: you don't have a cert yet!
+    ingress.kubernetes.io/force-ssl-redirect: "false"
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      gzip on;
+      gzip_types *;
+spec:
+  tls:
+    - secretName: ng-weather-letsencrypt-secrets
+      hosts:
+        - ng-weather.gawski.info
+        - www.ng-weather.gawski.info
+  rules:
+    - host: ng-weather.gawski.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ng-weather-frontend-service
+                port:
+                  number: 80

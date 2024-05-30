@@ -4,12 +4,15 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --disable-host-check true",
     "build": "ng build",
     "test": "ng test",
+    "test:ci": "ng test --browsers ChromeHeadless --watch false --code-coverage",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "docker-prod-build": "docker build --file ./prod.Dockerfile --tag marcingv/ng-weather:latest .",
+    "docker-prod-publish": "docker push marcingv/ng-weather:latest"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,48 @@
+name: Build docker & Deploy to Kubernetes
+description: Builds, publishes docker images & deploys them to Kubernetes cluster
+inputs:
+  DOCKERHUB_USERNAME:
+    description: DockerHub username
+    required: true
+  DOCKERHUB_TOKEN:
+    description: DockerHub token
+    required: true
+  K8S_CONFIG:
+    description: Kubernetes cluster configuration (base64 encoded)
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Build docker images
+      run: npm run docker-prod-build
+      shell: bash
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.DOCKERHUB_USERNAME }}
+        password: ${{ inputs.DOCKERHUB_TOKEN }}
+    - name: Publish docker images
+      run: npm run docker-prod-publish
+      shell: bash
+    - name: Configure cluster config
+      env:
+        K8S_CONFIG: ${{ inputs.K8S_CONFIG }}
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${K8S_CONFIG}" | base64 --decode > $HOME/.kube/config
+      shell: bash
+    - name: Cache deployment YAML
+      id: cache-deployment
+      uses: actions/cache@v4
+      with:
+        path: kubernetes/deployment.yml
+        key: k8s-deployment-${{ hashFiles('kubernetes/deployment.yml') }}
+    - name: Apply new Kubernetes deployment
+      if: steps.cache-deployment.outputs.cache-hit != 'true'
+      run: kubectl apply -f=kubernetes/deployment.yml
+      shell: bash
+    - name: Restart & refresh Kubernetes deployments
+      if: steps.cache-deployment.outputs.cache-hit == 'true'
+      run: kubectl rollout restart deployment/ng-weather-app-frontend-deployment
+      shell: bash
+
