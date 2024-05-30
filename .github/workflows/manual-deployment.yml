@@ -1,0 +1,16 @@
+name: Deploy to Kubernetes manually
+on: workflow_dispatch
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
+      - name: Deploy to Kubernetes cluster
+        uses: ./.github/actions/deploy
+        with:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
