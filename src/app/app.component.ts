@@ -1,16 +1,12 @@
-import { Component } from '@angular/core';
-import {SwPush, SwUpdate} from '@angular/service-worker';
-import {interval} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet],
 })
-export class AppComponent {
-
-    constructor() {
-
-    }
-}
+export class AppComponent {}
