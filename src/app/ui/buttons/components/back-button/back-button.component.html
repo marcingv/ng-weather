@@ -1,0 +1,8 @@
+<button
+  [appButton]="type"
+  class="gap-2 items-center"
+  [title]="label ?? DEFAULT_LABEL"
+  (click)="onClicked()">
+  <span><</span>
+  <span>{{ label ?? DEFAULT_LABEL }}</span>
+</button>

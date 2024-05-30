@@ -9,15 +9,15 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Forecast } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
 import { PathParams } from '@core/router/path-params';
-import { Paths } from '@core/router/paths';
+import { ButtonDirective } from '@ui/buttons/directives';
+import { BackButtonComponent } from '@ui/buttons/components/back-button';
 
 @Component({
   selector: 'app-forecasts-list',
   standalone: true,
   templateUrl: './forecasts-list.component.html',
-  styleUrls: ['./forecasts-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ButtonDirective, BackButtonComponent],
 })
 export class ForecastsListComponent {
   protected zipcode?: string;
@@ -39,6 +39,4 @@ export class ForecastsListComponent {
         .subscribe(data => this.forecastSignal.set(data));
     });
   }
-
-  protected readonly Paths = Paths;
 }
