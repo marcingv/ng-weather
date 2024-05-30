@@ -1,4 +1,4 @@
-import { CurrentConditions } from './current-conditions.type';
+import { CurrentConditions } from './current-conditions';
 
 export interface ConditionsAndZip {
   zip: string;

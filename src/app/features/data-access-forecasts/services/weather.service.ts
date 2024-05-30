@@ -1,9 +1,7 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { CurrentConditions } from '@core/types/current-conditions.type';
-import { ConditionsAndZip } from '@core/types/conditions-and-zip.type';
-import { Forecast } from 'src/app/core/types';
+import { ConditionsAndZip, CurrentConditions, Forecast } from '@core/types';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
