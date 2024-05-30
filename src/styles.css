@@ -10,3 +10,11 @@
 body {
   @apply font-thin text-base font-firago bg-gray-100;
 }
+
+.app-panel {
+  @apply p-4 bg-white rounded shadow;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-normal;
+}

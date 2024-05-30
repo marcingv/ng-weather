@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocationService } from '@features/data-access-forecasts/services';
 
 @Component({
@@ -8,9 +8,9 @@ import { LocationService } from '@features/data-access-forecasts/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ZipcodeEntryComponent {
-  constructor(private service: LocationService) {}
+  private service: LocationService = inject(LocationService);
 
-  addLocation(zipcode: string) {
+  public addLocation(zipcode: string): void {
     this.service.addLocation(zipcode);
   }
 }

@@ -1,27 +1,25 @@
-<div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        5-day forecast for {{ forecast()?.city.name }}
-      </h3>
-    </div>
-    <ul class="list-group">
-      <li
-        *ngFor="let dailyForecast of forecast()?.list"
-        class="list-group-item">
+<div class="app-panel mb-4">
+  <div class="-m-4 p-4 mb-4 bg-slate-300 rounded-t">
+    <h3 class="text-xl">5-day forecast for {{ forecast()?.city.name }}</h3>
+  </div>
+
+  <ul class="flex flex-col divide-y">
+    <li
+      *ngFor="let dailyForecast of forecast()?.list"
+      class="flex py-1 gap-4 items-center justify-between">
+      <div>
         {{ dailyForecast.dt * 1000 | date: 'EEEE, MMM d' }}:
         {{ dailyForecast.weather[0].main }}
         - Min: {{ dailyForecast.temp.min | number: '.0-0' }} - Max:
         {{ dailyForecast.temp.max | number: '.0-0' }}
+      </div>
 
-        <img
-          [src]="weatherService.getWeatherIcon(dailyForecast.weather[0].id)"
-          class="icon"
-          alt="Weather conditions" />
-      </li>
-    </ul>
-  </div>
+      <img
+        [src]="weatherService.getWeatherIcon(dailyForecast.weather[0].id)"
+        class="size-8"
+        alt="Weather conditions" />
+    </li>
+  </ul>
 </div>
-<button class="btn btn-success" [routerLink]="Paths.ROOT">
-  < Back to main page
-</button>
+
+<button [routerLink]="Paths.ROOT">< Back to main page</button>

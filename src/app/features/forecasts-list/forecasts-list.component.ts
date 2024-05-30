@@ -15,7 +15,6 @@ import { Paths } from '@core/router/paths';
   selector: 'app-forecasts-list',
   standalone: true,
   templateUrl: './forecasts-list.component.html',
-  styleUrls: ['./forecasts-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterLink],
 })

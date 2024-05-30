@@ -17,20 +17,26 @@ import { Paths } from '@core/router/paths';
   selector: 'app-current-conditions',
   standalone: true,
   templateUrl: './current-conditions.component.html',
-  styleUrls: ['./current-conditions.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterLink],
 })
 export class CurrentConditionsComponent {
   protected readonly Paths = Paths;
 
-  protected weatherService = inject(WeatherService);
   private router = inject(Router);
-  protected locationService = inject(LocationService);
+  private locationService = inject(LocationService);
+  protected weatherService = inject(WeatherService);
   protected currentConditionsByZip: Signal<ConditionsAndZip[]> =
     this.weatherService.getCurrentConditions();
 
-  showForecast(zipcode: string) {
+  public showForecast(zipcode: string): void {
     this.router.navigate([Paths.ROOT, Paths.FORECAST, zipcode]);
+  }
+
+  public onRemoveLocation($event: MouseEvent, zip: string): void {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    this.locationService.removeLocation(zip);
   }
 }
