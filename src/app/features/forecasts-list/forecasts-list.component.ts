@@ -11,13 +11,20 @@ import { CommonModule } from '@angular/common';
 import { PathParams } from '@core/router/path-params';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { BackButtonComponent } from '@ui/buttons/components/back-button';
+import { WeatherIconComponent } from '@ui/icons/weather-icon';
 
 @Component({
   selector: 'app-forecasts-list',
   standalone: true,
   templateUrl: './forecasts-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, ButtonDirective, BackButtonComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ButtonDirective,
+    BackButtonComponent,
+    WeatherIconComponent,
+  ],
 })
 export class ForecastsListComponent {
   protected zipcode?: ZipCode;

@@ -23,8 +23,6 @@ export class WeatherService {
   private readonly weatherData: WritableSignal<WeatherConditionsDictionary> =
     signal<WeatherConditionsDictionary>({});
 
-  private static ICON_URL = '/assets/weather/';
-
   public getConditions(zipcode: ZipCode): Signal<ConditionsAndZip | null> {
     if (!this.weatherData()[zipcode]) {
       this.loadCurrentConditions(zipcode).subscribe();
@@ -55,23 +53,5 @@ export class WeatherService {
 
   public getForecast(zipcode: ZipCode): Observable<Forecast> {
     return this.api.getDailyForecast(zipcode, 5);
-  }
-
-  public getWeatherIcon(id: number): string {
-    if (id >= 200 && id <= 232) {
-      return WeatherService.ICON_URL + 'art_storm.png';
-    } else if (id >= 501 && id <= 511) {
-      return WeatherService.ICON_URL + 'art_rain.png';
-    } else if (id === 500 || (id >= 520 && id <= 531)) {
-      return WeatherService.ICON_URL + 'art_light_rain.png';
-    } else if (id >= 600 && id <= 622) {
-      return WeatherService.ICON_URL + 'art_snow.png';
-    } else if (id >= 801 && id <= 804) {
-      return WeatherService.ICON_URL + 'art_clouds.png';
-    } else if (id === 741 || id === 761) {
-      return WeatherService.ICON_URL + 'art_fog.png';
-    } else {
-      return WeatherService.ICON_URL + 'art_clear.png';
-    }
   }
 }

@@ -14,13 +14,14 @@ import { ConditionsAndZip, ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { Paths } from '@core/router/paths';
+import { WeatherIconComponent } from '@ui/icons/weather-icon';
 
 @Component({
   selector: 'app-current-conditions',
   standalone: true,
   templateUrl: './current-conditions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, ButtonDirective],
+  imports: [CommonModule, RouterLink, ButtonDirective, WeatherIconComponent],
 })
 export class CurrentConditionsComponent implements OnChanges {
   protected readonly Paths = Paths;

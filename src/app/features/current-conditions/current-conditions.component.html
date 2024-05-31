@@ -33,10 +33,11 @@
         &times;
       </button>
 
-      <img
-        [src]="weatherService.getWeatherIcon(conditions.data.weather[0].id)"
-        alt="Weather conditions"
-        class="size-36" />
+      @if (conditions.data.weather[0]) {
+        <app-weather-icon
+          class="block size-36"
+          [weather]="conditions.data.weather[0]"></app-weather-icon>
+      }
     </div>
   </div>
 } @else {
