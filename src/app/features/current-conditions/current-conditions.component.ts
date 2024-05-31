@@ -1,18 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
+  Input,
+  OnChanges,
+  Output,
   Signal,
 } from '@angular/core';
-import {
-  LocationService,
-  WeatherService,
-} from '@features/data-access-forecasts/services';
-import { Router, RouterLink } from '@angular/router';
+import { WeatherService } from '@features/data-access-forecasts/services';
+import { RouterLink } from '@angular/router';
 import { ConditionsAndZip, ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
-import { Paths } from '@core/router/paths';
 import { ButtonDirective } from '@ui/buttons/directives';
+import { Paths } from '@core/router/paths';
 
 @Component({
   selector: 'app-current-conditions',
@@ -21,23 +22,23 @@ import { ButtonDirective } from '@ui/buttons/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, RouterLink, ButtonDirective],
 })
-export class CurrentConditionsComponent {
+export class CurrentConditionsComponent implements OnChanges {
   protected readonly Paths = Paths;
+  protected readonly weatherService: WeatherService = inject(WeatherService);
 
-  private router = inject(Router);
-  private locationService = inject(LocationService);
-  protected weatherService = inject(WeatherService);
-  protected currentConditionsByZip: Signal<ConditionsAndZip[]> =
-    this.weatherService.getCurrentConditions();
+  @Input({ required: true }) public zipcode!: ZipCode;
+  @Output() public closeClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  public showForecast(zipcode: ZipCode): void {
-    this.router.navigate([Paths.ROOT, Paths.FORECAST, zipcode]);
+  protected currentConditions!: Signal<ConditionsAndZip | null>;
+
+  public ngOnChanges(): void {
+    this.currentConditions = this.weatherService.getConditions(this.zipcode);
   }
 
-  public onRemoveLocation($event: MouseEvent, zip: string): void {
+  public onRemoveLocation($event: MouseEvent): void {
     $event.preventDefault();
     $event.stopPropagation();
 
-    this.locationService.removeLocation(zip);
+    this.closeClicked.next();
   }
 }

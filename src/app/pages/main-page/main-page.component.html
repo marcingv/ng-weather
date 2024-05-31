@@ -1,4 +1,14 @@
 <div class="flex flex-col gap-16">
   <app-zipcode-entry></app-zipcode-entry>
-  <app-current-conditions></app-current-conditions>
+
+  <div class="flex flex-col gap-4">
+    @for (zipcode of userLocations(); track zipcode) {
+      <div class="app-panel" (click)="showForecast(zipcode)">
+        <app-current-conditions
+          [zipcode]="zipcode"
+          (closeClicked)="removeLocation(zipcode)">
+        </app-current-conditions>
+      </div>
+    }
+  </div>
 </div>

@@ -1,5 +1,12 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  computed,
+  inject,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import {
   ConditionsAndZip,
   CurrentConditions,
@@ -7,37 +14,43 @@ import {
   ZipCode,
 } from '@core/types';
 import { WeatherApiService } from '@core/api/weather-api.service';
+import { WeatherConditionsDictionary } from '@core/types/weather-conditions-dictionary';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
-  private api: WeatherApiService = inject(WeatherApiService);
+  private readonly api: WeatherApiService = inject(WeatherApiService);
+
+  private readonly weatherData: WritableSignal<WeatherConditionsDictionary> =
+    signal<WeatherConditionsDictionary>({});
 
   private static ICON_URL = '/assets/weather/';
-  private currentConditions = signal<ConditionsAndZip[]>([]);
 
-  public addCurrentConditions(zipcode: ZipCode): void {
-    this.api.getCurrentConditions(zipcode).subscribe({
-      next: (data: CurrentConditions) =>
-        this.currentConditions.update(conditions => [
-          ...conditions,
-          { zip: zipcode, data },
-        ]),
+  public getConditions(zipcode: ZipCode): Signal<ConditionsAndZip | null> {
+    if (!this.weatherData()[zipcode]) {
+      this.loadCurrentConditions(zipcode).subscribe();
+    }
+
+    return computed(() => {
+      return this.weatherData()[zipcode] ?? null;
     });
   }
 
-  public removeCurrentConditions(zipcode: ZipCode): void {
-    this.currentConditions.update(conditions => {
-      for (const i in conditions) {
-        if (conditions[i].zip == zipcode) {
-          conditions.splice(+i, 1);
-        }
-      }
-      return conditions;
-    });
-  }
-
-  public getCurrentConditions(): Signal<ConditionsAndZip[]> {
-    return this.currentConditions.asReadonly();
+  private loadCurrentConditions(
+    zipcode: ZipCode
+  ): Observable<CurrentConditions> {
+    return this.api.getCurrentConditions(zipcode).pipe(
+      tap((data: CurrentConditions) => {
+        this.weatherData.update((prevData: WeatherConditionsDictionary) => {
+          return {
+            ...prevData,
+            [zipcode]: {
+              zip: zipcode,
+              data: data,
+            },
+          };
+        });
+      })
+    );
   }
 
   public getForecast(zipcode: ZipCode): Observable<Forecast> {
