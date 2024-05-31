@@ -12,11 +12,10 @@ import { WeatherApiService } from '@core/api/weather-api.service';
 export class WeatherService {
   private api: WeatherApiService = inject(WeatherApiService);
 
-  private static ICON_URL =
-    'https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-hdpi/';
+  private static ICON_URL = '/assets/weather/';
   private currentConditions = signal<ConditionsAndZip[]>([]);
 
-  addCurrentConditions(zipcode: ZipCode): void {
+  public addCurrentConditions(zipcode: ZipCode): void {
     this.api.getCurrentConditions(zipcode).subscribe({
       next: (data: CurrentConditions) =>
         this.currentConditions.update(conditions => [
@@ -26,7 +25,7 @@ export class WeatherService {
     });
   }
 
-  removeCurrentConditions(zipcode: ZipCode): void {
+  public removeCurrentConditions(zipcode: ZipCode): void {
     this.currentConditions.update(conditions => {
       for (const i in conditions) {
         if (conditions[i].zip == zipcode) {
@@ -37,15 +36,15 @@ export class WeatherService {
     });
   }
 
-  getCurrentConditions(): Signal<ConditionsAndZip[]> {
+  public getCurrentConditions(): Signal<ConditionsAndZip[]> {
     return this.currentConditions.asReadonly();
   }
 
-  getForecast(zipcode: ZipCode): Observable<Forecast> {
+  public getForecast(zipcode: ZipCode): Observable<Forecast> {
     return this.api.getDailyForecast(zipcode, 5);
   }
 
-  getWeatherIcon(id: number): string {
+  public getWeatherIcon(id: number): string {
     if (id >= 200 && id <= 232) {
       return WeatherService.ICON_URL + 'art_storm.png';
     } else if (id >= 501 && id <= 511) {
