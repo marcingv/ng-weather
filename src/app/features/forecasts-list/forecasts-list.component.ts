@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { WeatherService } from '@features/data-access-forecasts/services';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Forecast } from 'src/app/core/types';
+import { Forecast, ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
 import { PathParams } from '@core/router/path-params';
 import { ButtonDirective } from '@ui/buttons/directives';
@@ -20,7 +20,7 @@ import { BackButtonComponent } from '@ui/buttons/components/back-button';
   imports: [CommonModule, RouterLink, ButtonDirective, BackButtonComponent],
 })
 export class ForecastsListComponent {
-  protected zipcode?: string;
+  protected zipcode?: ZipCode;
   private forecastSignal = signal<Forecast | null>(null);
 
   public get forecast(): Signal<Forecast | null> {

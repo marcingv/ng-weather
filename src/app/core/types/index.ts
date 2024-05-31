@@ -11,3 +11,4 @@ export * from './forecast';
 export * from './forecast-entries';
 export * from './temp';
 export * from './weather';
+export * from './zip-code';

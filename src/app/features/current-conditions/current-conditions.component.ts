@@ -9,7 +9,7 @@ import {
   WeatherService,
 } from '@features/data-access-forecasts/services';
 import { Router, RouterLink } from '@angular/router';
-import { ConditionsAndZip } from 'src/app/core/types';
+import { ConditionsAndZip, ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
 import { Paths } from '@core/router/paths';
 import { ButtonDirective } from '@ui/buttons/directives';
@@ -30,7 +30,7 @@ export class CurrentConditionsComponent {
   protected currentConditionsByZip: Signal<ConditionsAndZip[]> =
     this.weatherService.getCurrentConditions();
 
-  public showForecast(zipcode: string): void {
+  public showForecast(zipcode: ZipCode): void {
     this.router.navigate([Paths.ROOT, Paths.FORECAST, zipcode]);
   }
 

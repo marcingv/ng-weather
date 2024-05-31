@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocationService } from '@features/data-access-forecasts/services';
 import { ButtonDirective } from '@ui/buttons/directives';
+import { ZipCode } from '@core/types';
 
 @Component({
   selector: 'app-zipcode-entry',
@@ -12,7 +13,7 @@ import { ButtonDirective } from '@ui/buttons/directives';
 export class ZipcodeEntryComponent {
   private service: LocationService = inject(LocationService);
 
-  public addLocation(zipcode: string): void {
+  public addLocation(zipcode: ZipCode): void {
     this.service.addLocation(zipcode);
   }
 }

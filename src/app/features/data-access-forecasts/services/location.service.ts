@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WeatherService } from './weather.service';
+import { ZipCode } from '@core/types';
 
 export const LOCATIONS: string = 'locations';
 
@@ -9,18 +10,21 @@ export class LocationService {
 
   constructor(private weatherService: WeatherService) {
     const locString = localStorage.getItem(LOCATIONS);
-    if (locString) this.locations = JSON.parse(locString);
-    for (const loc of this.locations)
+    if (locString) {
+      this.locations = JSON.parse(locString);
+    }
+    for (const loc of this.locations) {
       this.weatherService.addCurrentConditions(loc);
+    }
   }
 
-  addLocation(zipcode: string) {
+  addLocation(zipcode: ZipCode) {
     this.locations.push(zipcode);
     localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
     this.weatherService.addCurrentConditions(zipcode);
   }
 
-  removeLocation(zipcode: string) {
+  removeLocation(zipcode: ZipCode) {
     const index = this.locations.indexOf(zipcode);
     if (index !== -1) {
       this.locations.splice(index, 1);
