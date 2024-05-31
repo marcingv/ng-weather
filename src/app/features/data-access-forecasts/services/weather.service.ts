@@ -7,12 +7,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import {
-  ConditionsAndZip,
-  CurrentConditions,
-  Forecast,
-  ZipCode,
-} from '@core/types';
+import { ConditionsAndZip, CurrentConditions, ZipCode } from '@core/types';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import { WeatherConditionsDictionary } from '@core/types/weather-conditions-dictionary';
 
@@ -49,9 +44,5 @@ export class WeatherService {
         });
       })
     );
-  }
-
-  public getForecast(zipcode: ZipCode): Observable<Forecast> {
-    return this.api.getDailyForecast(zipcode, 5);
   }
 }
