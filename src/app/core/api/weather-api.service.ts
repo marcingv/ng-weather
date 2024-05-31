@@ -29,7 +29,7 @@ export class WeatherApiService {
 
   public getDailyForecast(
     zipcode: ZipCode,
-    daysCount: number = 5
+    daysCount: number = ENVIRONMENT.DAILY_FORECAST_DAYS
   ): Observable<Forecast> {
     const url = this.prepareEndpointUrl(this.ENDPOINTS.FORECAST_DAILY, {
       zip: `${zipcode},us`,

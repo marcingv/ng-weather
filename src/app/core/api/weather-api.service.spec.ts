@@ -47,7 +47,7 @@ describe('WeatherApiService', () => {
   });
 
   it('should fetch forecast data', () => {
-    const expectedRequestUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?zip=${zipcode}%2Cus&units=imperial&cnt=5&APPID=${ENVIRONMENT.OPEN_WEATHER.APP_ID}`;
+    const expectedRequestUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?zip=${zipcode}%2Cus&units=imperial&cnt=${ENVIRONMENT.DAILY_FORECAST_DAYS}&APPID=${ENVIRONMENT.OPEN_WEATHER.APP_ID}`;
     let fetchedData: Forecast | undefined;
 
     service

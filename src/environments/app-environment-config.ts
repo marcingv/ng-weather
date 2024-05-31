@@ -4,4 +4,5 @@ export interface AppEnvironmentConfig {
     APP_ID: string;
     API_URL: string;
   };
+  DAILY_FORECAST_DAYS: number;
 }

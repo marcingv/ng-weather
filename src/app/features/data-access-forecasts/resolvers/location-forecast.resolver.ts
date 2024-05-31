@@ -6,6 +6,7 @@ import { inject } from '@angular/core';
 import { PathParams } from '@core/router/path-params';
 import { Forecast, ZipCode } from '@core/types';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ENVIRONMENT } from '@environments/environment';
 
 const NOT_FOUND_MESSAGE = 'Location with specified Zip Code does not exist.';
 const FETCH_ERROR_MESSAGE =
@@ -14,7 +15,7 @@ const FETCH_ERROR_MESSAGE =
 export const locationForecastResolver: (
   numOfDays?: number
 ) => ResolveFn<Observable<ResolvedLocationForecast>> = (
-  numOfDays: number = 5
+  numOfDays: number = ENVIRONMENT.DAILY_FORECAST_DAYS
 ) => {
   return (
     route: ActivatedRouteSnapshot
