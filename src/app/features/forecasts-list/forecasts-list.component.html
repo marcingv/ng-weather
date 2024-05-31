@@ -1,11 +1,11 @@
-<div class="app-panel mb-8">
+<div class="app-panel">
   <div class="-m-4 p-4 mb-4 bg-slate-300 rounded-t">
-    <h3 class="text-xl">5-day forecast for {{ forecast()?.city?.name }}</h3>
+    <h3 class="text-xl">5-day forecast for {{ forecast.city.name }}</h3>
   </div>
 
   <ul class="flex flex-col divide-y">
     <li
-      *ngFor="let dailyForecast of forecast()?.list"
+      *ngFor="let dailyForecast of forecast.list"
       class="flex py-1 gap-4 items-center justify-between">
       <div>
         {{ dailyForecast.dt * 1000 | date: 'EEEE, MMM d' }}:
@@ -24,5 +24,3 @@
     </li>
   </ul>
 </div>
-
-<app-back-button label="Back to main page"></app-back-button>

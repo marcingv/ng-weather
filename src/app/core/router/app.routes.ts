@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
-import { ForecastsListComponent } from '@features/forecasts-list';
 import { MainPageComponent } from '@pages/main-page';
 import { PathParams } from './path-params';
 import { Paths } from './paths';
 import { MainLayoutComponent } from '@ui/layouts/main-layout';
+import { ForecastDetailsPageComponent } from '@pages/forecast-details-page';
+import { locationForecastResolver } from '@features/data-access-forecasts/resolvers';
 
 export const appRoutes: Routes = [
   {
@@ -16,7 +17,10 @@ export const appRoutes: Routes = [
       },
       {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,
-        component: ForecastsListComponent,
+        component: ForecastDetailsPageComponent,
+        resolve: {
+          data: locationForecastResolver(),
+        },
       },
       {
         path: Paths.WILDCARD,

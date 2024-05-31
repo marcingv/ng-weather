@@ -1,0 +1,9 @@
+<div class="mb-8">
+  @if (data.forecast) {
+    <app-forecasts-list [forecast]="data.forecast"></app-forecasts-list>
+  } @else {
+    {{ data.resolveErrorMessage }}
+  }
+</div>
+
+<app-back-button label="Back to main page"></app-back-button>
