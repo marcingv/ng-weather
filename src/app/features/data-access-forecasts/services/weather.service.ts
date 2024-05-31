@@ -7,11 +7,12 @@ import {
   Forecast,
   ZipCode,
 } from '@core/types';
+import { ENVIRONMENT } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
-  static URL = 'https://api.openweathermap.org/data/2.5';
-  static APPID = '5a4b2d457ecbef9eb2a71e480b947604';
+  static URL = ENVIRONMENT.OPEN_WEATHER.API_URL;
+  static APPID = ENVIRONMENT.OPEN_WEATHER.APP_ID;
   static ICON_URL =
     'https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-hdpi/';
   private currentConditions = signal<ConditionsAndZip[]>([]);

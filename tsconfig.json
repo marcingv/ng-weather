@@ -26,6 +26,7 @@
       "@features/*": ["src/app/features/*"],
       "@testing/*": ["src/app/testing/*"],
       "@ui/*": ["src/app/ui/*"],
+      "@environments/*": ["src/environments/*"],
     }
   },
   "angularCompilerOptions": {
