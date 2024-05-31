@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
     provideHttpClient(),
-    provideServiceWorker('/ngsw-workser.js', {
+    provideServiceWorker('/ngsw-worker.js', {
       enabled: environment.production,
     }),
   ],

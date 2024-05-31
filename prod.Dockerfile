@@ -14,7 +14,7 @@ FROM nginx:latest
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/dist/browser /usr/share/nginx/html
 
 EXPOSE 80
 
