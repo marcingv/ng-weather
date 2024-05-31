@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ZipcodeEntryComponent } from '@features/zipcode-entry';
 import { CurrentConditionsComponent } from '@features/current-conditions';
-import { LocationService } from '@features/data-access-forecasts/services';
+import { LocationService } from '@features/data-access/services';
 import { ZipCode } from '@core/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';

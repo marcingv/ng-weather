@@ -4,7 +4,7 @@ import { PathParams } from './path-params';
 import { Paths } from './paths';
 import { MainLayoutComponent } from '@ui/layouts/main-layout';
 import { ForecastDetailsPageComponent } from '@pages/forecast-details-page';
-import { locationForecastResolver } from '@features/data-access-forecasts/resolvers';
+import { locationForecastResolver } from '@features/data-access/resolvers';
 
 export const appRoutes: Routes = [
   {

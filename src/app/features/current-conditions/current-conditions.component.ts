@@ -8,7 +8,7 @@ import {
   Output,
   Signal,
 } from '@angular/core';
-import { WeatherService } from '@features/data-access-forecasts/services';
+import { WeatherService } from '@features/data-access/services';
 import { RouterLink } from '@angular/router';
 import { ConditionsAndZip, ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';

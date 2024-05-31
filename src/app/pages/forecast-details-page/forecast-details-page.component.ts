@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResolvedLocationForecast } from '@features/data-access-forecasts/resolvers';
+import { ResolvedLocationForecast } from '@features/data-access/resolvers';
 import { BackButtonComponent } from '@ui/buttons/components/back-button';
 import { ForecastsListComponent } from '@features/forecasts-list';
 

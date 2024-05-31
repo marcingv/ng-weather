@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { LocationService } from '@features/data-access-forecasts/services';
+import { LocationService } from '@features/data-access/services';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { ZipCode } from '@core/types';
 

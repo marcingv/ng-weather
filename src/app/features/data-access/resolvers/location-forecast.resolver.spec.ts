@@ -3,7 +3,7 @@ import { ResolveFn } from '@angular/router';
 
 import { locationForecastResolver } from './location-forecast.resolver';
 import { Observable } from 'rxjs';
-import { ResolvedLocationForecast } from '@features/data-access-forecasts/resolvers/types/resolved-location-forecast';
+import { ResolvedLocationForecast } from '@features/data-access/resolvers/types/resolved-location-forecast';
 
 describe('locationForecastResolver', () => {
   const executeResolver: ResolveFn<Observable<ResolvedLocationForecast>> = (
