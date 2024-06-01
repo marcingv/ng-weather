@@ -17,5 +17,11 @@
         Add location
       </button>
     </div>
+
+    <div class="mt-1 min-h-5 text-sm font-normal text-red-500">
+      @if (formGroup.controls.zipcode.errors; as errors) {
+        {{ errors | json }}
+      }
+    </div>
   </form>
 </div>
