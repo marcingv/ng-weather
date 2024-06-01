@@ -1,15 +1,21 @@
 <div class="app-panel">
   <h2 class="mb-4 text-2xl">Enter a zipcode:</h2>
 
-  <div class="flex gap-4">
-    <input
-      type="text"
-      #zipcode
-      placeholder="Zipcode"
-      class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-slate-300 focus:ring focus:ring-slate-200 focus:ring-opacity-50" />
+  <form [formGroup]="formGroup">
+    <div class="flex gap-4">
+      <input
+        appFormControl
+        type="text"
+        [formControl]="formGroup.controls.zipcode"
+        placeholder="Zipcode"
+        class="flex-1" />
 
-    <button appButton="primary" (click)="addLocation(zipcode.value)">
-      Add location
-    </button>
-  </div>
+      <button
+        appButton="primary"
+        [disabled]="!formGroup.valid"
+        (click)="onSubmit()">
+        Add location
+      </button>
+    </div>
+  </form>
 </div>
