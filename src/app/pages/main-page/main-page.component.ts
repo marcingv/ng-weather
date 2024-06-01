@@ -10,13 +10,18 @@ import { LocationService } from '@features/data-access/services';
 import { ZipCode } from '@core/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
+import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
   templateUrl: './main-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ZipcodeEntryComponent, CurrentConditionsComponent],
+  imports: [
+    ZipcodeEntryComponent,
+    CurrentConditionsComponent,
+    EmptyCollectionPlaceholderComponent,
+  ],
 })
 export class MainPageComponent {
   private readonly router: Router = inject(Router);

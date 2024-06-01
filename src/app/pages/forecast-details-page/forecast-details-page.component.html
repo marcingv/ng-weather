@@ -2,7 +2,9 @@
   @if (data.forecast) {
     <app-forecasts-list [forecast]="data.forecast"></app-forecasts-list>
   } @else {
-    {{ data.resolveErrorMessage }}
+    <app-error-placeholder>
+      {{ data.resolveErrorMessage }}
+    </app-error-placeholder>
   }
 </div>
 
