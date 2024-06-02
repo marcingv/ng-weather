@@ -15,10 +15,11 @@
           }
 
           <button
-            appButton="primary"
+            appButton="transparent"
+            title="Close"
             class="tab-close-btn justify-center text-xs !p-0 size-6"
             (click)="onCloseTab(oneTab, $event)">
-            X
+            <app-close-icon></app-close-icon>
           </button>
         </li>
       }

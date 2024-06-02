@@ -11,11 +11,12 @@ import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
+import { CloseIconComponent } from '@ui/icons/close-icon';
 
 @Component({
   selector: 'app-tabs-view',
   standalone: true,
-  imports: [NgClass, ButtonDirective, NgTemplateOutlet],
+  imports: [NgClass, ButtonDirective, NgTemplateOutlet, CloseIconComponent],
   templateUrl: './tabs-view.component.html',
   styleUrl: './tabs-view.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
