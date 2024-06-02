@@ -16,7 +16,8 @@
             <div
               class="flex items-center justify-center text-sm rounded bg-slate-500 text-white">
               @if (locationLookupPending()) {
-                <app-close-icon class="m-1 block animate-spin"></app-close-icon>
+                <app-icon-loading
+                  class="m-1 block animate-spin"></app-icon-loading>
               } @else if (formGroup.controls.city.value) {
                 <div class="m-1">{{ formGroup.controls.city.value }}</div>
               }

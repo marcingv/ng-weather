@@ -22,11 +22,11 @@ import {
 import { FormControlDirective } from '@ui/forms/directives/form-control.directive';
 import { UsZipcodeValidator } from '@features/zipcode-entry/validators/us-zipcode.validator';
 import { UniqueZipcodeValidator } from '@features/zipcode-entry/validators/unique-zipcode.validator';
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ExistingZipcodeValidator } from '@features/zipcode-entry/validators/existing-zipcode.validator';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { CloseIconComponent } from '@ui/icons/close-icon';
+import { IconLoadingComponent } from '@ui/icons/icon-loading';
 
 @Component({
   selector: 'app-zipcode-entry',
@@ -34,13 +34,11 @@ import { CloseIconComponent } from '@ui/icons/close-icon';
   templateUrl: './zipcode-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    CommonModule,
     ButtonDirective,
     ReactiveFormsModule,
     FormControlDirective,
-    JsonPipe,
-    AsyncPipe,
-    CloseIconComponent,
-    NgClass,
+    IconLoadingComponent,
   ],
 })
 export class ZipcodeEntryComponent {
