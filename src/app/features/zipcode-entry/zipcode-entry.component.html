@@ -3,12 +3,27 @@
 
   <form [formGroup]="formGroup">
     <div class="flex gap-4">
-      <input
-        appFormControl
-        type="text"
-        [formControl]="formGroup.controls.zipcode"
-        placeholder="Zipcode"
-        class="flex-1" />
+      <div class="flex-1 relative">
+        <input
+          appFormControl
+          type="text"
+          [formControl]="formGroup.controls.zipcode"
+          placeholder="Zipcode"
+          class="w-full" />
+
+        <div class="absolute top-0 right-0 bottom-0">
+          <div class="h-full px-2 flex items-center justify-center">
+            <div
+              class="flex items-center justify-center text-sm rounded bg-slate-500 text-white">
+              @if (locationLookupPending()) {
+                <app-close-icon class="m-1 block animate-spin"></app-close-icon>
+              } @else if (formGroup.controls.city.value) {
+                <div class="m-1">{{ formGroup.controls.city.value }}</div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
 
       <button
         appButton="primary"
@@ -19,8 +34,8 @@
     </div>
 
     <div class="mt-1 min-h-5 text-sm font-normal text-red-500">
-      @if (formGroup.controls.zipcode.errors; as errors) {
-        {{ errors | json }}
+      @if (zipcodeErrors()) {
+        {{ zipcodeErrors() | json }}
       }
     </div>
   </form>
