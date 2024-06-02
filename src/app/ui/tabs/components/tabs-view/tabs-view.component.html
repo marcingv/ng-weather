@@ -6,7 +6,7 @@
           class="tabs-navigation__item"
           [ngClass]="{ active: oneTab === activeTab() }"
           (click)="onTabItemClick(oneTab)"
-          [attr.tab-id]="oneTab.tabId">
+          [attr.data-tab-id]="oneTab.tabId">
           <span>{{ oneTab.label }}</span>
 
           <button

@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostBinding,
   Input,
+  Output,
   signal,
+  WritableSignal,
 } from '@angular/core';
 
 @Component({
@@ -18,8 +21,10 @@ export class TabComponent {
   @Input({ required: true }) public tabId!: string;
   @Input() public label?: string;
 
-  protected activeSignal = signal<boolean>(false);
-  protected removedSignal = signal<boolean>(false);
+  @Output() public removed: EventEmitter<void> = new EventEmitter<void>();
+
+  protected activeSignal: WritableSignal<boolean> = signal<boolean>(false);
+  protected removedSignal: WritableSignal<boolean> = signal<boolean>(false);
 
   @HostBinding('style.display') get tabStyle(): string {
     if (this.isRemoved) {
@@ -47,5 +52,6 @@ export class TabComponent {
 
   public remove(): void {
     this.removedSignal.set(true);
+    this.removed.next();
   }
 }

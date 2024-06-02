@@ -99,7 +99,9 @@ describe('TabViewComponent', () => {
     expect(tabsNavigationItems.length).toEqual(tabs.length);
 
     // First item should be active and visible
-    expect(tabsNavigationItems[0].attributes['tab-id']).toEqual(tabs[0].id);
+    expect(tabsNavigationItems[0].attributes['data-tab-id']).toEqual(
+      tabs[0].id
+    );
     expect(tabsNavigationItems[0].attributes['class']).toContain('active');
     expect(tabPanels[0].attributes['style']).toContain('display: block;');
     expect(tabPanels[0].nativeElement.textContent).toContain(
@@ -107,7 +109,9 @@ describe('TabViewComponent', () => {
     );
 
     // Second item should not be active
-    expect(tabsNavigationItems[1].attributes['tab-id']).toEqual(tabs[1].id);
+    expect(tabsNavigationItems[1].attributes['data-tab-id']).toEqual(
+      tabs[1].id
+    );
     expect(tabsNavigationItems[1].attributes['class']).not.toContain('active');
     expect(tabPanels[1].attributes['style']).not.toContain('display: block;');
     expect(tabPanels[1].attributes['style']).toContain('display: none;');

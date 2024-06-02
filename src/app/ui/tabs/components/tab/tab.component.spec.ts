@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabComponent } from './tab.component';
 
-describe('TabComponent', () => {
+describe('TabComponent', (): void => {
   let component: TabComponent;
   let fixture: ComponentFixture<TabComponent>;
 
@@ -15,7 +15,16 @@ describe('TabComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', (): void => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit event on tab remove', (): void => {
+    let removedEventCalled: boolean | undefined;
+
+    component.removed.subscribe(() => (removedEventCalled = true));
+    component.remove();
+
+    expect(removedEventCalled).toBeTrue();
   });
 });

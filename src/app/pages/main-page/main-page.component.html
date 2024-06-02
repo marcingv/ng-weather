@@ -2,6 +2,17 @@
   <app-zipcode-entry></app-zipcode-entry>
 
   @if (userLocations().length) {
+    <app-tabs-view>
+      @for (zipcode of userLocations(); track zipcode) {
+        <app-tab
+          [tabId]="zipcode"
+          [label]="zipcode"
+          (removed)="onTabRemoved(zipcode)">
+          <app-current-conditions [zipcode]="zipcode"></app-current-conditions>
+        </app-tab>
+      }
+    </app-tabs-view>
+
     <div class="flex flex-col gap-4">
       @for (zipcode of userLocations(); track zipcode) {
         <div class="app-panel" (click)="showForecast(zipcode)">
