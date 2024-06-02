@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   ContentChildren,
+  forwardRef,
   QueryList,
   signal,
 } from '@angular/core';
@@ -29,7 +30,8 @@ export class TabsViewComponent implements AfterContentInit {
 
   public activeTab = signal<TabComponent | null>(null);
 
-  @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;
+  @ContentChildren(forwardRef(() => TabComponent))
+  private declaredTabs!: QueryList<TabComponent>;
 
   public ngAfterContentInit(): void {
     this.setupTabs();
