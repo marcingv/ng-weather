@@ -7,7 +7,12 @@
           [ngClass]="{ active: oneTab === activeTab() }"
           (click)="onTabItemClick(oneTab)"
           [attr.data-tab-id]="oneTab.tabId">
-          <span>{{ oneTab.label }}</span>
+          @if (oneTab.labelTemplate) {
+            <ng-container
+              *ngTemplateOutlet="oneTab.labelTemplate.template"></ng-container>
+          } @else {
+            <span>{{ oneTab.label }}</span>
+          }
 
           <button
             appButton="primary"

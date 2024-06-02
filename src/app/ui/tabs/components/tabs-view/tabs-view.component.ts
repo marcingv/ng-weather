@@ -9,13 +9,13 @@ import {
 } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
-import { NgClass } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 
 @Component({
   selector: 'app-tabs-view',
   standalone: true,
-  imports: [NgClass, ButtonDirective],
+  imports: [NgClass, ButtonDirective, NgTemplateOutlet],
   templateUrl: './tabs-view.component.html',
   styleUrl: './tabs-view.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

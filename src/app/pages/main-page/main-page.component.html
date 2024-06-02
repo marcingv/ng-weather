@@ -7,7 +7,9 @@
         <app-tab
           [tabId]="zipcode"
           [label]="zipcode"
-          (removed)="onTabRemoved(zipcode)">
+          (tabRemoved)="onTabRemoved(zipcode)">
+          <ng-template appTabLabelTemplate>{{ zipcode }}</ng-template>
+
           <app-current-conditions [zipcode]="zipcode"></app-current-conditions>
         </app-tab>
       }

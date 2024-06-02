@@ -11,7 +11,11 @@ import { ZipCode } from '@core/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
 import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
-import { TabComponent, TabsViewComponent } from '@ui/tabs';
+import {
+  TabComponent,
+  TabLabelTemplateDirective,
+  TabsViewComponent,
+} from '@ui/tabs';
 
 @Component({
   selector: 'app-main-page',
@@ -24,6 +28,7 @@ import { TabComponent, TabsViewComponent } from '@ui/tabs';
     EmptyCollectionPlaceholderComponent,
     TabsViewComponent,
     TabComponent,
+    TabLabelTemplateDirective,
   ],
 })
 export class MainPageComponent {

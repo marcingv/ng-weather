@@ -19,12 +19,30 @@ describe('TabComponent', (): void => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event on tab remove', (): void => {
-    let removedEventCalled: boolean | undefined;
+  it('should emit event on tab show', (): void => {
+    let eventCalled: boolean | undefined;
 
-    component.removed.subscribe(() => (removedEventCalled = true));
+    component.tabShown.subscribe(() => (eventCalled = true));
+    component.show();
+
+    expect(eventCalled).toBeTrue();
+  });
+
+  it('should emit event on tab hide', (): void => {
+    let eventCalled: boolean | undefined;
+
+    component.tabHidden.subscribe(() => (eventCalled = true));
+    component.hide();
+
+    expect(eventCalled).toBeTrue();
+  });
+
+  it('should emit event on tab remove', (): void => {
+    let eventCalled: boolean | undefined;
+
+    component.tabRemoved.subscribe(() => (eventCalled = true));
     component.remove();
 
-    expect(removedEventCalled).toBeTrue();
+    expect(eventCalled).toBeTrue();
   });
 });

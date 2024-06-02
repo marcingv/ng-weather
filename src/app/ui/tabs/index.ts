@@ -1,2 +1,3 @@
-export * from './components/tabs-view/tabs-view.component';
-export * from './components/tab/tab.component';
+export * from './components';
+export * from './directives';
+export * from './types';
