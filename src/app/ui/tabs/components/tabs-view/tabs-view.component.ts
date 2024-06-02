@@ -4,11 +4,10 @@ import {
   Component,
   computed,
   ContentChildren,
-  forwardRef,
   QueryList,
   signal,
 } from '@angular/core';
-import { TabComponent } from '@ui/tabs';
+import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
@@ -30,8 +29,7 @@ export class TabsViewComponent implements AfterContentInit {
 
   public activeTab = signal<TabComponent | null>(null);
 
-  @ContentChildren(forwardRef(() => TabComponent))
-  private declaredTabs!: QueryList<TabComponent>;
+  @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;
 
   public ngAfterContentInit(): void {
     this.setupTabs();
