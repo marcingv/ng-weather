@@ -8,9 +8,12 @@ import {
   Output,
   Signal,
 } from '@angular/core';
-import { WeatherService } from '@features/data-access/services';
+import {
+  WeatherConditionsData,
+  WeatherService,
+} from '@features/data-access/services';
 import { RouterLink } from '@angular/router';
-import { ConditionsAndZip, ZipCode } from 'src/app/core/types';
+import { ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { Paths } from '@core/router/paths';
@@ -30,7 +33,7 @@ export class CurrentConditionsComponent implements OnChanges {
   @Input({ required: true }) public zipcode!: ZipCode;
   @Output() public closeClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  protected currentConditions!: Signal<ConditionsAndZip | null>;
+  protected currentConditions!: Signal<WeatherConditionsData | null>;
 
   public ngOnChanges(): void {
     this.currentConditions = this.weatherService.getConditions(this.zipcode);

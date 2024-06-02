@@ -1,6 +1,5 @@
 export * from './city';
 export * from './clouds';
-export * from './conditions-and-zip';
 export * from './conditions-main';
 export * from './conditions-sys';
 export * from './conditions-wind';
@@ -12,4 +11,3 @@ export * from './forecast-entries';
 export * from './temp';
 export * from './weather';
 export * from './zip-code';
-export * from './conditions-and-zip';
