@@ -1,0 +1,15 @@
+.tabs-panels {
+    @apply p-4 bg-white;
+}
+
+.tabs-navigation__list {
+    @apply flex flex-row flex-wrap gap-4 items-center;
+}
+
+.tabs-navigation__item {
+    @apply flex gap-4 px-4 py-2 items-center bg-white cursor-pointer;
+}
+
+.tabs-navigation__item.active {
+    @apply border-b-2;
+}

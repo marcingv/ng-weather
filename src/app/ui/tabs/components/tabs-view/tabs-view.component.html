@@ -1,0 +1,26 @@
+<div class="tabs-view">
+  <div class="tabs-navigation">
+    <ul class="tabs-navigation__list">
+      @for (oneTab of visibleTabs(); track oneTab) {
+        <li
+          class="tabs-navigation__item"
+          [ngClass]="{ active: oneTab === activeTab() }"
+          (click)="onTabItemClick(oneTab)"
+          [attr.tab-id]="oneTab.tabId">
+          <span>{{ oneTab.label }}</span>
+
+          <button
+            appButton="primary"
+            class="tab-close-btn justify-center text-xs !p-0 size-6"
+            (click)="onCloseTab(oneTab, $event)">
+            X
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <div class="tabs-panels">
+    <ng-content></ng-content>
+  </div>
+</div>
