@@ -8,23 +8,17 @@
           [tabId]="zipcode"
           [label]="zipcode"
           (tabRemoved)="onTabRemoved(zipcode)">
-          <ng-template appTabLabelTemplate>{{ zipcode }}</ng-template>
+          <ng-template appTabLabelTemplate>
+            {{ conditions.currentConditions()?.data?.name }}
+            ({{ zipcode }})
+          </ng-template>
 
-          <app-current-conditions [zipcode]="zipcode"></app-current-conditions>
+          <app-current-conditions
+            #conditions
+            [zipcode]="zipcode"></app-current-conditions>
         </app-tab>
       }
     </app-tabs-view>
-
-    <div class="flex flex-col gap-4">
-      @for (zipcode of userLocations(); track zipcode) {
-        <div class="app-panel" (click)="showForecast(zipcode)">
-          <app-current-conditions
-            [zipcode]="zipcode"
-            (closeClicked)="removeLocation(zipcode)">
-          </app-current-conditions>
-        </div>
-      }
-    </div>
   } @else {
     <app-empty-collection-placeholder>
       Please add locations to see weather conditions here.

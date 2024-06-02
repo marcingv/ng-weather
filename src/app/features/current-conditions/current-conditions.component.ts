@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
   Input,
   OnChanges,
-  Output,
   Signal,
 } from '@angular/core';
 import {
@@ -18,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { Paths } from '@core/router/paths';
 import { WeatherIconComponent } from '@ui/icons/weather-icon';
+import { ENVIRONMENT } from '@environments/environment';
 
 @Component({
   selector: 'app-current-conditions',
@@ -27,22 +26,15 @@ import { WeatherIconComponent } from '@ui/icons/weather-icon';
   imports: [CommonModule, RouterLink, ButtonDirective, WeatherIconComponent],
 })
 export class CurrentConditionsComponent implements OnChanges {
+  protected readonly FORECAST_DAYS: number = ENVIRONMENT.DAILY_FORECAST_DAYS;
   protected readonly Paths = Paths;
   protected readonly weatherService: WeatherService = inject(WeatherService);
 
   @Input({ required: true }) public zipcode!: ZipCode;
-  @Output() public closeClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  protected currentConditions!: Signal<WeatherConditionsData | null>;
+  public currentConditions!: Signal<WeatherConditionsData | null>;
 
   public ngOnChanges(): void {
     this.currentConditions = this.weatherService.getConditions(this.zipcode);
-  }
-
-  public onRemoveLocation($event: MouseEvent): void {
-    $event.preventDefault();
-    $event.stopPropagation();
-
-    this.closeClicked.next();
   }
 }

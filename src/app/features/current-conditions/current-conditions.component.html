@@ -2,10 +2,6 @@
   @if (conditions.data) {
     <div class="flex gap-4 justify-between">
       <div>
-        <h3 class="text-xl mb-4">
-          {{ conditions.data.name }} ({{ conditions.zip }})
-        </h3>
-
         <h4 class="mb-1">
           Current conditions:
           <span class="font-thin">{{ conditions.data.weather[0].main }}</span>
@@ -22,18 +18,11 @@
           appButton="secondary"
           [routerLink]="[Paths.ROOT, Paths.FORECAST, conditions.zip]"
           class="mt-8 font-normal hover:underline">
-          Show 5-day forecast for {{ conditions.data.name }}
+          Show {{ FORECAST_DAYS }}-day forecast for {{ conditions.data.name }}
         </a>
       </div>
 
       <div class="flex flex-col items-end">
-        <button
-          appButton="transparent"
-          (click)="onRemoveLocation($event)"
-          class="!p-1 flex items-center justify-center border leading-none size-8">
-          &times;
-        </button>
-
         @if (conditions.data.weather[0]) {
           <app-weather-icon
             class="block size-36"
@@ -44,26 +33,10 @@
   } @else if (conditions.isLoading) {
     <div class="flex gap-4 justify-between">
       <div>Loading location data ...</div>
-      <div class="flex flex-col items-end">
-        <button
-          appButton="transparent"
-          (click)="onRemoveLocation($event)"
-          class="!p-1 flex items-center justify-center border leading-none size-8">
-          &times;
-        </button>
-      </div>
     </div>
   } @else {
     <div class="flex gap-4 justify-between">
       <div>Error ... {{ conditions.errorMessage }}</div>
-      <div class="flex flex-col items-end">
-        <button
-          appButton="transparent"
-          (click)="onRemoveLocation($event)"
-          class="!p-1 flex items-center justify-center border leading-none size-8">
-          &times;
-        </button>
-      </div>
     </div>
   }
 }
