@@ -15,7 +15,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FirstErrorMessagePipe, FormControlDirective } from '@ui/forms';
+import {
+  ControlErrorsComponent,
+  ControlHintComponent,
+  FormControlDirective,
+} from '@ui/forms';
 import {
   ExistingZipcodeValidator,
   UniqueZipcodeValidator,
@@ -38,7 +42,8 @@ import { ZipcodeAndCity } from '@features/data-access/types';
     ReactiveFormsModule,
     FormControlDirective,
     IconLoadingComponent,
-    FirstErrorMessagePipe,
+    ControlErrorsComponent,
+    ControlHintComponent,
   ],
 })
 export class ZipcodeEntryComponent {
