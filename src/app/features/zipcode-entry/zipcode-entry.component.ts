@@ -11,7 +11,6 @@ import {
   ZipcodeAndCity,
 } from '@features/data-access/services';
 import { ButtonDirective } from '@ui/buttons/directives';
-import { ZipCode } from '@core/types';
 import {
   AsyncValidatorFn,
   FormControl,
@@ -19,11 +18,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormControlDirective } from '@ui/forms/directives/form-control.directive';
-import { UsZipcodeValidator } from '@features/zipcode-entry/validators/us-zipcode.validator';
-import { UniqueZipcodeValidator } from '@features/zipcode-entry/validators/unique-zipcode.validator';
+import { FormControlDirective } from '@ui/forms';
+import {
+  ExistingZipcodeValidator,
+  UniqueZipcodeValidator,
+  UsZipcodeValidator,
+} from './validators';
 import { CommonModule } from '@angular/common';
-import { ExistingZipcodeValidator } from '@features/zipcode-entry/validators/existing-zipcode.validator';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { IconLoadingComponent } from '@ui/icons/icon-loading';
@@ -80,12 +81,15 @@ export class ZipcodeEntryComponent {
       return;
     }
 
-    this.addLocation(this.formGroup.controls.zipcode.value!);
+    this.addLocation({
+      zipcode: this.formGroup.controls.zipcode.value!,
+      city: this.formGroup.controls.city.value!,
+    });
     this.resetForm();
   }
 
-  private addLocation(zipcode: ZipCode): void {
-    this.service.addLocation(zipcode);
+  private addLocation(location: ZipcodeAndCity): void {
+    this.service.addLocation(location);
   }
 
   private configureZipcodeLookupValidator(): AsyncValidatorFn {

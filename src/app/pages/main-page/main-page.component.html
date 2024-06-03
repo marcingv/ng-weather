@@ -3,19 +3,13 @@
 
   @if (userLocations().length) {
     <app-tabs-view>
-      @for (zipcode of userLocations(); track zipcode) {
+      @for (location of userLocations(); track location) {
         <app-tab
-          [tabId]="zipcode"
-          [label]="zipcode"
-          (tabRemoved)="onTabRemoved(zipcode)">
-          <ng-template appTabLabelTemplate>
-            {{ conditions.currentConditions()?.data?.name }}
-            ({{ zipcode }})
-          </ng-template>
-
+          [tabId]="location.zipcode"
+          [label]="location.city + ' (' + location.zipcode + ')'"
+          (tabRemoved)="onTabRemoved(location.zipcode)">
           <app-current-conditions
-            #conditions
-            [zipcode]="zipcode"></app-current-conditions>
+            [zipcode]="location.zipcode"></app-current-conditions>
         </app-tab>
       }
     </app-tabs-view>

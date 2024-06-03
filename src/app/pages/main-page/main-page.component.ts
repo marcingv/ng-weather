@@ -6,10 +6,11 @@ import {
 } from '@angular/core';
 import { ZipcodeEntryComponent } from '@features/zipcode-entry';
 import { CurrentConditionsComponent } from '@features/current-conditions';
-import { LocationService } from '@features/data-access/services';
+import {
+  LocationService,
+  ZipcodeAndCity,
+} from '@features/data-access/services';
 import { ZipCode } from '@core/types';
-import { Router } from '@angular/router';
-import { Paths } from '@core/router/paths';
 import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
 import {
   TabComponent,
@@ -32,15 +33,10 @@ import {
   ],
 })
 export class MainPageComponent {
-  private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
 
-  protected readonly userLocations: Signal<ZipCode[]> =
+  protected readonly userLocations: Signal<ZipcodeAndCity[]> =
     this.locationsService.userLocations;
-
-  public showForecast(zipcode: ZipCode): void {
-    this.router.navigate([Paths.ROOT, Paths.FORECAST, zipcode]);
-  }
 
   public removeLocation(zipcode: ZipCode): void {
     this.locationsService.removeLocation(zipcode);

@@ -1,6 +1,6 @@
 import { ZipCode } from '@core/types';
 import { FormControl, ValidationErrors } from '@angular/forms';
-import { UsZipcodeValidator } from '@features/zipcode-entry/validators/us-zipcode.validator';
+import { UsZipcodeValidator } from './us-zipcode.validator';
 
 describe('UsZipcodeValidator', (): void => {
   const control = new FormControl<string | null | undefined>(null);
