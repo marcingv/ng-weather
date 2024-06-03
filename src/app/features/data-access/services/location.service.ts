@@ -3,7 +3,7 @@ import { ZipCode } from '@core/types';
 import { BrowserStorage, LocalStorageService } from '@core/storage';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ZipcodeAndCity } from '@features/data-access/services/types/zipcode-and-city';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 @Injectable({ providedIn: 'root' })
 export class LocationService {

@@ -1,7 +1,7 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { signal } from '@angular/core';
 import { UniqueZipcodeValidator } from './unique-zipcode.validator';
-import { ZipcodeAndCity } from '@features/data-access/services';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 describe('UniqueZipcodeValidator', (): void => {
   const control = new FormControl<string | null | undefined>(null);

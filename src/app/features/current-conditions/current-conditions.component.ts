@@ -6,10 +6,7 @@ import {
   OnChanges,
   Signal,
 } from '@angular/core';
-import {
-  WeatherConditionsData,
-  WeatherService,
-} from '@features/data-access/services';
+import { WeatherService } from '@features/data-access/services';
 import { RouterLink } from '@angular/router';
 import { ZipCode } from 'src/app/core/types';
 import { CommonModule } from '@angular/common';
@@ -17,6 +14,7 @@ import { ButtonDirective } from '@ui/buttons/directives';
 import { Paths } from '@core/router/paths';
 import { WeatherIconComponent } from '@ui/icons/weather-icon';
 import { ENVIRONMENT } from '@environments/environment';
+import { WeatherConditionsData } from '@features/data-access/types';
 
 @Component({
   selector: 'app-current-conditions',

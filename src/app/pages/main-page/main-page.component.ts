@@ -6,10 +6,7 @@ import {
 } from '@angular/core';
 import { ZipcodeEntryComponent } from '@features/zipcode-entry';
 import { CurrentConditionsComponent } from '@features/current-conditions';
-import {
-  LocationService,
-  ZipcodeAndCity,
-} from '@features/data-access/services';
+import { LocationService } from '@features/data-access/services';
 import { ZipCode } from '@core/types';
 import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
 import {
@@ -17,6 +14,7 @@ import {
   TabLabelTemplateDirective,
   TabsViewComponent,
 } from '@ui/tabs';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 @Component({
   selector: 'app-main-page',

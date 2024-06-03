@@ -6,10 +6,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import {
-  LocationService,
-  ZipcodeAndCity,
-} from '@features/data-access/services';
+import { LocationService } from '@features/data-access/services';
 import { ButtonDirective } from '@ui/buttons/directives';
 import {
   AsyncValidatorFn,
@@ -28,6 +25,7 @@ import { CommonModule } from '@angular/common';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { IconLoadingComponent } from '@ui/icons/icon-loading';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 @Component({
   selector: 'app-zipcode-entry',

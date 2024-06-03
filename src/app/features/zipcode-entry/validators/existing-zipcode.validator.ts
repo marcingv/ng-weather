@@ -17,7 +17,7 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import { CurrentConditions, ZipCode } from '@core/types';
-import { ZipcodeAndCity } from '@features/data-access/services';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 @Injectable({ providedIn: 'root' })
 export class ExistingZipcodeValidator {

@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Signal } from '@angular/core';
-import { ZipcodeAndCity } from '@features/data-access/services';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 export class UniqueZipcodeValidator {
   public static readonly ERROR_CODE = 'notUniqueZipcode';
