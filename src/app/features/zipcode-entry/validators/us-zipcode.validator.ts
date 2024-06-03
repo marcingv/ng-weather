@@ -2,6 +2,8 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class UsZipcodeValidator {
   public static readonly ERROR_CODE = 'zipcode';
+  public static readonly ERROR_MESSAGE = 'This is not a valid zipcode.';
+
   private static readonly REGEX = /^[0-9]{5}$/ms;
 
   public static isValid(
@@ -14,7 +16,12 @@ export class UsZipcodeValidator {
 
     const isError: boolean = !UsZipcodeValidator.REGEX.test(value);
     if (isError) {
-      return { [UsZipcodeValidator.ERROR_CODE]: true };
+      return {
+        [UsZipcodeValidator.ERROR_CODE]: {
+          zipcode: value,
+          message: UsZipcodeValidator.ERROR_MESSAGE,
+        },
+      };
     }
 
     return null;

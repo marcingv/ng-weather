@@ -39,7 +39,10 @@ describe('UsZipcodeValidator', (): void => {
     const errors: ValidationErrors | null = UsZipcodeValidator.isValid(control);
     expect(errors).not.toBeNull();
     expect(Object.hasOwn(errors!, UsZipcodeValidator.ERROR_CODE)).toBeTrue();
-    expect(errors![UsZipcodeValidator.ERROR_CODE]).toBeTrue();
+    expect(errors![UsZipcodeValidator.ERROR_CODE]).toEqual({
+      zipcode: invalidZipcodes[0],
+      message: UsZipcodeValidator.ERROR_MESSAGE,
+    });
   });
 
   validZipcodes.forEach((oneValidZipcode: ZipCode): void => {

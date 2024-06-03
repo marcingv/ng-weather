@@ -4,6 +4,7 @@ import { ZipcodeAndCity } from '@features/data-access/types';
 
 export class UniqueZipcodeValidator {
   public static readonly ERROR_CODE = 'notUniqueZipcode';
+  public static readonly ERROR_MESSAGE = 'Provided zipcode is already in use.';
 
   public static isUnique(usedZipcodes: Signal<ZipcodeAndCity[]>): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -16,7 +17,12 @@ export class UniqueZipcodeValidator {
         oneEntry => oneEntry.zipcode === value
       );
       if (isError) {
-        return { [UniqueZipcodeValidator.ERROR_CODE]: true };
+        return {
+          [UniqueZipcodeValidator.ERROR_CODE]: {
+            zipcode: value,
+            message: UniqueZipcodeValidator.ERROR_MESSAGE,
+          },
+        };
       }
 
       return null;

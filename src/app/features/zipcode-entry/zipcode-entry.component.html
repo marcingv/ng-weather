@@ -35,8 +35,8 @@
     </div>
 
     <div class="mt-1 min-h-5 text-sm font-normal text-red-500">
-      @if (zipcodeErrors()) {
-        {{ zipcodeErrors() | json }}
+      @if (zipcodeErrors(); as errors) {
+        {{ errors | firstErrorMessage }}
       }
     </div>
   </form>

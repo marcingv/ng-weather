@@ -23,7 +23,10 @@ describe('UniqueZipcodeValidator', (): void => {
       UniqueZipcodeValidator.isUnique(usedZipcodes)(control);
 
     expect(errors).not.toBeNull();
-    expect(errors![UniqueZipcodeValidator.ERROR_CODE]).toBeTrue();
+    expect(errors![UniqueZipcodeValidator.ERROR_CODE]).toEqual({
+      zipcode: '10001',
+      message: UniqueZipcodeValidator.ERROR_MESSAGE,
+    });
   });
 
   it('should pass validation when zipcode is unique', (): void => {

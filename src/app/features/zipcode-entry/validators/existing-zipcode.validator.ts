@@ -22,6 +22,7 @@ import { ZipcodeAndCity } from '@features/data-access/types';
 @Injectable({ providedIn: 'root' })
 export class ExistingZipcodeValidator {
   public static ERROR_CODE: string = 'zipcodeDoesNotExist';
+  public static ERROR_MESSAGE: string = 'Provided zipcode does not exist.';
 
   private readonly api: WeatherApiService = inject(WeatherApiService);
 
@@ -86,9 +87,10 @@ export class ExistingZipcodeValidator {
 
   private buildError(zipcode: ZipCode) {
     return {
-      [ExistingZipcodeValidator.ERROR_CODE]: true,
-      zipcode: zipcode,
-      message: `Zipcode does not exist.`,
+      [ExistingZipcodeValidator.ERROR_CODE]: {
+        zipcode: zipcode,
+        message: ExistingZipcodeValidator.ERROR_MESSAGE,
+      },
     };
   }
 }
