@@ -3,28 +3,12 @@
 
   <form [formGroup]="formGroup">
     <div class="flex flex-col sm:flex-row gap-4">
-      <div class="flex-1 relative">
-        <input
-          appFormControl
-          type="text"
-          [formControl]="formGroup.controls.zipcode"
-          placeholder="Zipcode"
-          class="w-full" />
-
-        <div class="absolute top-0 right-0 bottom-0">
-          <div class="h-full px-2 flex items-center justify-center">
-            <div
-              class="flex items-center justify-center text-sm rounded bg-slate-500 text-white">
-              @if (locationLookupPending()) {
-                <app-icon-loading
-                  class="m-1 block animate-spin"></app-icon-loading>
-              } @else if (formGroup.controls.city.value) {
-                <div class="m-1">{{ formGroup.controls.city.value }}</div>
-              }
-            </div>
-          </div>
-        </div>
-      </div>
+      <input
+        appFormControl
+        type="text"
+        [formControl]="formGroup.controls.zipcode"
+        placeholder="Zipcode"
+        class="flex-1" />
 
       <button
         appButton="primary"
@@ -34,11 +18,26 @@
       </button>
     </div>
 
-    <div class="mt-4 min-h-8 text-sm font-normal text-red-500">
+    <div class="mt-4 min-h-8">
       @if (zipcodeErrors(); as errors) {
         <app-control-errors [errors]="errors"></app-control-errors>
       } @else {
-        <app-control-hint>Please enter a valid US zipcode.</app-control-hint>
+        <app-control-hint>
+          @if (locationLookupPending()) {
+            <div class="flex flex-row items-center gap-4">
+              <app-icon-loading
+                class="inline-block animate-spin -m-1"></app-icon-loading>
+              Looking for zipcode ...
+            </div>
+          } @else if (formGroup.controls.city.value) {
+            The zipcode is a valid location for:
+            <span class="font-normal text-gray-700">
+              "{{ formGroup.controls.city.value }}"
+            </span>
+          } @else {
+            Please enter a valid US zipcode.
+          }
+        </app-control-hint>
       }
     </div>
   </form>

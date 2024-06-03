@@ -5,6 +5,7 @@ import {
 } from '@angular/forms';
 import {
   catchError,
+  combineLatest,
   first,
   map,
   Observable,
@@ -13,6 +14,7 @@ import {
   Subject,
   switchMap,
   tap,
+  timer,
 } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { WeatherApiService } from '@core/api/weather-api.service';
@@ -29,18 +31,40 @@ export class ExistingZipcodeValidator {
   public createValidator(options?: {
     locationLookupStarted?: () => void;
     locationLookupFinished?: (location: Partial<ZipcodeAndCity>) => void;
+    minimumTimeToResolveMillis?: number;
   }): AsyncValidatorFn {
     const validateRequests$: Subject<ZipCode> = new ReplaySubject<ZipCode>(1);
     const location$: Observable<ZipcodeAndCity> = validateRequests$.pipe(
       switchMap((zipcode: ZipCode) => {
-        return this.api.getCurrentConditions(zipcode).pipe(
-          map(
-            (data: CurrentConditions): ZipcodeAndCity => ({
-              zipcode: zipcode,
-              city: data.name,
+        const apiResult$: Observable<ZipcodeAndCity> = this.api
+          .getCurrentConditions(zipcode)
+          .pipe(
+            map(
+              (data: CurrentConditions): ZipcodeAndCity => ({
+                zipcode: zipcode,
+                city: data.name,
+              })
+            ),
+            catchError(() => {
+              return of({
+                zipcode: zipcode,
+                city: '',
+              });
             })
-          )
-        );
+          );
+
+        if (options && options.minimumTimeToResolveMillis) {
+          return combineLatest([
+            apiResult$,
+            timer(options.minimumTimeToResolveMillis),
+          ]).pipe(
+            map((data: [ZipcodeAndCity, 0]) => {
+              return data[0];
+            })
+          );
+        }
+
+        return apiResult$;
       })
     );
 
@@ -71,7 +95,7 @@ export class ExistingZipcodeValidator {
           },
         }),
         map((data: ZipcodeAndCity) => {
-          const isError: boolean = !data;
+          const isError: boolean = !data || !data.city;
           if (isError) {
             return this.buildError(value);
           }

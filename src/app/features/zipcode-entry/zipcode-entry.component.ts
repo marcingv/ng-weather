@@ -98,6 +98,7 @@ export class ZipcodeEntryComponent {
 
   private configureZipcodeLookupValidator(): AsyncValidatorFn {
     return this.existingZipCodeValidator.createValidator({
+      minimumTimeToResolveMillis: 600,
       locationLookupStarted: () => this.locationLookupPendingSignal.set(true),
       locationLookupFinished: (location: Partial<ZipcodeAndCity>): void => {
         this.locationLookupPendingSignal.set(false);
