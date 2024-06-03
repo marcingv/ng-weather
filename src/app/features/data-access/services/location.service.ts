@@ -3,53 +3,54 @@ import { ZipCode } from '@core/types';
 import { BrowserStorage, LocalStorageService } from '@core/storage';
 import { tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ZipcodeAndCity } from '@features/data-access/types';
 
 @Injectable({ providedIn: 'root' })
 export class LocationService {
   private readonly STORAGE_KEY = 'locations';
   private readonly storage: BrowserStorage = inject(LocalStorageService);
 
-  private readonly userLocationsSignal = signal<ZipCode[]>(
-    this.storage.getItem<ZipCode[]>(this.STORAGE_KEY) ?? []
+  private readonly userLocationsSignal = signal<ZipcodeAndCity[]>(
+    this.storage.getItem<ZipcodeAndCity[]>(this.STORAGE_KEY) ?? []
   );
 
   public constructor() {
     this.enableStorageSynchronization();
   }
 
-  public get userLocations(): Signal<ZipCode[]> {
+  public get userLocations(): Signal<ZipcodeAndCity[]> {
     return this.userLocationsSignal.asReadonly();
   }
 
-  public addLocation(zipcode: ZipCode): void {
-    this.userLocationsSignal.update((prev: ZipCode[]) => {
-      if (prev.includes(zipcode)) {
+  public addLocation(location: ZipcodeAndCity): void {
+    this.userLocationsSignal.update((prev: ZipcodeAndCity[]) => {
+      if (prev.find(oneEntry => oneEntry.zipcode === location.zipcode)) {
         return prev;
       }
 
-      return [...prev, zipcode];
+      return [...prev, location];
     });
   }
 
   public removeLocation(zipcode: ZipCode): void {
-    this.userLocationsSignal.update((prev: ZipCode[]) => {
+    this.userLocationsSignal.update((prev: ZipcodeAndCity[]) => {
       return prev
         .slice()
-        .filter((oneZipCode: ZipCode) => oneZipCode !== zipcode);
+        .filter((oneEntry: ZipcodeAndCity) => oneEntry.zipcode !== zipcode);
     });
   }
 
   private enableStorageSynchronization(): void {
     effect(() => {
-      const locations: ZipCode[] = this.userLocations();
+      const locations: ZipcodeAndCity[] = this.userLocations();
 
       this.storage.setItem(this.STORAGE_KEY, locations);
     });
 
     this.storage
-      .remoteChangeNotification<ZipCode[]>(this.STORAGE_KEY)
+      .remoteChangeNotification<ZipcodeAndCity[]>(this.STORAGE_KEY)
       .pipe(
-        tap((remoteTabLocations: ZipCode[] | null) => {
+        tap((remoteTabLocations: ZipcodeAndCity[] | null) => {
           if (remoteTabLocations) {
             this.userLocationsSignal.set(remoteTabLocations);
           }

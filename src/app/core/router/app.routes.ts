@@ -16,6 +16,10 @@ export const appRoutes: Routes = [
         component: MainPageComponent,
       },
       {
+        path: `:${PathParams.ZIPCODE}`,
+        component: MainPageComponent,
+      },
+      {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,
         component: ForecastDetailsPageComponent,
         resolve: {

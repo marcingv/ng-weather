@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
-import { ResolvedLocationForecast } from '@features/data-access/resolvers/types/resolved-location-forecast';
+import { ResolvedLocationForecast } from '@features/data-access/types';
 import { catchError, map, Observable, of } from 'rxjs';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import { inject } from '@angular/core';

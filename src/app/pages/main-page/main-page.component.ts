@@ -1,16 +1,24 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
+  model,
   Signal,
 } from '@angular/core';
 import { ZipcodeEntryComponent } from '@features/zipcode-entry';
 import { CurrentConditionsComponent } from '@features/current-conditions';
 import { LocationService } from '@features/data-access/services';
 import { ZipCode } from '@core/types';
+import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
+import {
+  TabComponent,
+  TabLabelTemplateDirective,
+  TabsViewComponent,
+} from '@ui/tabs';
+import { ZipcodeAndCity } from '@features/data-access/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
-import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
 
 @Component({
   selector: 'app-main-page',
@@ -21,20 +29,35 @@ import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-coll
     ZipcodeEntryComponent,
     CurrentConditionsComponent,
     EmptyCollectionPlaceholderComponent,
+    TabsViewComponent,
+    TabComponent,
+    TabLabelTemplateDirective,
   ],
 })
 export class MainPageComponent {
   private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
 
-  protected readonly userLocations: Signal<ZipCode[]> =
+  protected zipcode = model<ZipCode | undefined>(undefined);
+
+  protected readonly userLocations: Signal<ZipcodeAndCity[]> =
     this.locationsService.userLocations;
 
-  public showForecast(zipcode: ZipCode): void {
-    this.router.navigate([Paths.ROOT, Paths.FORECAST, zipcode]);
+  public constructor() {
+    effect((): void => {
+      if (this.zipcode()) {
+        this.router.navigate([Paths.ROOT, this.zipcode()]);
+      } else {
+        this.router.navigate([Paths.ROOT]);
+      }
+    });
   }
 
   public removeLocation(zipcode: ZipCode): void {
     this.locationsService.removeLocation(zipcode);
+  }
+
+  public onTabRemoved(zipcode: ZipCode): void {
+    this.removeLocation(zipcode);
   }
 }

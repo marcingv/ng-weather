@@ -45,6 +45,12 @@
                 }
               ],
               "serviceWorker": "/ngsw-config.json"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": []
             }
           },
           "defaultConfiguration": "production"
@@ -57,8 +63,12 @@
           "configurations": {
             "production": {
               "buildTarget": "ng-weather:build:production"
+            },
+            "development": {
+              "buildTarget": "ng-weather:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

@@ -91,7 +91,7 @@ describe('BackButtonComponent', () => {
     expect(locationBackSpy).toHaveBeenCalled();
   });
 
-  it('should NOT use "location back navigation" when previous URL is not a parent of the current URL', async () => {
+  it('should use "location back navigation" when previous URL is not a parent of the current URL', async () => {
     await harness.navigateByUrl('/different/path');
 
     component = await harness.navigateByUrl(
@@ -104,7 +104,7 @@ describe('BackButtonComponent', () => {
     expect(button).toBeTruthy();
     button.triggerEventHandler('click');
 
-    expect(routerNavigateSpy).toHaveBeenCalled();
-    expect(locationBackSpy).not.toHaveBeenCalled();
+    expect(routerNavigateSpy).not.toHaveBeenCalled();
+    expect(locationBackSpy).toHaveBeenCalled();
   });
 });

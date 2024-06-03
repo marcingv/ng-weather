@@ -1,8 +1,8 @@
 <div class="app-panel">
-  <h2 class="mb-4 text-2xl">Enter a zipcode:</h2>
+  <h2 class="mb-8 text-2xl">Enter a zipcode:</h2>
 
-  <form [formGroup]="formGroup">
-    <div class="flex gap-4">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
+    <div class="flex flex-col sm:flex-row gap-4">
       <input
         appFormControl
         type="text"
@@ -13,14 +13,31 @@
       <button
         appButton="primary"
         [disabled]="!formGroup.valid"
-        (click)="onSubmit()">
+        (click)="onSubmit($event)">
         Add location
       </button>
     </div>
 
-    <div class="mt-1 min-h-5 text-sm font-normal text-red-500">
-      @if (formGroup.controls.zipcode.errors; as errors) {
-        {{ errors | json }}
+    <div class="mt-4 min-h-8">
+      @if (zipcodeErrors(); as errors) {
+        <app-control-errors [errors]="errors"></app-control-errors>
+      } @else {
+        <app-control-hint>
+          @if (locationLookupPending()) {
+            <div class="flex flex-row items-center gap-4">
+              <app-icon-loading
+                class="inline-block animate-spin -m-1"></app-icon-loading>
+              Looking for zipcode ...
+            </div>
+          } @else if (formGroup.controls.city.value) {
+            The zipcode is a valid location for:
+            <span class="font-normal text-gray-700">
+              "{{ formGroup.controls.city.value }}"
+            </span>
+          } @else {
+            Please enter a valid US zipcode.
+          }
+        </app-control-hint>
       }
     </div>
   </form>

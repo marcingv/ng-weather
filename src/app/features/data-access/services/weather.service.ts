@@ -9,8 +9,10 @@ import {
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { CurrentConditions, ZipCode } from '@core/types';
 import { WeatherApiService } from '@core/api/weather-api.service';
-import { WeatherConditionsDictionary } from './types/weather-conditions-dictionary';
-import { WeatherConditionsData } from './types/weather-conditions-data';
+import {
+  WeatherConditionsData,
+  WeatherConditionsDictionary,
+} from '@features/data-access/types';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
