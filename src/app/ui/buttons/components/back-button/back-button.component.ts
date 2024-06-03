@@ -58,11 +58,6 @@ export class BackButtonComponent {
       return 'go-one-level-up';
     }
 
-    const isPreviousUrlTheParentOfCurrentUrl: boolean =
-      this.currentUrl.startsWith(this.previousUrl);
-
-    return isPreviousUrlTheParentOfCurrentUrl
-      ? 'use-location-back'
-      : 'go-one-level-up';
+    return 'use-location-back';
   }
 }

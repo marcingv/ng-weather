@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
+  model,
   Signal,
 } from '@angular/core';
 import { ZipcodeEntryComponent } from '@features/zipcode-entry';
@@ -15,6 +17,8 @@ import {
   TabsViewComponent,
 } from '@ui/tabs';
 import { ZipcodeAndCity } from '@features/data-access/types';
+import { Router } from '@angular/router';
+import { Paths } from '@core/router/paths';
 
 @Component({
   selector: 'app-main-page',
@@ -31,10 +35,23 @@ import { ZipcodeAndCity } from '@features/data-access/types';
   ],
 })
 export class MainPageComponent {
+  private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
+
+  protected zipcode = model<ZipCode | undefined>(undefined);
 
   protected readonly userLocations: Signal<ZipcodeAndCity[]> =
     this.locationsService.userLocations;
+
+  public constructor() {
+    effect((): void => {
+      if (this.zipcode()) {
+        this.router.navigate([Paths.ROOT, this.zipcode()]);
+      } else {
+        this.router.navigate([Paths.ROOT]);
+      }
+    });
+  }
 
   public removeLocation(zipcode: ZipCode): void {
     this.locationsService.removeLocation(zipcode);

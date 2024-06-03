@@ -2,7 +2,7 @@
   <app-zipcode-entry></app-zipcode-entry>
 
   @if (userLocations().length) {
-    <app-tabs-view>
+    <app-tabs-view [(activeTabId)]="zipcode">
       @for (location of userLocations(); track location) {
         <app-tab
           [tabId]="location.zipcode"

@@ -4,6 +4,10 @@ import {
   Component,
   computed,
   ContentChildren,
+  effect,
+  EventEmitter,
+  Input,
+  Output,
   QueryList,
   signal,
 } from '@angular/core';
@@ -12,6 +16,7 @@ import { tap } from 'rxjs';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
+import { TabId } from '@ui/tabs';
 
 @Component({
   selector: 'app-tabs-view',
@@ -30,7 +35,17 @@ export class TabsViewComponent implements AfterContentInit {
 
   public activeTab = signal<TabComponent | null>(null);
 
+  @Input() public activeTabId?: TabId;
+  @Output() public activeTabIdChange = new EventEmitter<TabId | undefined>();
+
   @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;
+
+  public constructor() {
+    effect((): void => {
+      this.activeTabId = this.activeTab()?.tabId;
+      this.activeTabIdChange.next(this.activeTab()?.tabId);
+    });
+  }
 
   public ngAfterContentInit(): void {
     this.setupTabs();
@@ -42,8 +57,21 @@ export class TabsViewComponent implements AfterContentInit {
 
     const activeTab: TabComponent | null = this.activeTab();
     if (!activeTab || !this.visibleTabs().includes(activeTab)) {
-      this.openFirstTab();
+      let tabToOpen: TabComponent | undefined;
+      if (this.activeTabId) {
+        tabToOpen = this.getTabById(this.activeTabId);
+      }
+
+      if (tabToOpen) {
+        this.openTab(tabToOpen);
+      } else {
+        this.openFirstTab();
+      }
     }
+  }
+
+  private getTabById(tabId: TabId): TabComponent | undefined {
+    return this.visibleTabs().find(oneTab => oneTab.tabId === tabId);
   }
 
   private openFirstTab(): void {
