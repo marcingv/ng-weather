@@ -56,7 +56,11 @@ export class TabsViewComponent implements AfterContentInit {
     this.tabs.set(this.declaredTabs.toArray());
 
     const activeTab: TabComponent | null = this.activeTab();
-    if (!activeTab || !this.visibleTabs().includes(activeTab)) {
+    if (
+      !activeTab ||
+      !this.visibleTabs().includes(activeTab) ||
+      activeTab.tabId !== this.activeTabId
+    ) {
       let tabToOpen: TabComponent | undefined;
       if (this.activeTabId) {
         tabToOpen = this.getTabById(this.activeTabId);

@@ -1,7 +1,7 @@
 <div class="app-panel">
   <h2 class="mb-8 text-2xl">Enter a zipcode:</h2>
 
-  <form [formGroup]="formGroup">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
     <div class="flex flex-col sm:flex-row gap-4">
       <input
         appFormControl
@@ -13,7 +13,7 @@
       <button
         appButton="primary"
         [disabled]="!formGroup.valid"
-        (click)="onSubmit()">
+        (click)="onSubmit($event)">
         Add location
       </button>
     </div>

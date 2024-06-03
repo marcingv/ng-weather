@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  EventEmitter,
   inject,
+  Output,
   Signal,
   signal,
 } from '@angular/core';
@@ -68,6 +70,8 @@ export class ZipcodeEntryComponent {
     return this.zipcodeEvents()?.source.errors;
   });
 
+  @Output() public locationSubmitted = new EventEmitter<ZipcodeAndCity>();
+
   public constructor() {
     this.resetCityControlOnZipcodeChange();
   }
@@ -80,7 +84,9 @@ export class ZipcodeEntryComponent {
     return this.locationLookupPendingSignal.asReadonly();
   }
 
-  protected onSubmit(): void {
+  protected onSubmit(event?: Event): void {
+    event?.preventDefault();
+
     if (!this.formGroup.valid) {
       return;
     }
@@ -89,16 +95,18 @@ export class ZipcodeEntryComponent {
       zipcode: this.formGroup.controls.zipcode.value!,
       city: this.formGroup.controls.city.value!,
     });
+
     this.resetForm();
   }
 
   private addLocation(location: ZipcodeAndCity): void {
+    this.locationSubmitted.next(location);
     this.service.addLocation(location);
   }
 
   private configureZipcodeLookupValidator(): AsyncValidatorFn {
     return this.existingZipCodeValidator.createValidator({
-      minimumTimeToResolveMillis: 600,
+      minimumTimeToResolveMillis: 500,
       locationLookupStarted: () => this.locationLookupPendingSignal.set(true),
       locationLookupFinished: (location: Partial<ZipcodeAndCity>): void => {
         this.locationLookupPendingSignal.set(false);
