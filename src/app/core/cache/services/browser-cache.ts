@@ -37,7 +37,7 @@ export abstract class BrowserCache {
   }
 
   public getEntry<T>(cacheKey: string): Observable<CacheEntry<T> | null> {
-    return of(this.cacheData().entries[cacheKey] as CacheEntry<T>);
+    return of((this.cacheData().entries[cacheKey] as CacheEntry<T>) ?? null);
   }
 
   public get<T>(cacheKey: string): Observable<T | null> {

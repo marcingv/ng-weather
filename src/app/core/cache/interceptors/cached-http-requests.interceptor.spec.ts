@@ -14,7 +14,7 @@ import SpyObj = jasmine.SpyObj;
 import { Observable, of } from 'rxjs';
 import { ENVIRONMENT } from '@environments/environment';
 
-fdescribe('cachedHttpRequestsInterceptor', (): void => {
+describe('cachedHttpRequestsInterceptor', (): void => {
   const methods: HttpMethod[] = ['GET'];
   const urls: string[] = ['http://localhost:4200/api/endpoint-1'];
 
