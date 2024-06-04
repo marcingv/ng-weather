@@ -29,7 +29,7 @@ export const cachedHttpRequestsInterceptor = (
 
     return cacheService.getEntry<HttpResponse<unknown>>(cacheKey).pipe(
       switchMap((cacheEntry: CacheEntry<HttpResponse<unknown>> | null) => {
-        if (cacheEntry && cacheEntry.isFresh()) {
+        if (cacheEntry && cacheService.isEntryFresh(cacheEntry)) {
           return of(
             new HttpResponse({
               body: cacheEntry.data.body,

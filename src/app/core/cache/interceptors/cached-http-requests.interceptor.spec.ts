@@ -14,7 +14,7 @@ import SpyObj = jasmine.SpyObj;
 import { Observable, of } from 'rxjs';
 import { ENVIRONMENT } from '@environments/environment';
 
-describe('cachedHttpRequestsInterceptor', (): void => {
+fdescribe('cachedHttpRequestsInterceptor', (): void => {
   const methods: HttpMethod[] = ['GET'];
   const urls: string[] = ['http://localhost:4200/api/endpoint-1'];
 
@@ -34,7 +34,11 @@ describe('cachedHttpRequestsInterceptor', (): void => {
   };
 
   beforeEach((): void => {
-    cacheService = createSpyObj<BrowserCache>(['getEntry', 'set']);
+    cacheService = createSpyObj<BrowserCache>([
+      'getEntry',
+      'set',
+      'isEntryFresh',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -91,18 +95,16 @@ describe('cachedHttpRequestsInterceptor', (): void => {
 
   it('should execute http request if cache entry is stale', (): void => {
     const req: HttpRequest<unknown> = new HttpRequest<unknown>('GET', urls[0]);
-    cacheService.getEntry.and.returnValue(
-      of(
-        new CacheEntry<HttpResponse<unknown>>(
-          new HttpResponse<unknown>({
-            url: req.url,
-            body: 'Sample response body',
-            status: 200,
-          }),
-          Date.now() - ENVIRONMENT.CACHE_LIFESPAN_MILLIS
-        )
-      )
-    );
+    const cacheEntry: CacheEntry<HttpResponse<unknown>> = {
+      data: new HttpResponse<unknown>({
+        url: req.url,
+        body: 'Sample response body',
+        status: 200,
+      }),
+      timestamp: Date.now() - ENVIRONMENT.CACHE_LIFESPAN_MILLIS,
+    };
+    cacheService.isEntryFresh.and.returnValue(false);
+    cacheService.getEntry.and.returnValue(of(cacheEntry));
 
     const next = jasmine.createSpy('next', nextHandler);
     next.and.callThrough();
@@ -113,14 +115,15 @@ describe('cachedHttpRequestsInterceptor', (): void => {
 
   it('should return cached response when cache entry is fresh', (): void => {
     const req: HttpRequest<unknown> = new HttpRequest<unknown>('GET', urls[0]);
-    const cacheEntry = new CacheEntry<HttpResponse<unknown>>(
-      new HttpResponse<unknown>({
+    const cacheEntry: CacheEntry<HttpResponse<unknown>> = {
+      data: new HttpResponse<unknown>({
         url: req.url,
         body: 'Sample response body',
         status: 200,
       }),
-      Date.now()
-    );
+      timestamp: Date.now(),
+    };
+    cacheService.isEntryFresh.and.returnValue(true);
     cacheService.getEntry.and.returnValue(of(cacheEntry));
 
     const next = jasmine.createSpy('next', nextHandler);

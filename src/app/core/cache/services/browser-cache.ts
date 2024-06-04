@@ -3,6 +3,7 @@ import { map, Observable, of, tap } from 'rxjs';
 import { CacheEntry } from '@core/cache/types/cache-entry';
 import { effect, signal, WritableSignal } from '@angular/core';
 import { CacheData } from '@core/cache/types/cache-data';
+import { ENVIRONMENT } from '@environments/environment';
 
 export abstract class BrowserCache {
   private readonly CACHE_KEY: string = 'cache';
@@ -32,18 +33,7 @@ export abstract class BrowserCache {
       return;
     }
 
-    this.cacheData.set(this.parseCacheData(cacheData));
-  }
-
-  private parseCacheData(cacheData: CacheData): CacheData {
-    for (const entryKey in cacheData.entries) {
-      cacheData.entries[entryKey] = new CacheEntry<unknown>(
-        cacheData.entries[entryKey].data,
-        cacheData.entries[entryKey].timestamp
-      );
-    }
-
-    return cacheData;
+    this.cacheData.set(cacheData);
   }
 
   public getEntry<T>(cacheKey: string): Observable<CacheEntry<T> | null> {
@@ -55,7 +45,10 @@ export abstract class BrowserCache {
   }
 
   public set<T>(cacheKey: string, data: T): void {
-    const entry: CacheEntry<T> = new CacheEntry<T>(data, Date.now());
+    const entry: CacheEntry<T> = {
+      data: data,
+      timestamp: Date.now(),
+    };
 
     this.cacheData.update((prevData: CacheData) => {
       return {
@@ -74,10 +67,18 @@ export abstract class BrowserCache {
       .pipe(
         tap((remoteCacheData: CacheData | null): void => {
           if (remoteCacheData) {
-            this.cacheData.set(this.parseCacheData(remoteCacheData));
+            this.cacheData.set(remoteCacheData);
           }
         })
       )
       .subscribe();
+  }
+
+  public isEntryFresh<T>(entry: CacheEntry<T>): boolean {
+    return !this.isEntryStale(entry);
+  }
+
+  public isEntryStale<T>(entry: CacheEntry<T>): boolean {
+    return entry.timestamp + ENVIRONMENT.CACHE_LIFESPAN_MILLIS < Date.now();
   }
 }
