@@ -23,6 +23,10 @@ export abstract class BrowserCache {
   });
   private readonly count$: Observable<number> = toObservable(this.countSignal);
 
+  public cacheEntries = computed(() => {
+    return Object.values(this.cacheData().entries);
+  });
+
   public constructor() {
     effect((): void => {
       // On cache data change - persist cache data to storage:

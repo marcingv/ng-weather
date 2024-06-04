@@ -4,8 +4,8 @@
   <div
     class="overflow-y-auto transition-all"
     [ngClass]="{ 'h-0': !open(), 'h-64': open() }">
-    <div>
+    @if (open()) {
       <app-dev-tools-content></app-dev-tools-content>
-    </div>
+    }
   </div>
 </div>

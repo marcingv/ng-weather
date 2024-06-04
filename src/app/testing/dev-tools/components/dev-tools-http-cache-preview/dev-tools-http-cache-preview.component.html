@@ -1,0 +1,33 @@
+@if (!httpCacheEntries().length) {
+  <app-empty-collection-placeholder>
+    There are no cached HTTP responses.
+  </app-empty-collection-placeholder>
+} @else {
+  <table class="text-xs table-fixed w-full">
+    <thead>
+      <tr>
+        <td class="w-8">#</td>
+        <td class="w-36">Time</td>
+        <td>URL</td>
+      </tr>
+    </thead>
+
+    <tbody class="">
+      @for (
+        cacheEntry of httpCacheEntries();
+        track cacheEntry;
+        let i = $index
+      ) {
+        <tr>
+          <td>{{ i + 1 }}.</td>
+          <td>{{ cacheEntry.timestamp | date: 'medium' }}</td>
+          <td class="truncate">
+            <span [title]="cacheEntry.data.url">
+              {{ cacheEntry.data.url }}
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
