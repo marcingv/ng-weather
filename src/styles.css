@@ -11,6 +11,10 @@ body {
   @apply font-thin text-base font-firago bg-gray-100;
 }
 
+.container {
+  @apply max-w-[1000px];
+}
+
 .app-panel {
   @apply p-4 bg-white rounded shadow;
 }

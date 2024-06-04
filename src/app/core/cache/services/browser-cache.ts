@@ -9,7 +9,6 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { CacheData } from '@core/cache/types/cache-data';
-import { ENVIRONMENT } from '@environments/environment';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 export abstract class BrowserCache {
@@ -30,6 +29,8 @@ export abstract class BrowserCache {
       this.storage.setItem(this.CACHE_KEY, this.cacheData());
     });
   }
+
+  public abstract cacheEntryLifespan(): number;
 
   protected setUpCache(storage: BrowserStorage): void {
     this.storage = storage;
@@ -118,7 +119,7 @@ export abstract class BrowserCache {
   }
 
   public isEntryStale<T>(entry: CacheEntry<T>): boolean {
-    return entry.timestamp + ENVIRONMENT.CACHE_LIFESPAN_MILLIS < Date.now();
+    return entry.timestamp + this.cacheEntryLifespan() < Date.now();
   }
 
   private removeStaleCacheEntries(): void {

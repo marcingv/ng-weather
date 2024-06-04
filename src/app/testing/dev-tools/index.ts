@@ -1,1 +1,1 @@
-export * from './dev-tools.component';
+export * from './components/dev-tools/dev-tools.component';
