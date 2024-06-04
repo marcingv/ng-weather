@@ -4,4 +4,5 @@ import { BASE_ENVIRONMENT } from './_environment.base';
 export const ENVIRONMENT: AppEnvironmentConfig = {
   ...BASE_ENVIRONMENT,
   PRODUCTION: true,
+  CACHE_LIFESPAN_MILLIS: 2 * 60 * 60 * 1000, // 2-hour cache
 };
