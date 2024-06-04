@@ -133,4 +133,22 @@ describe('cachedHttpRequestsInterceptor', (): void => {
     expect(response).toBeTruthy();
     expect(response).toEqual(cacheEntry.data);
   });
+
+  it('should cache http response data', (): void => {
+    const req: HttpRequest<unknown> = new HttpRequest<unknown>('GET', urls[0]);
+    cacheService.getEntry.and.returnValue(of(null));
+
+    const next = jasmine.createSpy('next', nextHandler);
+    next.and.callThrough();
+
+    let response: HttpEvent<unknown> | undefined;
+    interceptor(req, next).subscribe(res => (response = res));
+
+    expect(next).toHaveBeenCalled();
+    expect(response).toBeTruthy();
+    expect(cacheService.set).toHaveBeenCalledWith(
+      `${req.method}_${req.urlWithParams}`,
+      response
+    );
+  });
 });
