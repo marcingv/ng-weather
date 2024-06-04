@@ -1,14 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
-import { LocalStorageCacheService } from '@core/cache/services';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { SettingsIconComponent } from '@ui/icons/settings-icon';
+import { DevToolsHeaderComponent } from '@testing/dev-tools/components/dev-tools-header/dev-tools-header.component';
+import { DevToolsContentComponent } from '@testing/dev-tools/components/dev-tools-content/dev-tools-content.component';
 
 /**
  * This component is here only to make it easier to test whole application during verification by the Angular Training Team.
@@ -16,21 +10,16 @@ import { SettingsIconComponent } from '@ui/icons/settings-icon';
 @Component({
   selector: 'app-dev-tools',
   standalone: true,
-  imports: [CommonModule, SettingsIconComponent],
+  imports: [
+    CommonModule,
+    SettingsIconComponent,
+    DevToolsHeaderComponent,
+    DevToolsContentComponent,
+  ],
   templateUrl: './dev-tools.component.html',
   styleUrl: './dev-tools.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevToolsComponent {
-  private cacheService = inject(LocalStorageCacheService);
-
-  public readonly cacheLifespan = signal<number>(
-    this.cacheService.cacheEntryLifespan()
-  );
-
-  public readonly cacheLifespanInSeconds = computed(
-    () => this.cacheLifespan() / 1000
-  );
-
-  public readonly cachedItemsCount = toSignal(this.cacheService.count());
+  protected open = signal<boolean>(false);
 }

@@ -1,0 +1,41 @@
+<div class="border-b">
+  <div class="container flex flex-row items-center justify-between gap-4">
+    <div class="flex flex-row gap-4 items-center">
+      <h3
+        class="p-4 -ms-6 flex flex-row items-center gap-2 text-gray-700 hover:bg-gray-50 active:bg-gray-100 cursor-pointer"
+        title="Toggle DevTools details"
+        (click)="toggleOpen()">
+        <app-settings-icon cssClass="size-6"></app-settings-icon>
+
+        <span>Application DevTools</span>
+      </h3>
+
+      <button
+        [appButton]="open() ? 'primary' : 'transparent'"
+        [ngClass]="{ 'animate-bounce': !open() }"
+        (click)="toggleOpen()"
+        class="!p-2 !size-8 shadow"
+        title="Toggle DevTools details">
+        @if (open()) {
+          <app-chevron-down></app-chevron-down>
+        } @else {
+          <app-chevron-up></app-chevron-up>
+        }
+      </button>
+    </div>
+
+    <div class="flex flex-row gap-4 items-center">
+      <div class="text-xs">
+        <span>Cache lifespan: </span>
+        <span class="font-normal"
+          >{{ cacheLifespanInSeconds() | number }} seconds</span
+        >
+      </div>
+
+      <div class="text-xs">
+        <span>Cache entries count: </span>
+        <span class="font-normal">{{ cachedItemsCount() | number }}</span>
+      </div>
+    </div>
+  </div>
+</div>

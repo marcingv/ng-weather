@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DevToolsComponent } from './dev-tools.component';
+import { ChevronDownComponent } from './chevron-down.component';
 
-describe('DevToolsComponent', () => {
-  let component: DevToolsComponent;
-  let fixture: ComponentFixture<DevToolsComponent>;
+describe('ChevronDownComponent', () => {
+  let component: ChevronDownComponent;
+  let fixture: ComponentFixture<ChevronDownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DevToolsComponent],
+      imports: [ChevronDownComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DevToolsComponent);
+    fixture = TestBed.createComponent(ChevronDownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
