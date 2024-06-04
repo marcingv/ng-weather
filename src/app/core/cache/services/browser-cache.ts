@@ -1,9 +1,16 @@
 import { BrowserStorage } from '@core/storage';
 import { map, Observable, of, tap } from 'rxjs';
 import { CacheEntry } from '@core/cache/types/cache-entry';
-import { effect, signal, WritableSignal } from '@angular/core';
+import {
+  computed,
+  effect,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CacheData } from '@core/cache/types/cache-data';
 import { ENVIRONMENT } from '@environments/environment';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export abstract class BrowserCache {
   private readonly CACHE_KEY: string = 'cache';
@@ -12,6 +19,10 @@ export abstract class BrowserCache {
   private readonly cacheData: WritableSignal<CacheData> = signal<CacheData>({
     entries: {},
   });
+  private readonly countSignal: Signal<number> = computed(() => {
+    return Object.keys(this.cacheData().entries).length;
+  });
+  private readonly count$: Observable<number> = toObservable(this.countSignal);
 
   public constructor() {
     effect((): void => {
@@ -24,6 +35,7 @@ export abstract class BrowserCache {
     this.storage = storage;
 
     this.readCacheEntriesFromStorage();
+    this.removeStaleCacheEntries();
     this.enableSynchronizationBetweenBrowserTabs();
   }
 
@@ -34,6 +46,10 @@ export abstract class BrowserCache {
     }
 
     this.cacheData.set(cacheData);
+  }
+
+  public count(): Observable<number> {
+    return this.count$;
   }
 
   public getEntry<T>(cacheKey: string): Observable<CacheEntry<T> | null> {
@@ -61,6 +77,29 @@ export abstract class BrowserCache {
     });
   }
 
+  public remove(cacheKey: string): void {
+    this.cacheData.update((prevData: CacheData) => {
+      const updatedEntries = { ...prevData.entries };
+      if (updatedEntries[cacheKey]) {
+        delete updatedEntries[cacheKey];
+      }
+
+      return {
+        ...prevData,
+        entries: updatedEntries,
+      };
+    });
+  }
+
+  public clear(): void {
+    this.cacheData.update((prevData: CacheData) => {
+      return {
+        ...prevData,
+        entries: {},
+      };
+    });
+  }
+
   private enableSynchronizationBetweenBrowserTabs(): void {
     this.storage
       .remoteChangeNotification<CacheData>(this.CACHE_KEY)
@@ -80,5 +119,31 @@ export abstract class BrowserCache {
 
   public isEntryStale<T>(entry: CacheEntry<T>): boolean {
     return entry.timestamp + ENVIRONMENT.CACHE_LIFESPAN_MILLIS < Date.now();
+  }
+
+  private removeStaleCacheEntries(): void {
+    this.cacheData.update((prevCacheData: CacheData) => {
+      let hasStaleEntries: boolean = false;
+
+      const newCacheData: CacheData = {
+        ...prevCacheData,
+        entries: { ...prevCacheData.entries },
+      };
+
+      for (const entryKey in newCacheData.entries) {
+        const cacheEntry = newCacheData.entries[entryKey];
+        if (this.isEntryStale(cacheEntry)) {
+          hasStaleEntries = true;
+          delete newCacheData.entries[entryKey];
+        }
+      }
+
+      if (!hasStaleEntries) {
+        // No stale entries - keep cache data unchanged
+        return prevCacheData;
+      } else {
+        return newCacheData;
+      }
+    });
   }
 }

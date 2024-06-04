@@ -48,6 +48,25 @@ describe('LocalStorageCacheService', (): void => {
       expect(cacheEntry?.timestamp).toBeTruthy();
     });
 
+    it('should count cache entries', async () => {
+      let count: number = await firstValueFrom(service.count());
+      expect(count).toEqual(0);
+
+      const dataKey: string = 'new-data';
+      const data = { description: 'My new data to be cached' };
+      service.set(dataKey, data);
+      TestBed.flushEffects();
+
+      count = await firstValueFrom(service.count());
+      expect(count).toEqual(1);
+
+      service.remove(dataKey);
+      TestBed.flushEffects();
+
+      count = await firstValueFrom(service.count());
+      expect(count).toEqual(0);
+    });
+
     it('should synchronize cache data when cache in other browser tab changes', async () => {
       const dataKey: string = 'new-data';
       const data = {
@@ -125,6 +144,10 @@ describe('LocalStorageCacheService', (): void => {
           data: { attr1: 'Attr 1', attr2: 'Attr 2' },
           timestamp: Date.now(),
         },
+        data2: {
+          data: { description: 'Sample data' },
+          timestamp: Date.now(),
+        },
       },
     };
 
@@ -157,6 +180,73 @@ describe('LocalStorageCacheService', (): void => {
       expect(cacheEntry).toBeTruthy();
       expect(cacheEntry?.data).toEqual({ attr1: 'Attr 1', attr2: 'Attr 2' });
       expect(cacheEntry?.timestamp).toBeTruthy();
+    });
+
+    it('should remove all entries from cache', async () => {
+      let count: number = await firstValueFrom(service.count());
+      expect(count).toEqual(2);
+
+      service.clear();
+      TestBed.flushEffects();
+
+      count = await firstValueFrom(service.count());
+      expect(count).toEqual(0);
+    });
+  });
+
+  describe('Automatic removal of stale cache entries', (): void => {
+    const initialCacheData: CacheData = {
+      entries: {
+        freshData1: {
+          data: { description: 'Fresh data 1' },
+          timestamp: Date.now(),
+        },
+        freshData2: {
+          data: { description: 'Fresh data 2' },
+          timestamp: Date.now(),
+        },
+        staleData1: {
+          data: { description: 'Stale data 1' },
+          timestamp: Date.now() - 2 * ENVIRONMENT.CACHE_LIFESPAN_MILLIS,
+        },
+        staleData2: {
+          data: { description: 'Stale data 2' },
+          timestamp: Date.now() - 2 * ENVIRONMENT.CACHE_LIFESPAN_MILLIS,
+        },
+      },
+    };
+
+    beforeEach((): void => {
+      storageService = new InMemoryStorageService();
+      storageService.setItem('cache', initialCacheData);
+
+      TestBed.configureTestingModule({
+        providers: [{ provide: LocalStorageService, useValue: storageService }],
+      });
+
+      service = TestBed.inject(LocalStorageCacheService);
+      TestBed.flushEffects();
+    });
+
+    it('should be created', (): void => {
+      expect(service).toBeTruthy();
+    });
+
+    it('should remove stale cache entries while loading initial cache data from storage', async () => {
+      const entriesCount = await firstValueFrom(service.count());
+      expect(entriesCount).toEqual(2);
+
+      const freshEntry1 = await firstValueFrom(service.getEntry('freshData1'));
+      expect(freshEntry1).toBeTruthy();
+
+      const freshEntry2 = await firstValueFrom(service.getEntry('freshData2'));
+      expect(freshEntry2).toBeTruthy();
+
+      const staleEntry1 = await firstValueFrom(service.getEntry('staleData1'));
+      expect(staleEntry1).toBeNull();
+
+      const staleEntry2 = await firstValueFrom(service.getEntry('staleData2'));
+      expect(staleEntry2).toBeNull();
     });
   });
 });
