@@ -16,10 +16,11 @@
       @for (
         cacheEntry of httpCacheEntries();
         track cacheEntry;
-        let i = $index
+        let i = $index;
+        let count = $count
       ) {
         <tr>
-          <td>{{ i + 1 }}.</td>
+          <td>{{ count - i }}.</td>
           <td>{{ cacheEntry.timestamp | date: 'medium' }}</td>
           <td class="truncate">
             <span [title]="cacheEntry.data.url">

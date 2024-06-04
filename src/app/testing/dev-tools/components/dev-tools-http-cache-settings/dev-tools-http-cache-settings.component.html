@@ -1,0 +1,16 @@
+<div class="flex flex-row gap-4 text-xs items-stretch">
+  <input
+    #cacheLifespanCtrl="ngModel"
+    appFormControl
+    [(ngModel)]="cacheLifespan"
+    name="cacheLifespan"
+    required
+    class="flex-1 text-xs py-2"
+    type="number"
+    placeholder="Enter desired cache lifespan in milliseconds"
+    [min]="0" />
+
+  <div class="px-4 py-2 bg-gray-50 text-gray-700 rounded">
+    Here you can modify cache lifespan. {{ cacheLifespan() }}
+  </div>
+</div>
