@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LocalStorageCacheService } from './local-storage-cache.service';
 
-fdescribe('LocalStorageCacheService', () => {
+describe('LocalStorageCacheService', () => {
   let service: LocalStorageCacheService;
 
   beforeEach((): void => {
