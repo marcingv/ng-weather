@@ -8,4 +8,5 @@ export const BASE_ENVIRONMENT: AppEnvironmentConfig = {
   },
   DAILY_FORECAST_DAYS: 5,
   CACHE_LIFESPAN_MILLIS: 60 * 1000,
+  ENABLE_APP_DEV_TOOLS: false,
 };

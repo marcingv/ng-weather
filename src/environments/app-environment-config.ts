@@ -6,4 +6,5 @@ export interface AppEnvironmentConfig {
   };
   DAILY_FORECAST_DAYS: number;
   CACHE_LIFESPAN_MILLIS: number;
+  ENABLE_APP_DEV_TOOLS: boolean;
 }
