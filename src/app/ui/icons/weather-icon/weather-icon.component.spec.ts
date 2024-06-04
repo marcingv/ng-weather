@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WeatherIconComponent } from './weather-icon.component';
-import { WeatherFactory } from '@testing/weather.factory';
+import { WeatherFactory } from '@testing/factories';
 import { Weather } from '@core/types';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';

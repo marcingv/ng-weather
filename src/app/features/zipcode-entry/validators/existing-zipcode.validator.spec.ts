@@ -2,7 +2,7 @@ import { ExistingZipcodeValidator } from '@features/zipcode-entry/validators/exi
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import { firstValueFrom, Observable, of, throwError } from 'rxjs';
-import { CurrentConditionsFactory } from '@testing/current-conditions.factory';
+import { CurrentConditionsFactory } from '@testing/factories';
 import {
   AsyncValidatorFn,
   FormControl,

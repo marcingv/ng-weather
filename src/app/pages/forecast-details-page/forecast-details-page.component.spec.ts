@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForecastDetailsPageComponent } from './forecast-details-page.component';
 import { provideRouter } from '@angular/router';
-import { ForecastFactory } from '@testing/forecast.factory';
+import { ForecastFactory } from '@testing/factories';
 import { Forecast, ZipCode } from '@core/types';
 
 describe('ForecastDetailsPageComponent', () => {
