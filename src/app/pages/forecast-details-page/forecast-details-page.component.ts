@@ -1,9 +1,18 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BackButtonComponent } from '@ui/buttons/components/back-button';
+import {
+  BackButtonComponent,
+  CustomGoBackNavigationLink,
+} from '@ui/buttons/components/back-button';
 import { ForecastsListComponent } from '@features/forecasts-list';
 import { ErrorPlaceholderComponent } from '@ui/placeholders/error-placeholder';
 import { ResolvedLocationForecast } from '@features/data-access/types';
+import { Paths } from '@core/router/paths';
 
 @Component({
   selector: 'app-forecast-details-page',
@@ -18,6 +27,12 @@ import { ResolvedLocationForecast } from '@features/data-access/types';
   styleUrl: './forecast-details-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForecastDetailsPageComponent {
+export class ForecastDetailsPageComponent implements OnChanges {
   @Input({ required: true }) data!: ResolvedLocationForecast;
+
+  public fallbackBackUrl?: CustomGoBackNavigationLink;
+
+  public ngOnChanges(): void {
+    this.fallbackBackUrl = [Paths.ROOT, this.data.zipcode];
+  }
 }

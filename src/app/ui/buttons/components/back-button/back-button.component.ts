@@ -7,13 +7,17 @@ import {
 import { ButtonDirective } from '@ui/buttons/directives';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
-import { GoBackNavigationStrategy } from './types/go-back-navigation-strategy';
+import {
+  CustomGoBackNavigationLink,
+  GoBackNavigationStrategy,
+} from './types/go-back-navigation-strategy';
 import { ButtonType } from '@ui/buttons/types';
+import { ChevronLeftComponent } from '@ui/icons/chevron-left';
 
 @Component({
   selector: 'app-back-button',
   standalone: true,
-  imports: [ButtonDirective, RouterLink],
+  imports: [ButtonDirective, RouterLink, ChevronLeftComponent],
   templateUrl: './back-button.component.html',
   styleUrl: './back-button.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +27,7 @@ export class BackButtonComponent {
 
   @Input() public type: ButtonType = 'primary';
   @Input() public label?: string;
+  @Input() public fallbackBackUrl?: CustomGoBackNavigationLink;
 
   private readonly router: Router = inject(Router);
   private readonly location: Location = inject(Location);
@@ -43,8 +48,12 @@ export class BackButtonComponent {
     this.goBack(this.determineNavigationStrategy());
   }
 
-  private goBack(strategy: GoBackNavigationStrategy): void {
-    if (strategy === 'use-location-back') {
+  private goBack(
+    strategy: GoBackNavigationStrategy | CustomGoBackNavigationLink
+  ): void {
+    if (strategy instanceof Array) {
+      this.router.navigate(strategy);
+    } else if (strategy === 'use-location-back') {
       this.location.back();
     } else {
       this.router.navigate(this.routerLink, {
@@ -53,8 +62,14 @@ export class BackButtonComponent {
     }
   }
 
-  private determineNavigationStrategy(): GoBackNavigationStrategy {
+  private determineNavigationStrategy():
+    | GoBackNavigationStrategy
+    | CustomGoBackNavigationLink {
     if (!this.previousUrl || !this.currentUrl) {
+      if (this.fallbackBackUrl) {
+        return this.fallbackBackUrl;
+      }
+
       return 'go-one-level-up';
     }
 
