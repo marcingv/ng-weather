@@ -1,11 +1,22 @@
 <div class="tabs-navigation">
+  @if (showNavigationButtons) {
+    <div class="tabs-navigation__navigation-button">
+      <button
+        appButton="white"
+        (click)="goToPrevTab.next()"
+        [disabled]="isFirstTabActive$ | async">
+        <
+      </button>
+    </div>
+  }
+
   <ul class="tabs-navigation__list">
     @for (oneTab of tabs; track oneTab) {
       <li
         class="tabs-navigation__item"
         [appScrollableTabItem]="oneTab.tabId"
         [ngClass]="{ active: oneTab === activeTab }"
-        (click)="openTab.next(oneTab)"
+        (click)="onTabClicked(oneTab, $event)"
         [attr.data-tab-id]="oneTab.tabId">
         @if (oneTab.labelTemplate) {
           <ng-container
@@ -18,10 +29,21 @@
           appButton="transparent"
           title="Close"
           class="tab-close-btn justify-center text-xs !p-0 size-6"
-          (click)="closeTab.next(oneTab)">
+          (click)="onTabCloseClicked(oneTab, $event)">
           <app-close-icon></app-close-icon>
         </button>
       </li>
     }
   </ul>
+
+  @if (showNavigationButtons) {
+    <div class="tabs-navigation__navigation-button">
+      <button
+        appButton="white"
+        (click)="goToNextTab.next()"
+        [disabled]="isLastTabActive$ | async">
+        >
+      </button>
+    </div>
+  }
 </div>

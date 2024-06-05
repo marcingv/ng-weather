@@ -3,8 +3,11 @@
     [tabs]="visibleTabs()"
     [activeTab]="activeTab()"
     [autoScrollToTabs]="autoScrollToTabs"
+    [showNavigationButtons]="showNavigationButtons"
     (openTab)="onOpenTab($event)"
-    (closeTab)="onCloseTab($event)"></app-tabs-navigation>
+    (closeTab)="onCloseTab($event)"
+    (goToPrevTab)="goToPrevTab()"
+    (goToNextTab)="goToNextTab()"></app-tabs-navigation>
 
   <div class="tabs-panels">
     <ng-content></ng-content>

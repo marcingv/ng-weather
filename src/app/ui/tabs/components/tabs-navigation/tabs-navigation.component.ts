@@ -20,6 +20,8 @@ import {
   combineLatestWith,
   delay,
   distinctUntilChanged,
+  map,
+  Observable,
   Subject,
   takeUntil,
   tap,
@@ -47,6 +49,7 @@ export class TabsNavigationComponent
   @Input({ required: true }) public tabs!: TabComponent[];
   @Input() public activeTab?: TabComponent | null;
   @Input() public autoScrollToTabs: boolean = true;
+  @Input() public showNavigationButtons: boolean = true;
 
   @Output() public openTab: EventEmitter<TabComponent> =
     new EventEmitter<TabComponent>();
@@ -54,16 +57,35 @@ export class TabsNavigationComponent
   @Output() public closeTab: EventEmitter<TabComponent> =
     new EventEmitter<TabComponent>();
 
+  @Output() public goToPrevTab: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public goToNextTab: EventEmitter<void> = new EventEmitter<void>();
+
   @ViewChildren(ScrollableTabItemDirective)
   private navigationTabs?: QueryList<ScrollableTabItemDirective>;
 
-  private activeTabId$: BehaviorSubject<TabId | null> =
-    new BehaviorSubject<TabId | null>(null);
+  private activeTab$: BehaviorSubject<TabComponent | null> =
+    new BehaviorSubject<TabComponent | null>(null);
+
+  protected isFirstTabActive$: Observable<boolean> = this.activeTab$.pipe(
+    map((activeTab): boolean => {
+      return !!activeTab && !!this.tabs[0] && this.tabs[0] === activeTab;
+    })
+  );
+
+  protected isLastTabActive$: Observable<boolean> = this.activeTab$.pipe(
+    map((activeTab): boolean => {
+      return (
+        !!activeTab &&
+        !!this.tabs[this.tabs.length - 1] &&
+        this.tabs[this.tabs.length - 1] === activeTab
+      );
+    })
+  );
 
   private destroyed$: Subject<void> = new Subject<void>();
 
   public ngOnChanges(): void {
-    this.activeTabId$.next(this.activeTab?.tabId ?? null);
+    this.activeTab$.next(this.activeTab ?? null);
   }
 
   public ngAfterViewInit(): void {
@@ -79,7 +101,7 @@ export class TabsNavigationComponent
 
   private scrollToActiveTab(
     tabItems: ScrollableTabItemDirective[],
-    activeTabId: string | null
+    activeTabId: TabId | null
   ): void {
     if (!activeTabId) {
       return;
@@ -103,7 +125,12 @@ export class TabsNavigationComponent
 
     this.navigationTabs.changes
       .pipe(
-        combineLatestWith(this.activeTabId$.pipe(distinctUntilChanged())),
+        combineLatestWith(
+          this.activeTab$.pipe(
+            map(tab => tab?.tabId ?? null),
+            distinctUntilChanged()
+          )
+        ),
         delay(this.SCROLL_TO_TAB_DELAY_MS),
         tap(
           ([tabItems, activeTabId]: [
@@ -116,5 +143,19 @@ export class TabsNavigationComponent
         takeUntil(this.destroyed$)
       )
       .subscribe();
+  }
+
+  protected onTabClicked(oneTab: TabComponent, $event?: MouseEvent): void {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+
+    this.openTab.next(oneTab);
+  }
+
+  protected onTabCloseClicked(oneTab: TabComponent, $event: MouseEvent): void {
+    $event?.preventDefault();
+    $event?.stopPropagation();
+
+    this.closeTab.next(oneTab);
   }
 }

@@ -11,6 +11,7 @@ export class ButtonDirective {
     primary: 'app-button-primary',
     secondary: 'app-button-secondary',
     transparent: 'app-button-transparent',
+    white: 'app-button-white',
   };
 
   @Input() public appButton: ButtonType = 'primary';
