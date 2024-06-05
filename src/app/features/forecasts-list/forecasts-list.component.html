@@ -1,20 +1,26 @@
-<div class="app-panel">
-  <div class="-m-4 p-4 mb-4 bg-slate-300 rounded-t">
-    <h3 class="text-xl">
-      {{ forecast.list.length }}-day forecast for {{ forecast.city.name }}
-    </h3>
-  </div>
-
-  <ul class="flex flex-col divide-y">
-    <li
-      *ngFor="let dailyForecast of forecast.list"
-      class="flex py-1 gap-4 items-center justify-between">
-      <div>
-        {{ dailyForecast.dt * 1000 | date: 'EEEE, MMM d' }}:
-        {{ dailyForecast.weather[0].main }}
-        - Min: {{ dailyForecast.temp.min | number: '.0-0' }} - Max:
-        {{ dailyForecast.temp.max | number: '.0-0' }}
-      </div>
+<ul class="flex flex-col divide-y text-sm">
+  @for (dailyForecast of forecast.list; track dailyForecast) {
+    <li class="flex flex-row gap-2 py-2 items-center justify-between">
+      <ul class="flex flex-row flex-wrap gap-1">
+        <li class="forecast-col__date">
+          {{ dailyForecast.dt * 1000 | date: 'EEEE, MMM d' }}
+        </li>
+        <li class="forecast-col__sky">
+          {{ dailyForecast.weather[0].main }}
+        </li>
+        <li class="forecast-col__temp forecast-col__temp--min">
+          <span class="forecast-col__temp__label">Min: </span>
+          <span class="forecast-col__temp__value">
+            {{ dailyForecast.temp.min | number: '.0-0' }}
+          </span>
+        </li>
+        <li class="forecast-col__temp forecast-col__temp--max">
+          <span class="forecast-col__temp__label">Max: </span>
+          <span class="forecast-col__temp__value">
+            {{ dailyForecast.temp.max | number: '.0-0' }}
+          </span>
+        </li>
+      </ul>
 
       <div>
         @if (dailyForecast.weather[0]) {
@@ -24,5 +30,5 @@
         }
       </div>
     </li>
-  </ul>
-</div>
+  }
+</ul>

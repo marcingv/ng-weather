@@ -1,1 +1,5 @@
-export declare type ButtonType = 'primary' | 'secondary' | 'transparent';
+export declare type ButtonType =
+  | 'primary'
+  | 'secondary'
+  | 'transparent'
+  | 'white';

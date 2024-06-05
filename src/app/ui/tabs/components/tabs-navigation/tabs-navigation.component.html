@@ -1,0 +1,71 @@
+<div class="tabs-navigation">
+  @if (showNavigationButtons) {
+    <div
+      class="tabs-navigation__navigation-button"
+      [ngClass]="{
+        gone:
+          autoShowNavigationButtons &&
+          (autoShowNavigationButtons$ | async) === false
+      }">
+      <button
+        appButton="white"
+        (click)="goToPrevTab.next()"
+        [disabled]="isFirstTabActive$ | async"
+        title="Prev">
+        <app-chevron-left></app-chevron-left>
+      </button>
+    </div>
+  }
+
+  <div
+    #navResizeObserver="resizeObserver"
+    [appResizeObserver]="true"
+    class="tabs-navigation__list-wrapper">
+    <ul
+      #ulResizeObserver="resizeObserver"
+      [appResizeObserver]="true"
+      class="tabs-navigation__list">
+      @for (oneTab of tabs; track oneTab) {
+        <li
+          class="tabs-navigation__item"
+          [appScrollableTabItem]="oneTab.tabId"
+          [ngClass]="{ active: oneTab === activeTab }"
+          (click)="onTabClicked(oneTab, $event)"
+          [attr.data-tab-id]="oneTab.tabId">
+          @if (oneTab.labelTemplate) {
+            <ng-container
+              *ngTemplateOutlet="oneTab.labelTemplate.template"></ng-container>
+          } @else {
+            <span>{{ oneTab.label }}</span>
+          }
+
+          <button
+            appButton="transparent"
+            title="Close"
+            class="tab-close-btn justify-center text-xs !p-0 size-6"
+            (click)="onTabCloseClicked(oneTab, $event)">
+            <app-close-icon></app-close-icon>
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (showNavigationButtons) {
+    <div
+      class="tabs-navigation__navigation-button"
+      [ngClass]="{
+        gone:
+          autoShowNavigationButtons &&
+          (autoShowNavigationButtons$ | async) === false
+      }">
+      <button
+        appButton="white"
+        (click)="goToNextTab.next()"
+        [disabled]="isLastTabActive$ | async"
+        title="Next">
+        <app-chevron-right></app-chevron-right>
+      </button>
+    </div>
+  }
+</div>

@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -13,32 +13,42 @@ import {
 } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
 import { TabId } from '@ui/tabs';
+import { TabsNavigationComponent } from '@ui/tabs/components/tabs-navigation/tabs-navigation.component';
 
 @Component({
   selector: 'app-tabs-view',
   standalone: true,
-  imports: [NgClass, ButtonDirective, NgTemplateOutlet, CloseIconComponent],
+  imports: [
+    CommonModule,
+    ButtonDirective,
+    CloseIconComponent,
+    TabsNavigationComponent,
+  ],
   templateUrl: './tabs-view.component.html',
   styleUrl: './tabs-view.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabsViewComponent implements AfterContentInit {
-  private tabs = signal<TabComponent[]>([]);
-
-  public visibleTabs = computed(() => {
-    return this.tabs().filter((oneTab: TabComponent) => !oneTab.isRemoved);
-  });
-
-  public activeTab = signal<TabComponent | null>(null);
-
+export class TabsViewComponent implements AfterViewInit {
   @Input() public activeTabId?: TabId;
+  @Input() public autoScrollToTabs: boolean = true;
+  @Input() public showNavigationButtons: boolean = true;
+  @Input() public autoShowNavigationButtons: boolean = true;
+
   @Output() public activeTabIdChange = new EventEmitter<TabId | undefined>();
 
   @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;
+
+  private tabs = signal<TabComponent[]>([]);
+
+  protected visibleTabs = computed(() => {
+    return this.tabs().filter((oneTab: TabComponent) => !oneTab.isRemoved);
+  });
+
+  protected activeTab = signal<TabComponent | null>(null);
 
   public constructor() {
     effect((): void => {
@@ -47,7 +57,7 @@ export class TabsViewComponent implements AfterContentInit {
     });
   }
 
-  public ngAfterContentInit(): void {
+  public ngAfterViewInit(): void {
     this.setupTabs();
     this.declaredTabs.changes.pipe(tap(() => this.setupTabs())).subscribe();
   }
@@ -55,6 +65,9 @@ export class TabsViewComponent implements AfterContentInit {
   private setupTabs(): void {
     this.tabs.set(this.declaredTabs.toArray());
 
+    /**
+     * Open initial tab:
+     */
     const activeTab: TabComponent | null = this.activeTab();
     if (
       !activeTab ||
@@ -102,14 +115,10 @@ export class TabsViewComponent implements AfterContentInit {
     $event?.stopPropagation();
     $event?.preventDefault();
 
-    const removedTabIdx: number = this.visibleTabs().indexOf(tab);
-    const prevTab: TabComponent | undefined =
-      this.visibleTabs()[removedTabIdx - 1];
-    const nextTab: TabComponent | undefined =
-      this.visibleTabs()[removedTabIdx + 1];
+    const prevTab: TabComponent | undefined = this.findPrevTab(tab);
+    const nextTab: TabComponent | undefined = this.findNextTab(tab);
 
     tab.remove();
-    this.tabs.set([...this.tabs()]);
 
     if (prevTab) {
       this.openTab(prevTab);
@@ -120,7 +129,57 @@ export class TabsViewComponent implements AfterContentInit {
     }
   }
 
-  protected onTabItemClick(tab: TabComponent): void {
+  protected onOpenTab(tab: TabComponent): void {
     this.openTab(tab);
+  }
+
+  protected goToPrevTab(): boolean {
+    return this.goToAdjacentTab('prev');
+  }
+
+  protected goToNextTab(): boolean {
+    return this.goToAdjacentTab('next');
+  }
+
+  private findTab(
+    relativeTo: TabComponent,
+    side: 'prev' | 'next'
+  ): TabComponent | undefined {
+    const relativeTabIdx: number = this.visibleTabs().indexOf(relativeTo);
+    if (relativeTabIdx < 0) {
+      return undefined;
+    }
+
+    const sideTabIdx = relativeTabIdx + (side === 'prev' ? -1 : 1);
+
+    return this.visibleTabs()[sideTabIdx];
+  }
+
+  private findPrevTab(relativeTo: TabComponent): TabComponent | undefined {
+    return this.findTab(relativeTo, 'prev');
+  }
+
+  private findNextTab(relativeTo: TabComponent): TabComponent | undefined {
+    return this.findTab(relativeTo, 'next');
+  }
+
+  private goToAdjacentTab(side: 'prev' | 'next'): boolean {
+    const currentTab = this.activeTab();
+    if (!currentTab) {
+      return false;
+    }
+
+    let newActiveTab: TabComponent | undefined;
+    if (side === 'prev') {
+      newActiveTab = this.findPrevTab(currentTab);
+    } else {
+      newActiveTab = this.findNextTab(currentTab);
+    }
+
+    if (newActiveTab) {
+      this.openTab(newActiveTab);
+    }
+
+    return !!newActiveTab;
   }
 }

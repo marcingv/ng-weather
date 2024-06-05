@@ -7,6 +7,7 @@ import { WeatherIconComponent } from '@ui/icons/weather-icon';
   selector: 'app-forecasts-list',
   standalone: true,
   templateUrl: './forecasts-list.component.html',
+  styleUrl: './forecasts-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, WeatherIconComponent],
 })

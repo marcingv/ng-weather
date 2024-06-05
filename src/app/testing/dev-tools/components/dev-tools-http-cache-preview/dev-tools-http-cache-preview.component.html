@@ -6,7 +6,7 @@
   <table class="text-xs table-fixed w-full">
     <thead>
       <tr>
-        <td class="w-8">#</td>
+        <td class="w-8 text-center">#</td>
         <td class="w-36">Time</td>
         <td>URL</td>
       </tr>
@@ -20,7 +20,13 @@
         let count = $count
       ) {
         <tr>
-          <td>{{ count - i }}.</td>
+          <td>
+            <div
+              [appCacheEntryFreshIndicator]="cacheEntry"
+              class="flex flex-row justify-center px-1 font-normal">
+              {{ count - i }}.
+            </div>
+          </td>
           <td>{{ cacheEntry.timestamp | date: 'medium' }}</td>
           <td class="truncate">
             <span [title]="cacheEntry.data.url">

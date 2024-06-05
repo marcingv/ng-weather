@@ -1,5 +1,5 @@
 <div class="app-panel">
-  <h2 class="mb-8 text-2xl">Enter a zipcode:</h2>
+  <h2 class="mb-4">Enter a zipcode:</h2>
 
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
     <div class="flex flex-col sm:flex-row gap-4">
@@ -35,7 +35,7 @@
               "{{ formGroup.controls.city.value }}"
             </span>
           } @else {
-            Please enter a valid US zipcode.
+            Enter a valid US zipcode (e.g.: 10001, 95742).
           }
         </app-control-hint>
       }

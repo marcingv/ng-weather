@@ -1,0 +1,27 @@
+.forecast-col__date {
+    @apply w-36 font-normal;
+}
+
+.forecast-col__sky {
+    @apply min-w-20;
+}
+
+.forecast-col__temp {
+    @apply flex flex-row gap-2 justify-center items-center min-w-20 rounded text-xs;
+}
+
+.forecast-col__temp__label {
+    @apply font-normal;
+}
+
+.forecast-col__temp__value {
+    @apply font-bold;
+}
+
+.forecast-col__temp--min {
+    @apply bg-sky-600 text-white;
+}
+
+.forecast-col__temp--max {
+    @apply bg-rose-500 text-white;
+}

@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SvgIconComponent } from '../svg-icon.component';
 
 @Component({
   selector: 'app-icon-loading',
@@ -8,6 +9,4 @@ import { CommonModule } from '@angular/common';
   templateUrl: './icon-loading.component.html',
   styleUrl: './icon-loading.component.css',
 })
-export class IconLoadingComponent {
-  @Input() public cssClass: string = 'inline-block size-4';
-}
+export class IconLoadingComponent extends SvgIconComponent {}

@@ -1,6 +1,14 @@
 <div class="mb-8">
-  @if (data.forecast) {
-    <app-forecasts-list [forecast]="data.forecast"></app-forecasts-list>
+  @if (data.forecast; as forecast) {
+    <div class="app-panel">
+      <div class="-m-4 p-4 mb-2 bg-white rounded-t border-b-2 border-slate-200">
+        <h3>
+          {{ forecast.list.length }}-day forecast for {{ forecast.city.name }}
+        </h3>
+      </div>
+
+      <app-forecasts-list [forecast]="data.forecast"></app-forecasts-list>
+    </div>
   } @else {
     <app-error-placeholder>
       {{ data.resolveErrorMessage }}
@@ -8,4 +16,6 @@
   }
 </div>
 
-<app-back-button label="Back to main page"></app-back-button>
+<app-back-button
+  [fallbackBackUrl]="fallbackBackUrl"
+  label="Back to main page"></app-back-button>

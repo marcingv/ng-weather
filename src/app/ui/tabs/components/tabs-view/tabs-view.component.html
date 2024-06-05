@@ -1,30 +1,14 @@
 <div class="tabs-view">
-  <div class="tabs-navigation">
-    <ul class="tabs-navigation__list">
-      @for (oneTab of visibleTabs(); track oneTab) {
-        <li
-          class="tabs-navigation__item"
-          [ngClass]="{ active: oneTab === activeTab() }"
-          (click)="onTabItemClick(oneTab)"
-          [attr.data-tab-id]="oneTab.tabId">
-          @if (oneTab.labelTemplate) {
-            <ng-container
-              *ngTemplateOutlet="oneTab.labelTemplate.template"></ng-container>
-          } @else {
-            <span>{{ oneTab.label }}</span>
-          }
-
-          <button
-            appButton="transparent"
-            title="Close"
-            class="tab-close-btn justify-center text-xs !p-0 size-6"
-            (click)="onCloseTab(oneTab, $event)">
-            <app-close-icon></app-close-icon>
-          </button>
-        </li>
-      }
-    </ul>
-  </div>
+  <app-tabs-navigation
+    [tabs]="visibleTabs()"
+    [activeTab]="activeTab()"
+    [autoScrollToTabs]="autoScrollToTabs"
+    [showNavigationButtons]="showNavigationButtons"
+    [autoShowNavigationButtons]="autoShowNavigationButtons"
+    (openTab)="onOpenTab($event)"
+    (closeTab)="onCloseTab($event)"
+    (goToPrevTab)="goToPrevTab()"
+    (goToNextTab)="goToNextTab()"></app-tabs-navigation>
 
   <div class="tabs-panels">
     <ng-content></ng-content>

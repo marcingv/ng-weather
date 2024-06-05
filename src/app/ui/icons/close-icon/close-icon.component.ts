@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SvgIconComponent } from '../svg-icon.component';
 
 @Component({
   selector: 'app-close-icon',
@@ -8,6 +9,4 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   styleUrl: './close-icon.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CloseIconComponent {
-  @Input() public cssClass: string = 'inline-block size-4';
-}
+export class CloseIconComponent extends SvgIconComponent {}

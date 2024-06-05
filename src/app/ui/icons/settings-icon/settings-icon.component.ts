@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SvgIconComponent } from '../svg-icon.component';
 
 @Component({
   selector: 'app-settings-icon',
@@ -8,6 +9,4 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   styleUrl: './settings-icon.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsIconComponent {
-  @Input() public cssClass: string = 'inline-block size-4';
-}
+export class SettingsIconComponent extends SvgIconComponent {}

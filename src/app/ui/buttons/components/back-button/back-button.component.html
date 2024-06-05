@@ -1,8 +1,8 @@
 <button
   [appButton]="type"
-  class="gap-2 items-center"
+  class="gap-3 items-center"
   [title]="label ?? DEFAULT_LABEL"
   (click)="onClicked()">
-  <span><</span>
+  <app-chevron-left cssClass="size-3"></app-chevron-left>
   <span>{{ label ?? DEFAULT_LABEL }}</span>
 </button>

@@ -1,42 +1,88 @@
 @if (currentConditions(); as conditions) {
   @if (conditions.data) {
-    <div class="flex gap-4 justify-between">
-      <div>
-        <h4 class="mb-1">
-          Current conditions:
+    <div class="flex flex-col gap-8 relative">
+      <div class="flex flex-col gap-4">
+        <h4>
+          <span>Current conditions: </span>
           <span class="font-thin">{{ conditions.data.weather[0].main }}</span>
         </h4>
 
-        <h4>Temperatures today:</h4>
-        <p>
-          Current {{ conditions.data.main.temp | number: '.0-0' }} - Max
-          {{ conditions.data.main.temp_max | number: '.0-0' }} - Min
-          {{ conditions.data.main.temp_min | number: '.0-0' }}
-        </p>
-
-        <a
-          appButton="secondary"
-          [routerLink]="[Paths.ROOT, Paths.FORECAST, conditions.zip]"
-          class="mt-8 font-normal hover:underline">
-          Show {{ FORECAST_DAYS }}-day forecast for {{ conditions.data.name }}
-        </a>
+        <div>
+          <h4 class="mb-2">Temperatures today:</h4>
+          <ul class="today-temp">
+            <li class="temp temp--current">
+              <span class="temp-label">Current: </span>
+              <span class="temp-value">
+                {{ conditions.data.main.temp | number: '.0-0' }}
+              </span>
+            </li>
+            <li class="temp temp--max">
+              <span class="temp-label">Max: </span>
+              <span class="temp-value">
+                {{ conditions.data.main.temp_max | number: '.0-0' }}
+              </span>
+            </li>
+            <li class="temp temp--min">
+              <span class="temp-label">Min: </span>
+              <span class="temp-value">
+                {{ conditions.data.main.temp_min | number: '.0-0' }}
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div class="flex flex-col items-end">
+      <div class="absolute end-0 top-0 sm:bottom-0">
         @if (conditions.data.weather[0]) {
           <app-weather-icon
-            class="block size-36"
+            class="relative -top-1 sm:top-0"
+            cssClass="h-16 sm:h-full"
             [weather]="conditions.data.weather[0]"></app-weather-icon>
         }
       </div>
+
+      <div>
+        <a
+          appButton="secondary"
+          [routerLink]="[Paths.ROOT, Paths.FORECAST, conditions.zip]"
+          class="w-full sm:w-auto justify-center text-xs font-normal hover:underline">
+          Show {{ FORECAST_DAYS }}-day forecast for {{ conditions.data.name }}
+        </a>
+      </div>
     </div>
   } @else if (conditions.isLoading) {
-    <div class="flex gap-4 justify-between">
-      <div>Loading location data ...</div>
+    <div class="animate-pulse flex flex-col gap-8 relative">
+      <div class="flex flex-col gap-4">
+        <h4 class="skeleton"></h4>
+
+        <div>
+          <h4 class="mb-2 skeleton"></h4>
+          <ul class="today-temp">
+            <li class="temp temp--current skeleton"></li>
+            <li class="temp temp--max skeleton"></li>
+            <li class="temp temp--min skeleton"></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="absolute end-0 top-0 sm:bottom-0">
+        <div
+          class="skeleton w-[4rem] sm:w-[200px] relative h-16 sm:h-full"></div>
+      </div>
+
+      <div class="skeleton w-56 h-8"></div>
     </div>
   } @else {
-    <div class="flex gap-4 justify-between">
-      <div>Error ... {{ conditions.errorMessage }}</div>
-    </div>
+    <app-error-placeholder>
+      <div class="flex flex-col gap-4">
+        <p>Could not fetch weather conditions. Please try again later.</p>
+
+        <div>
+          <button appButton="primary" (click)="refreshConditions()">
+            Refresh
+          </button>
+        </div>
+      </div>
+    </app-error-placeholder>
   }
 }
