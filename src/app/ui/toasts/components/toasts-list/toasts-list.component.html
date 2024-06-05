@@ -1,0 +1,7 @@
+<ul class="toast-container flex flex-col gap-2 items-center">
+  @for (toast of messages; track toast) {
+    <li @toastInsertRemoveTrigger>
+      <app-toast-list-item [toast]="toast"></app-toast-list-item>
+    </li>
+  }
+</ul>

@@ -6,6 +6,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { ENVIRONMENT } from '@environments/environment';
 import { cachedHttpRequestsInterceptor } from '@core/cache/interceptors/cached-http-requests.interceptor';
 import { provideAppDevTools } from '@testing/dev-tools/configuration';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
       enabled: ENVIRONMENT.PRODUCTION,
     }),
     provideAppDevTools({ enabled: ENVIRONMENT.ENABLE_APP_DEV_TOOLS }),
+    provideAnimationsAsync(),
   ],
 };

@@ -19,6 +19,7 @@ import {
 import { ZipcodeAndCity } from '@features/data-access/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
+import { ToastsService } from '@ui/toasts/services/toasts.service';
 
 @Component({
   selector: 'app-main-page',
@@ -37,6 +38,9 @@ import { Paths } from '@core/router/paths';
 export class MainPageComponent {
   private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
+  private readonly toastsService: ToastsService | null = inject(ToastsService, {
+    optional: true,
+  });
 
   protected zipcode = model<ZipCode | undefined>(undefined);
 
@@ -59,5 +63,16 @@ export class MainPageComponent {
 
   public onTabRemoved(zipcode: ZipCode): void {
     this.removeLocation(zipcode);
+  }
+
+  public onLocationSubmitted(location: ZipcodeAndCity): void {
+    this.zipcode.set(location.zipcode);
+
+    if (this.toastsService) {
+      this.toastsService.show({
+        severity: 'primary',
+        message: `${location.city} (${location.zipcode}) - location has been added!`,
+      });
+    }
   }
 }
