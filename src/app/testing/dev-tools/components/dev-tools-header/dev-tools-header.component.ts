@@ -5,15 +5,15 @@ import {
   inject,
   model,
   ModelSignal,
-  signal,
 } from '@angular/core';
-import { DecimalPipe, NgClass } from '@angular/common';
+import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { SettingsIconComponent } from '@ui/icons/settings-icon';
 import { LocalStorageCacheService } from '@core/cache/services';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ChevronDownComponent } from '@ui/icons/chevron-down';
 import { ChevronUpComponent } from '@ui/icons/chevron-up';
 import { ButtonDirective } from '@ui/buttons/directives';
+import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
 
 @Component({
   selector: 'app-dev-tools-header',
@@ -25,20 +25,22 @@ import { ButtonDirective } from '@ui/buttons/directives';
     ChevronUpComponent,
     ButtonDirective,
     NgClass,
+    DatePipe,
   ],
   templateUrl: './dev-tools-header.component.html',
   styleUrl: './dev-tools-header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevToolsHeaderComponent {
-  private cacheService = inject(LocalStorageCacheService);
+  private readonly ONE_SECOND_MILLIS: number = 1000;
 
-  public readonly cacheLifespan = signal<number>(
-    this.cacheService.cacheEntryLifespan()
-  );
+  private cacheService = inject(LocalStorageCacheService);
+  private devToolsService = inject(DevToolsSettingsService);
+
+  public readonly cacheLifespan = this.devToolsService.cacheLifespan;
 
   public readonly cacheLifespanInSeconds = computed(
-    () => this.cacheLifespan() / 1000
+    () => this.cacheLifespan() / this.ONE_SECOND_MILLIS
   );
 
   public readonly cachedItemsCount = toSignal(this.cacheService.count());

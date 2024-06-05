@@ -1,15 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingsIconComponent } from '@ui/icons/settings-icon';
 import { DevToolsHeaderComponent } from '@testing/dev-tools/components/dev-tools-header/dev-tools-header.component';
 import { DevToolsContentComponent } from '@testing/dev-tools/components/dev-tools-content/dev-tools-content.component';
-import { LocalStorageService } from '@core/storage';
+import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
 
 /**
  * This component is here only to make it easier to test whole application during verification by the Angular Training Team.
@@ -28,16 +22,6 @@ import { LocalStorageService } from '@core/storage';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevToolsComponent {
-  private readonly OPEN_STATE_KEY: string = 'appDevToolsOpen';
-
-  protected storage = inject(LocalStorageService);
-  protected open = signal<boolean>(
-    this.storage.getItem<boolean>(this.OPEN_STATE_KEY) ?? false
-  );
-
-  public constructor() {
-    effect(() => {
-      this.storage.setItem(this.OPEN_STATE_KEY, this.open());
-    });
-  }
+  protected devToolsService = inject(DevToolsSettingsService);
+  protected uiOpened = this.devToolsService.opened;
 }
