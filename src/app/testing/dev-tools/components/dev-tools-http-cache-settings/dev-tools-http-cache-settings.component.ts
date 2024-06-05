@@ -10,11 +10,18 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map, Observable, tap } from 'rxjs';
+import { ButtonDirective } from '@ui/buttons/directives';
+import { CloseIconComponent } from '@ui/icons/close-icon';
 
 @Component({
   selector: 'app-dev-tools-http-cache-settings',
   standalone: true,
-  imports: [FormControlDirective, ReactiveFormsModule],
+  imports: [
+    FormControlDirective,
+    ReactiveFormsModule,
+    ButtonDirective,
+    CloseIconComponent,
+  ],
   templateUrl: './dev-tools-http-cache-settings.component.html',
   styleUrl: './dev-tools-http-cache-settings.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,5 +73,9 @@ export class DevToolsHttpCacheSettingsComponent {
 
   private updateCacheLifespanSetting(targetLifespanMillis: number): void {
     this.devToolsService.overrideCacheLifespan(targetLifespanMillis);
+  }
+
+  protected resetToDefaults(): void {
+    this.devToolsService.resetSettingsToDefaults();
   }
 }

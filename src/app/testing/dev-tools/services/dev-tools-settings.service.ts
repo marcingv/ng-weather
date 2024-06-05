@@ -36,8 +36,9 @@ export class DevToolsSettingsService {
   private readonly sessionStorage = inject(SessionStorageService);
   private readonly localStorage = inject(LocalStorageService);
 
-  private readonly ENV_DEFAULTS: Signal<AppEnvironmentConfig> =
-    signal(ENVIRONMENT).asReadonly();
+  private readonly ENV_DEFAULTS: Signal<AppEnvironmentConfig> = signal(
+    JSON.parse(JSON.stringify(ENVIRONMENT))
+  ).asReadonly();
 
   private readonly settings = signal<DevToolsSettings>(
     this.localStorage.getItem<DevToolsSettings>(this.SETTINGS_KEY) ?? {
@@ -81,8 +82,11 @@ export class DevToolsSettingsService {
   }
 
   public resetSettingsToDefaults(): void {
-    this.settings.set({
-      cacheLifespan: this.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS,
+    this.settings.update((prevSettings: DevToolsSettings) => {
+      return {
+        ...prevSettings,
+        cacheLifespan: this.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS,
+      };
     });
   }
 

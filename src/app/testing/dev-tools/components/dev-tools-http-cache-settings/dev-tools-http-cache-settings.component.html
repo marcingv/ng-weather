@@ -4,11 +4,21 @@
     [formControl]="cacheLifespanCtrl"
     min="0"
     name="cacheLifespan"
-    class="flex-1 text-xs py-2"
+    class="mw-44 text-xs py-2"
     type="number"
-    placeholder="Enter desired cache lifespan in milliseconds" />
+    placeholder="Cache lifespan in milliseconds" />
 
-  <div class="px-4 py-2 bg-gray-50 text-gray-700 rounded">
-    Here you can modify cache lifespan. {{ cacheLifespanSecs() }}
+  <button
+    appButton="secondary"
+    (click)="resetToDefaults()"
+    title="Reset to default settings"
+    class="gap-2 !ps-2 !pe-3">
+    <app-close-icon></app-close-icon>
+    <span>Reset</span>
+  </button>
+
+  <div class="flex-1 px-4 py-2 bg-gray-50 text-gray-700 rounded">
+    Here you can modify cache lifespan in
+    <span class="font-normal underline">milliseconds</span>.
   </div>
 </div>
