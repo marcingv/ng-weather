@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-collection-placeholder';
 import { DatePipe } from '@angular/common';
-import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
+import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
 
 @Component({
   selector: 'app-dev-tools-http-cache-preview',
@@ -12,7 +12,7 @@ import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevToolsHttpCachePreviewComponent {
-  private devToolsService = inject(DevToolsSettingsService);
+  private devToolsService = inject(DevToolsService);
 
   protected httpCacheEntries = this.devToolsService.httpCacheEntries;
 }

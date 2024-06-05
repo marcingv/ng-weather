@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsIconComponent } from '@ui/icons/settings-icon';
 import { DevToolsHeaderComponent } from '@testing/dev-tools/components/dev-tools-header/dev-tools-header.component';
 import { DevToolsContentComponent } from '@testing/dev-tools/components/dev-tools-content/dev-tools-content.component';
-import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
+import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
 
 /**
  * This component is here only to make it easier to test whole application during verification by the Angular Training Team.
@@ -22,6 +22,6 @@ import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevToolsComponent {
-  protected devToolsService = inject(DevToolsSettingsService);
+  protected devToolsService = inject(DevToolsService);
   protected uiOpened = this.devToolsService.opened;
 }

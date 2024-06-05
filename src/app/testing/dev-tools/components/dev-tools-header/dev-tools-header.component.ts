@@ -11,7 +11,7 @@ import { SettingsIconComponent } from '@ui/icons/settings-icon';
 import { ChevronDownComponent } from '@ui/icons/chevron-down';
 import { ChevronUpComponent } from '@ui/icons/chevron-up';
 import { ButtonDirective } from '@ui/buttons/directives';
-import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
+import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
 
 @Component({
   selector: 'app-dev-tools-header',
@@ -32,7 +32,7 @@ import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-s
 export class DevToolsHeaderComponent {
   private readonly ONE_SECOND_MILLIS: number = 1000;
 
-  private devToolsService = inject(DevToolsSettingsService);
+  private devToolsService = inject(DevToolsService);
 
   public readonly cachedItemsCount = this.devToolsService.cachedItemsCount;
   public readonly cacheLifespan = this.devToolsService.cacheLifespan;

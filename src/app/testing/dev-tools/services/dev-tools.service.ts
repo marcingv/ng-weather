@@ -7,14 +7,12 @@ import {
   signal,
 } from '@angular/core';
 import { DevToolsSettings } from '@testing/dev-tools/types/dev-tools-settings';
-import { LocalStorageService } from '@core/storage';
 import { tap } from 'rxjs';
 import { SessionStorageService } from '@core/storage/session-storage.service';
-import { ENVIRONMENT } from '@environments/environment';
-import { AppEnvironmentConfig } from '@environments/app-environment-config';
 import { LocalStorageCacheService } from '@core/cache/services';
 import { CacheEntry } from '@core/cache/types';
 import { HttpResponse } from '@angular/common/http';
+import { DevToolsEnvManagerService } from '@testing/dev-tools/services/dev-tools-env-manager.service';
 
 function isHttpResponseEvent<T>(object: unknown): object is HttpResponse<T> {
   return (
@@ -27,24 +25,13 @@ function isHttpResponseEvent<T>(object: unknown): object is HttpResponse<T> {
 @Injectable({
   providedIn: 'root',
 })
-export class DevToolsSettingsService {
+export class DevToolsService {
   private readonly DEFAULT_OPENED_STATE: boolean = false;
   private readonly OPENED_STATE_KEY: string = 'devToolsOpened';
-  private readonly SETTINGS_KEY: string = 'devToolsSettings';
 
+  private readonly devToolsEnvManager = inject(DevToolsEnvManagerService);
   private readonly cacheService = inject(LocalStorageCacheService);
   private readonly sessionStorage = inject(SessionStorageService);
-  private readonly localStorage = inject(LocalStorageService);
-
-  private readonly ENV_DEFAULTS: Signal<AppEnvironmentConfig> = signal(
-    JSON.parse(JSON.stringify(ENVIRONMENT))
-  ).asReadonly();
-
-  private readonly settings = signal<DevToolsSettings>(
-    this.localStorage.getItem<DevToolsSettings>(this.SETTINGS_KEY) ?? {
-      cacheLifespan: this.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS,
-    }
-  );
 
   public readonly opened = signal<boolean>(
     this.sessionStorage.getItem<boolean>(this.OPENED_STATE_KEY) ??
@@ -53,7 +40,8 @@ export class DevToolsSettingsService {
 
   public readonly cacheLifespan: Signal<number> = computed(() => {
     return (
-      this.settings().cacheLifespan ?? this.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS
+      this.devToolsEnvManager.settings().cacheLifespan ??
+      this.devToolsEnvManager.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS
     );
   });
 
@@ -75,51 +63,25 @@ export class DevToolsSettingsService {
 
   public constructor() {
     this.enableOpenedStatePersistence();
-    this.enableDevToolsSettingsPersistence();
-    this.enableSynchronizationBetweenBrowserTabs();
-
-    this.registerEnvironmentSettingsUpdates();
   }
 
   public resetSettingsToDefaults(): void {
-    this.settings.update((prevSettings: DevToolsSettings) => {
-      return {
-        ...prevSettings,
-        cacheLifespan: this.ENV_DEFAULTS().CACHE_LIFESPAN_MILLIS,
-      };
-    });
+    this.devToolsEnvManager.resetSettingsToDefaults();
   }
 
   public overrideCacheLifespan(timeInMillis: number): void {
-    this.settings.update((prevSettings: DevToolsSettings) => {
-      return {
-        ...prevSettings,
-        cacheLifespan: timeInMillis,
-      };
-    });
+    this.devToolsEnvManager.settings.update(
+      (prevSettings: DevToolsSettings) => {
+        return {
+          ...prevSettings,
+          cacheLifespan: timeInMillis,
+        };
+      }
+    );
   }
 
-  private enableDevToolsSettingsPersistence(): void {
+  private enableOpenedStatePersistence(): void {
     effect((): void => {
-      this.localStorage.setItem(this.SETTINGS_KEY, this.settings());
-    });
-  }
-
-  private enableSynchronizationBetweenBrowserTabs(): void {
-    this.localStorage
-      .remoteChangeNotification<DevToolsSettings>(this.SETTINGS_KEY)
-      .pipe(
-        tap((remoteSettings: DevToolsSettings | null): void => {
-          if (remoteSettings) {
-            this.settings.set(remoteSettings);
-          }
-        })
-      )
-      .subscribe();
-  }
-
-  private enableOpenedStatePersistence() {
-    effect(() => {
       this.sessionStorage.setItem(this.OPENED_STATE_KEY, this.opened());
     });
 
@@ -133,18 +95,6 @@ export class DevToolsSettingsService {
         })
       )
       .subscribe();
-  }
-
-  private registerEnvironmentSettingsUpdates(): void {
-    effect((): void => {
-      this.applySettingsToEnvironment(this.settings());
-    });
-  }
-
-  public applySettingsToEnvironment(settings: DevToolsSettings): void {
-    if (settings.cacheLifespan !== undefined) {
-      ENVIRONMENT.CACHE_LIFESPAN_MILLIS = settings.cacheLifespan;
-    }
   }
 
   private filterHttpRequestCacheEntries(

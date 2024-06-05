@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormControlDirective } from '@ui/forms';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DevToolsSettingsService } from '@testing/dev-tools/services/dev-tools-settings.service';
+import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map, Observable, tap } from 'rxjs';
 import { ButtonDirective } from '@ui/buttons/directives';
@@ -30,7 +30,7 @@ export class DevToolsHttpCacheSettingsComponent {
   private readonly ONE_SECOND_MILLIS: number = 1000;
   private readonly UPDATE_DEBOUNCE_MILLIS: number = 300;
 
-  private devToolsService = inject(DevToolsSettingsService);
+  private devToolsService = inject(DevToolsService);
 
   public cacheLifespanSecs = computed(
     () => this.devToolsService.cacheLifespan() / this.ONE_SECOND_MILLIS
