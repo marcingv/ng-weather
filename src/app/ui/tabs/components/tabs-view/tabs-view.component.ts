@@ -36,6 +36,8 @@ export class TabsViewComponent implements AfterViewInit {
   @Input() public activeTabId?: TabId;
   @Input() public autoScrollToTabs: boolean = true;
   @Input() public showNavigationButtons: boolean = true;
+  @Input() public autoShowNavigationButtons: boolean = true;
+
   @Output() public activeTabIdChange = new EventEmitter<TabId | undefined>();
 
   @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;

@@ -1,11 +1,42 @@
 .tabs-navigation {
-    @apply flex flex-row gap-1;
+    --navigation-btn-size: 32px;
+    --navigation-btn-space: 36px;
+
+    @apply flex flex-row gap-1 relative;
+    margin: 0 calc(var(--navigation-btn-space));
+}
+.tabs-navigation.with-buttons {
+    margin: 0 calc(var(--navigation-btn-space));
+}
+
+.tabs-navigation__list-wrapper {
+    @apply flex-1 overflow-x-auto scrollbar-none
 }
 
 .tabs-navigation__list {
-    @apply flex flex-row gap-1 flex-1 place-items-stretch;
-    @apply overflow-x-auto;
-    @apply scrollbar-none;
+    @apply inline-flex flex-row gap-1 place-items-stretch ;
+}
+
+
+.tabs-navigation__navigation-button {
+    @apply overflow-hidden transition-all absolute top-0 bottom-0;
+    width: var(--navigation-btn-size);
+}
+
+.tabs-navigation__navigation-button:first-of-type {
+    left: calc(-1 * var(--navigation-btn-space));
+}
+
+.tabs-navigation__navigation-button:last-of-type {
+    right: calc(-1 * var(--navigation-btn-space));
+}
+
+.tabs-navigation__navigation-button button {
+    @apply !px-2;
+}
+
+.tabs-navigation__navigation-button.gone {
+    @apply w-0;
 }
 
 .tabs-navigation__item {

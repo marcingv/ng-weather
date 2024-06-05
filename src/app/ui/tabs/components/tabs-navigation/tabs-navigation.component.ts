@@ -6,8 +6,10 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { TabComponent, TabId } from '@ui/tabs';
@@ -18,6 +20,7 @@ import { ScrollableTabItemDirective } from '@ui/tabs/directives/scrollable-tab-i
 import {
   BehaviorSubject,
   combineLatestWith,
+  debounceTime,
   delay,
   distinctUntilChanged,
   map,
@@ -28,6 +31,7 @@ import {
 } from 'rxjs';
 import { ChevronLeftComponent } from '@ui/icons/chevron-left';
 import { ChevronRightComponent } from '@ui/icons/chevron-right';
+import { ResizeObserverDirective } from '@ui/directives/resize-observer.directive';
 
 @Component({
   selector: 'app-tabs-navigation',
@@ -40,20 +44,23 @@ import { ChevronRightComponent } from '@ui/icons/chevron-right';
     ScrollableTabItemDirective,
     ChevronLeftComponent,
     ChevronRightComponent,
+    ResizeObserverDirective,
   ],
   templateUrl: './tabs-navigation.component.html',
   styleUrl: './tabs-navigation.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsNavigationComponent
-  implements OnChanges, AfterViewInit, OnDestroy
+  implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
   private readonly SCROLL_TO_TAB_DELAY_MS: number = 50;
+  private readonly RESIZE_OBSERVER_DEBOUNCE_MS: number = 300;
 
   @Input({ required: true }) public tabs!: TabComponent[];
   @Input() public activeTab?: TabComponent | null;
   @Input() public autoScrollToTabs: boolean = true;
   @Input() public showNavigationButtons: boolean = true;
+  @Input() public autoShowNavigationButtons: boolean = true;
 
   @Output() public openTab: EventEmitter<TabComponent> =
     new EventEmitter<TabComponent>();
@@ -67,9 +74,22 @@ export class TabsNavigationComponent
   @ViewChildren(ScrollableTabItemDirective)
   private navigationTabs?: QueryList<ScrollableTabItemDirective>;
 
+  @ViewChild('navResizeObserver', {
+    read: ResizeObserverDirective,
+    static: true,
+  })
+  private navResizeObserver!: ResizeObserverDirective;
+
+  @ViewChild('ulResizeObserver', {
+    read: ResizeObserverDirective,
+    static: true,
+  })
+  private ulResizeObserver!: ResizeObserverDirective;
+
   private activeTab$: BehaviorSubject<TabComponent | null> =
     new BehaviorSubject<TabComponent | null>(null);
 
+  protected autoShowNavigationButtons$ = new BehaviorSubject<boolean>(false);
   protected isFirstTabActive$: Observable<boolean> = this.activeTab$.pipe(
     map((activeTab): boolean => {
       return !!activeTab && !!this.tabs[0] && this.tabs[0] === activeTab;
@@ -87,6 +107,10 @@ export class TabsNavigationComponent
   );
 
   private destroyed$: Subject<void> = new Subject<void>();
+
+  public ngOnInit(): void {
+    this.registerResizeObserver();
+  }
 
   public ngOnChanges(): void {
     this.activeTab$.next(this.activeTab ?? null);
@@ -161,5 +185,24 @@ export class TabsNavigationComponent
     $event?.stopPropagation();
 
     this.closeTab.next(oneTab);
+  }
+
+  private registerResizeObserver(): void {
+    this.navResizeObserver.width$
+      .pipe(
+        combineLatestWith(this.ulResizeObserver.width$),
+        debounceTime(this.RESIZE_OBSERVER_DEBOUNCE_MS),
+        tap(([navWidth, ulWidth]: [number | null, number | null]): void => {
+          if (navWidth === null || ulWidth === null) {
+            return;
+          }
+
+          if (this.autoShowNavigationButtons) {
+            this.autoShowNavigationButtons$.next(ulWidth > navWidth);
+          }
+        }),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe();
   }
 }
