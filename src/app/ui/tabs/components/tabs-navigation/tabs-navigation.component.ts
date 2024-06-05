@@ -26,6 +26,8 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { ChevronLeftComponent } from '@ui/icons/chevron-left';
+import { ChevronRightComponent } from '@ui/icons/chevron-right';
 
 @Component({
   selector: 'app-tabs-navigation',
@@ -36,6 +38,8 @@ import {
     CloseIconComponent,
     NgTemplateOutlet,
     ScrollableTabItemDirective,
+    ChevronLeftComponent,
+    ChevronRightComponent,
   ],
   templateUrl: './tabs-navigation.component.html',
   styleUrl: './tabs-navigation.component.css',

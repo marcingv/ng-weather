@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon.component';
 
 @Component({
-  selector: 'app-settings-icon',
+  selector: 'app-chevron-left',
   standalone: true,
   imports: [],
-  templateUrl: './settings-icon.component.html',
-  styleUrl: './settings-icon.component.css',
+  templateUrl: './chevron-left.component.html',
+  styleUrl: './chevron-left.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsIconComponent extends SvgIconComponent {}
+export class ChevronLeftComponent extends SvgIconComponent {}
