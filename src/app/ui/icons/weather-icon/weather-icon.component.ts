@@ -12,4 +12,5 @@ import { WeatherIconUrlPipe } from '@ui/icons/weather-icon/weather-icon-url.pipe
 })
 export class WeatherIconComponent {
   @Input({ required: true }) public weather!: Weather;
+  @Input() public cssClass?: string;
 }

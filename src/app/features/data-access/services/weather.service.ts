@@ -43,6 +43,32 @@ export class WeatherService {
     });
   }
 
+  public refreshConditions(zipcode: ZipCode): void {
+    this.weatherData.update((prevData: WeatherConditionsDictionary) => {
+      let conditions = prevData[zipcode];
+      if (!conditions) {
+        conditions = {
+          zip: zipcode,
+          isLoading: true,
+        };
+      } else {
+        conditions = {
+          ...conditions,
+          isLoading: true,
+          isLoadError: false,
+          errorMessage: undefined,
+        };
+      }
+
+      return {
+        ...prevData,
+        [zipcode]: conditions,
+      };
+    });
+
+    this.loadCurrentConditions(zipcode).subscribe();
+  }
+
   private loadCurrentConditions(
     zipcode: ZipCode
   ): Observable<WeatherConditionsData> {
