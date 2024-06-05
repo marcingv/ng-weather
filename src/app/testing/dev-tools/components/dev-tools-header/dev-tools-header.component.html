@@ -27,14 +27,17 @@
     <div class="flex flex-row gap-4 items-center">
       <div class="text-xs">
         <span>Cache lifespan: </span>
-        <span class="font-normal">
+        <span class="inline-flex font-normal bg-slate-300 px-2 py-1 rounded">
           {{ cacheLifespanInSeconds() | number }} seconds
         </span>
       </div>
 
       <div class="text-xs">
-        <span>Cache entries count: </span>
-        <span class="font-normal">{{ cachedItemsCount() | number }}</span>
+        <span>Cached entries count: </span>
+        <span
+          class="inline-flex font-bold bg-red-500 text-white px-2 py-1 rounded">
+          {{ cachedItemsCount() | number }}
+        </span>
       </div>
     </div>
   </div>
