@@ -15,7 +15,7 @@
     <tbody class="">
       @for (
         cacheEntry of httpCacheEntries();
-        track cacheEntry;
+        track cacheEntry.key;
         let i = $index;
         let count = $count
       ) {
