@@ -130,7 +130,7 @@ export abstract class BrowserCache {
     return entry.timestamp + this.cacheEntryLifespan() < Date.now();
   }
 
-  private removeStaleCacheEntries(): void {
+  public removeStaleCacheEntries(): void {
     this.cacheData.update((prevCacheData: CacheData) => {
       let hasStaleEntries: boolean = false;
 

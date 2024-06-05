@@ -63,6 +63,7 @@ export class DevToolsService {
 
   public constructor() {
     this.enableOpenedStatePersistence();
+    this.automaticallyCleanStaleCacheEntries();
   }
 
   public resetSettingsToDefaults(): void {
@@ -95,6 +96,17 @@ export class DevToolsService {
         })
       )
       .subscribe();
+  }
+
+  private automaticallyCleanStaleCacheEntries(): void {
+    effect(
+      (): void => {
+        if (this.cacheLifespan() >= 0) {
+          this.cacheService.removeStaleCacheEntries();
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   private filterHttpRequestCacheEntries(
