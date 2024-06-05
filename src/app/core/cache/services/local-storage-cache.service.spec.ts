@@ -75,6 +75,7 @@ describe('LocalStorageCacheService', (): void => {
       const differentTabCacheData: CacheData = {
         entries: {
           [dataKey]: {
+            key: dataKey,
             data: data,
             timestamp: Date.now(),
           },
@@ -141,10 +142,12 @@ describe('LocalStorageCacheService', (): void => {
     const initialCacheData: CacheData = {
       entries: {
         data1: {
+          key: 'data1',
           data: { attr1: 'Attr 1', attr2: 'Attr 2' },
           timestamp: Date.now(),
         },
         data2: {
+          key: 'data2',
           data: { description: 'Sample data' },
           timestamp: Date.now(),
         },
@@ -198,18 +201,22 @@ describe('LocalStorageCacheService', (): void => {
     const initialCacheData: CacheData = {
       entries: {
         freshData1: {
+          key: 'freshData1',
           data: { description: 'Fresh data 1' },
           timestamp: Date.now(),
         },
         freshData2: {
+          key: 'freshData2',
           data: { description: 'Fresh data 2' },
           timestamp: Date.now(),
         },
         staleData1: {
+          key: 'staleData1',
           data: { description: 'Stale data 1' },
           timestamp: Date.now() - 2 * ENVIRONMENT.CACHE_LIFESPAN_MILLIS,
         },
         staleData2: {
+          key: 'staleData2',
           data: { description: 'Stale data 2' },
           timestamp: Date.now() - 2 * ENVIRONMENT.CACHE_LIFESPAN_MILLIS,
         },

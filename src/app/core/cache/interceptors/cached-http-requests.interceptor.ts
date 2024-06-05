@@ -8,7 +8,7 @@ import {
 
 import { inject } from '@angular/core';
 import { of, switchMap, tap } from 'rxjs';
-import { CacheEntry, HttpMethod } from '@core/cache/types';
+import { CacheEntry, CacheEntryKey, HttpMethod } from '@core/cache/types';
 import { BrowserCache, LocalStorageCacheService } from '@core/cache/services';
 
 interface Options {
@@ -25,7 +25,7 @@ export const cachedHttpRequestsInterceptor = (
     }
 
     const cacheService: BrowserCache = inject(LocalStorageCacheService);
-    const cacheKey: string = createCacheKey(req);
+    const cacheKey: CacheEntryKey = createCacheKey(req);
 
     return cacheService.getEntry<HttpResponse<unknown>>(cacheKey).pipe(
       switchMap((cacheEntry: CacheEntry<HttpResponse<unknown>> | null) => {
@@ -53,7 +53,7 @@ export const cachedHttpRequestsInterceptor = (
   };
 };
 
-const createCacheKey = (req: HttpRequest<unknown>): string => {
+const createCacheKey = (req: HttpRequest<unknown>): CacheEntryKey => {
   return `${req.method}_${req.urlWithParams}`;
 };
 

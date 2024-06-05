@@ -96,6 +96,7 @@ describe('cachedHttpRequestsInterceptor', (): void => {
   it('should execute http request if cache entry is stale', (): void => {
     const req: HttpRequest<unknown> = new HttpRequest<unknown>('GET', urls[0]);
     const cacheEntry: CacheEntry<HttpResponse<unknown>> = {
+      key: 'entryKey',
       data: new HttpResponse<unknown>({
         url: req.url,
         body: 'Sample response body',
@@ -116,6 +117,7 @@ describe('cachedHttpRequestsInterceptor', (): void => {
   it('should return cached response when cache entry is fresh', (): void => {
     const req: HttpRequest<unknown> = new HttpRequest<unknown>('GET', urls[0]);
     const cacheEntry: CacheEntry<HttpResponse<unknown>> = {
+      key: 'entryKey',
       data: new HttpResponse<unknown>({
         url: req.url,
         body: 'Sample response body',

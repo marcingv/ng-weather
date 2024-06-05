@@ -1,5 +1,6 @@
 import { CacheEntry } from './cache-entry';
+import { CacheEntryKey } from './cache-entry-key';
 
 export interface CacheData {
-  entries: { [entryKey: string]: CacheEntry<unknown> };
+  entries: { [id: CacheEntryKey]: CacheEntry<unknown> };
 }

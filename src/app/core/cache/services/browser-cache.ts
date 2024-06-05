@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CacheData } from '@core/cache/types/cache-data';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { CacheEntryKey } from '../types';
 
 export abstract class BrowserCache {
   private readonly CACHE_KEY: string = 'cache';
@@ -57,16 +58,19 @@ export abstract class BrowserCache {
     return this.count$;
   }
 
-  public getEntry<T>(cacheKey: string): Observable<CacheEntry<T> | null> {
+  public getEntry<T>(
+    cacheKey: CacheEntryKey
+  ): Observable<CacheEntry<T> | null> {
     return of((this.cacheData().entries[cacheKey] as CacheEntry<T>) ?? null);
   }
 
-  public get<T>(cacheKey: string): Observable<T | null> {
+  public get<T>(cacheKey: CacheEntryKey): Observable<T | null> {
     return this.getEntry<T>(cacheKey).pipe(map(entry => entry?.data ?? null));
   }
 
-  public set<T>(cacheKey: string, data: T): void {
+  public set<T>(cacheKey: CacheEntryKey, data: T): void {
     const entry: CacheEntry<T> = {
+      key: cacheKey,
       data: data,
       timestamp: Date.now(),
     };
@@ -82,7 +86,7 @@ export abstract class BrowserCache {
     });
   }
 
-  public remove(cacheKey: string): void {
+  public remove(cacheKey: CacheEntryKey): void {
     this.cacheData.update((prevData: CacheData) => {
       const updatedEntries = { ...prevData.entries };
       if (updatedEntries[cacheKey]) {
