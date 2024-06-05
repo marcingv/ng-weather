@@ -1,8 +1,8 @@
 <div class="border-b">
   <div class="container flex flex-row items-center justify-between gap-4">
-    <div class="flex flex-row gap-4 items-center">
+    <div class="flex flex-row gap-4 items-center min-h-14">
       <h3
-        class="p-4 -ms-6 flex flex-row items-center gap-2 text-gray-700 hover:bg-gray-50 active:bg-gray-100 cursor-pointer"
+        class="hidden p-4 lg:-ms-4 lg:flex flex-row items-center gap-2 text-gray-700 hover:bg-gray-50 active:bg-gray-100 cursor-pointer"
         title="Toggle DevTools details"
         (click)="toggleOpen()">
         <app-settings-icon cssClass="size-6"></app-settings-icon>
@@ -25,15 +25,15 @@
     </div>
 
     <div class="flex flex-row gap-4 items-center">
-      <div class="text-xs">
+      <div class="text-xs" title="Cache timespan">
         <span>Cache lifespan: </span>
         <span class="inline-flex font-normal bg-slate-300 px-2 py-1 rounded">
-          {{ cacheLifespanInSeconds() | number }} seconds
+          {{ cacheLifespanInSeconds() | number }} secs
         </span>
       </div>
 
-      <div class="text-xs">
-        <span>Cached entries count: </span>
+      <div class="text-xs" title="Cached entries count">
+        <span>Cached entries: </span>
         <span
           class="inline-flex font-bold bg-red-500 text-white px-2 py-1 rounded">
           {{ cachedItemsCount() | number }}

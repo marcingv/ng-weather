@@ -3,7 +3,7 @@
 
   <div
     class="overflow-y-auto transition-all"
-    [ngClass]="{ 'h-0': !uiOpened(), 'h-64': uiOpened() }">
+    [ngClass]="{ 'h-0': !uiOpened(), 'h-[264px]': uiOpened() }">
     @if (uiOpened()) {
       <app-dev-tools-content></app-dev-tools-content>
     }

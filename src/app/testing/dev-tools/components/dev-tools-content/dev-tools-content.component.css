@@ -1,0 +1,14 @@
+.dev-tools {
+    @apply flex flex-col gap-4 py-4 text-xs;
+    @apply md:flex-row;
+}
+
+.dev-tools__settings {
+    @apply flex flex-col gap-2 justify-between;
+    @apply md:w-2/3;
+}
+
+.dev-tools__note {
+    @apply flex flex-col gap-4 p-4 rounded bg-gray-100;
+    @apply md:w-1/3;
+}

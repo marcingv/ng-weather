@@ -1,23 +1,23 @@
-<div class="flex flex-row gap-4 text-xs items-stretch">
-  <input
-    appFormControl
-    [formControl]="cacheLifespanCtrl"
-    min="0"
-    name="cacheLifespan"
-    class="mw-44 text-xs py-1"
-    type="number"
-    placeholder="Cache lifespan in milliseconds" />
+<div class="dev-tools-cache__settings">
+  <div class="dev-tools-cache__form">
+    <input
+      appFormControl
+      [formControl]="cacheLifespanCtrl"
+      min="0"
+      name="cacheLifespan"
+      type="number"
+      placeholder="Cache lifespan in milliseconds" />
 
-  <button
-    appButton="secondary"
-    (click)="resetToDefaults()"
-    title="Reset to default settings"
-    class="gap-2 !ps-2 !pe-3 !py-1">
-    <app-close-icon></app-close-icon>
-    <span>Reset</span>
-  </button>
+    <button
+      appButton="secondary"
+      (click)="resetToDefaults()"
+      title="Reset to default settings">
+      <app-close-icon></app-close-icon>
+      <span>Reset</span>
+    </button>
+  </div>
 
-  <div class="flex-1 px-4 py-2 bg-gray-50 text-gray-700 rounded">
+  <div class="dev-tools-cache__note">
     Here you can modify cache lifespan in
     <span class="font-normal underline">milliseconds</span>.
   </div>

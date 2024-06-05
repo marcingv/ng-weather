@@ -1,25 +1,26 @@
 <div class="container">
-  <div class="flex flex-row gap-4 py-4">
-    <div class="w-2/3 flex flex-col gap-2 justify-between">
+  <div class="dev-tools">
+    <div class="dev-tools__settings">
       <app-dev-tools-http-cache-settings></app-dev-tools-http-cache-settings>
 
       <app-dev-tools-http-cache-preview
-        class="h-36 overflow-y-auto"></app-dev-tools-http-cache-preview>
+        class="max-h-36 lg:h-36 overflow-y-auto"></app-dev-tools-http-cache-preview>
 
-      <p class="text-xs p-2 bg-gray-50 rounded">
+      <p class="px-4 py-2 bg-gray-50 rounded">
         Above table displays currently stored cache entries for HTTP request.
         Most recent entries are displayed first.
       </p>
     </div>
-    <div class="p-4 rounded bg-gray-100 w-1/3 text-xs">
-      <p class="mb-4">
+
+    <div class="dev-tools__note">
+      <p>
         This component is here only to make it easier to test application's
         features during verification by the
         <span class="font-normal">Angular Training Team</span>. Here you can
         inspect and modify the applications cache behavior.
       </p>
 
-      <p class="mb-4">
+      <p>
         For more detailed information related to cache mechanism, please inspect
         the LocalStorage object in the browser's DevTools.
       </p>
