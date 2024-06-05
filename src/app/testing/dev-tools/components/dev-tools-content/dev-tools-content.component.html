@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="dev-tools">
+    <div class="dev-tools__settings">
+      <app-dev-tools-http-cache-settings></app-dev-tools-http-cache-settings>
+
+      <app-dev-tools-http-cache-preview
+        class="max-h-36 lg:h-36 overflow-y-auto"></app-dev-tools-http-cache-preview>
+
+      <p class="px-4 py-2 bg-gray-50 rounded">
+        Above table displays currently stored cache entries for HTTP request.
+        Most recent entries are displayed first.
+      </p>
+    </div>
+
+    <div class="dev-tools__note">
+      <p>
+        This component is here only to make it easier to test application's
+        features during verification by the
+        <span class="font-normal">Angular Training Team</span>. Here you can
+        inspect and modify the applications cache behavior.
+      </p>
+
+      <p>
+        For more detailed information related to cache mechanism, please inspect
+        the LocalStorage object in the browser's DevTools.
+      </p>
+
+      <p class="underline">
+        In normal production deployment these App DevTools would be disabled.
+      </p>
+    </div>
+  </div>
+</div>

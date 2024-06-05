@@ -1,6 +1,6 @@
 import { WeatherIconUrlPipe } from './weather-icon-url.pipe';
 import { Weather } from '@core/types';
-import { WeatherFactory } from '@testing/weather.factory';
+import { WeatherFactory } from '@testing/factories';
 
 describe('WeatherIconUrlPipe', (): void => {
   const pipe: WeatherIconUrlPipe = new WeatherIconUrlPipe();

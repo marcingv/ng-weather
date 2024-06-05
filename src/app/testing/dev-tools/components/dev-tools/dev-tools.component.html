@@ -1,0 +1,11 @@
+<div class="bg-white fixed bottom-0 inset-x-0 z-10 border-t-4">
+  <app-dev-tools-header [(open)]="uiOpened"></app-dev-tools-header>
+
+  <div
+    class="overflow-y-auto transition-all"
+    [ngClass]="{ 'h-0': !uiOpened(), 'h-[264px]': uiOpened() }">
+    @if (uiOpened()) {
+      <app-dev-tools-content></app-dev-tools-content>
+    }
+  </div>
+</div>

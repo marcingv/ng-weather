@@ -1,0 +1,24 @@
+<div class="dev-tools-cache__settings">
+  <div class="dev-tools-cache__form">
+    <input
+      appFormControl
+      [formControl]="cacheLifespanCtrl"
+      min="0"
+      name="cacheLifespan"
+      type="number"
+      placeholder="Cache lifespan in milliseconds" />
+
+    <button
+      appButton="secondary"
+      (click)="resetToDefaults()"
+      title="Reset to default settings">
+      <app-close-icon></app-close-icon>
+      <span>Reset</span>
+    </button>
+  </div>
+
+  <div class="dev-tools-cache__note">
+    Here you can modify cache lifespan in
+    <span class="font-normal underline">milliseconds</span>.
+  </div>
+</div>

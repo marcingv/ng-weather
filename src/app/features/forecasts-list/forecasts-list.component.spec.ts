@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ForecastFactory } from '@testing/forecast.factory';
+import { ForecastFactory } from '@testing/factories';
 import { Forecast } from '@core/types';
 import { ForecastsListComponent } from '@features/forecasts-list/forecasts-list.component';
 

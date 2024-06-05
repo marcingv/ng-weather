@@ -7,4 +7,6 @@ export const BASE_ENVIRONMENT: AppEnvironmentConfig = {
     APP_ID: '5a4b2d457ecbef9eb2a71e480b947604',
   },
   DAILY_FORECAST_DAYS: 5,
+  CACHE_LIFESPAN_MILLIS: 60 * 1000,
+  ENABLE_APP_DEV_TOOLS: false,
 };
