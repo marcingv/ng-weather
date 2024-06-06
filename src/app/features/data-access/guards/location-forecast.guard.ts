@@ -48,8 +48,8 @@ const getZipcode = (route: ActivatedRouteSnapshot): ZipCode | undefined => {
 const getUserLocation = (
   route: ActivatedRouteSnapshot
 ): ZipcodeAndCity | undefined => {
-  const locations = inject(LocationService);
-  const zipcode = getZipcode(route);
+  const locations: LocationService = inject(LocationService);
+  const zipcode: ZipCode | undefined = getZipcode(route);
   if (!zipcode) {
     return undefined;
   }

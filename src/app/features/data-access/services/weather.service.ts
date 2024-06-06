@@ -69,7 +69,7 @@ export class WeatherService {
     this.loadCurrentConditions(zipcode).subscribe();
   }
 
-  private loadCurrentConditions(
+  public loadCurrentConditions(
     zipcode: ZipCode
   ): Observable<WeatherConditionsData> {
     return this.api.getCurrentConditions(zipcode).pipe(

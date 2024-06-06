@@ -11,6 +11,7 @@ import {
 } from '@features/data-access/resolvers';
 import { locationForecastGuard } from '@features/data-access/guards';
 import { ENVIRONMENT } from '@environments/environment';
+import { weatherConditionsPreloadingGuard } from '@features/data-access/guards/weather-conditions-preloading.guard';
 
 export const appRoutes: Routes = [
   {
@@ -19,13 +20,25 @@ export const appRoutes: Routes = [
     children: [
       {
         path: '',
-        component: MainPageComponent,
-        title: mainPageTitleResolver,
-      },
-      {
-        path: `:${PathParams.ZIPCODE}`,
-        component: MainPageComponent,
-        title: mainPageTitleResolver,
+        canActivate: [
+          weatherConditionsPreloadingGuard({
+            preloadingStrategy:
+              ENVIRONMENT.WEATHER_CONDITIONS_PRELOADING_STRATEGY,
+          }),
+        ],
+        children: [
+          {
+            path: '',
+            component: MainPageComponent,
+            title: mainPageTitleResolver,
+          },
+          {
+            path: `:${PathParams.ZIPCODE}`,
+            component: MainPageComponent,
+            title: mainPageTitleResolver,
+          },
+          { path: Paths.WILDCARD, redirectTo: '' },
+        ],
       },
       {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,

@@ -17,10 +17,14 @@ import {
   TabLazyContentTemplateDirective,
   TabsViewComponent,
 } from '@ui/tabs';
-import { ZipcodeAndCity } from '@features/data-access/types';
+import {
+  WeatherConditionsPreloadingStrategy,
+  ZipcodeAndCity,
+} from '@features/data-access/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
 import { ToastsService } from '@ui/toasts/services/toasts.service';
+import { ENVIRONMENT } from '@environments/environment';
 
 @Component({
   selector: 'app-main-page',
@@ -38,7 +42,11 @@ import { ToastsService } from '@ui/toasts/services/toasts.service';
   ],
 })
 export class MainPageComponent {
-  protected readonly LAZY_LOADED_TABS: boolean = false;
+  private readonly PRELOADING_STRATEGY: WeatherConditionsPreloadingStrategy =
+    ENVIRONMENT.WEATHER_CONDITIONS_PRELOADING_STRATEGY;
+
+  protected readonly LAZY_LOADED_TABS: boolean =
+    this.PRELOADING_STRATEGY === 'on-demand-data-fetching';
 
   private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
