@@ -1,9 +1,10 @@
 <div class="mb-8">
-  @if (data.forecast; as forecast) {
+  @if (data.forecast) {
     <div class="app-panel">
       <div class="-m-4 p-4 mb-2 bg-white rounded-t border-b-2 border-slate-200">
         <h3>
-          {{ forecast.list.length }}-day forecast for {{ forecast.city.name }}
+          {{ data.forecast.list.length }}-day forecast for
+          {{ data.forecast.city.name }} ({{ data.zipcode }})
         </h3>
       </div>
 
