@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { ChevronLeftComponent } from '@ui/icons/chevron-left';
 import { ChevronRightComponent } from '@ui/icons/chevron-right';
-import { ResizeObserverDirective } from '@ui/directives/resize-observer.directive';
+import { ResizeObserverDirective } from '@ui/directives';
 import { TabComponent } from '../tab';
 import { TabId } from '../../types';
 
