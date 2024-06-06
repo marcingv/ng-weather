@@ -8,7 +8,8 @@
         @if (LAZY_LOADED_TABS) {
           <app-tab
             [tabId]="location.zipcode"
-            [label]="location.city + ' (' + location.zipcode + ')'">
+            [label]="location.city + ' (' + location.zipcode + ')'"
+            (tabRemoved)="onTabRemoved(location.zipcode)">
             <ng-template appTabLazyContentTemplate>
               <app-current-conditions
                 [zipcode]="location.zipcode"></app-current-conditions>

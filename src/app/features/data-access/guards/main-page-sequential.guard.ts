@@ -1,6 +1,7 @@
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
+  RedirectCommand,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -13,6 +14,8 @@ import {
   ZipcodeAndCity,
 } from '@features/data-access/types';
 import { weatherConditionsPreloadingGuard } from './weather-conditions-preloading.guard';
+import { ZipCode } from '@core/types';
+import { PathParams } from '@core/router/path-params';
 
 interface GuardOptions {
   preloadingStrategy: WeatherConditionsPreloadingStrategy;
@@ -25,6 +28,21 @@ export const mainPageSequentialGuard: (
   options: GuardOptions
 ) => CanActivateFn = (options: GuardOptions) => {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    const zipcode: ZipCode | undefined = getZipcode(route);
+    const userLocations: ZipcodeAndCity[] = getUserLocations();
+
+    if (zipcode && !userLocations.length) {
+      // We don't have any location - redirect user to root url
+      const router = inject(Router);
+
+      return new RedirectCommand(router.parseUrl(Paths.ROOT));
+    }
+
+    if (!userLocations.length) {
+      // We don't have zipcode nor locations - allow access
+      return true;
+    }
+
     const doesUserLocationExist = executeUserLocationExistGuard(
       options,
       route,
@@ -40,6 +58,20 @@ export const mainPageSequentialGuard: (
   };
 };
 
+const executeUserLocationExistGuard = (
+  options: GuardOptions,
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const doesUserLocationExistGuard = userLocationExistGuard({
+    canAccessUnknownLocations: false,
+    displayToastOnError: false,
+    onErrorRedirectToUrl: createRedirectUrl(),
+  });
+
+  return doesUserLocationExistGuard(route, state);
+};
+
 const executeWeatherDataPreloadingGuard = (
   options: GuardOptions,
   route: ActivatedRouteSnapshot,
@@ -52,29 +84,32 @@ const executeWeatherDataPreloadingGuard = (
   return preloadingGuard(route, state);
 };
 
-const executeUserLocationExistGuard = (
-  options: GuardOptions,
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  // Build redirect URL to first user location
-  const router: Router = inject(Router);
-  const locationsService: LocationService = inject(LocationService);
-  const defaultLocation: ZipcodeAndCity | undefined =
-    locationsService.userLocations()[0];
+const getZipcode = (route: ActivatedRouteSnapshot): ZipCode | undefined => {
+  if (route.params[PathParams.ZIPCODE]) {
+    return route.params[PathParams.ZIPCODE];
+  }
 
-  const errorRedirectUrl: string = router
+  if (route.firstChild) {
+    return getZipcode(route.firstChild);
+  }
+
+  return undefined;
+};
+
+const getUserLocations = (): ZipcodeAndCity[] => {
+  const locationsService: LocationService = inject(LocationService);
+
+  return locationsService.userLocations();
+};
+
+const createRedirectUrl = (): string => {
+  const router: Router = inject(Router);
+  const defaultLocation: ZipcodeAndCity | undefined = getUserLocations()[0];
+
+  return router
     .createUrlTree([
       Paths.ROOT,
       ...(defaultLocation ? [defaultLocation.zipcode] : []),
     ])
     .toString();
-
-  const doesUserLocationExistGuard = userLocationExistGuard({
-    canAccessUnknownLocations: false,
-    displayToastOnError: false,
-    onErrorRedirectToUrl: errorRedirectUrl,
-  });
-
-  return doesUserLocationExistGuard(route, state);
 };
