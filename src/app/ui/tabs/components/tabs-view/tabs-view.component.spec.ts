@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabsViewComponent } from './tabs-view.component';
 import { Component, DebugElement, signal } from '@angular/core';
-import { TabComponent } from '@ui/tabs';
+import { TabComponent } from '../tab';
 import { By } from '@angular/platform-browser';
 
 interface TabDescriptor {

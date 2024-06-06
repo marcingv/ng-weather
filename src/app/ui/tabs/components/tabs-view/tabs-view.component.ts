@@ -14,14 +14,14 @@ import {
   SimpleChange,
   SimpleChanges,
 } from '@angular/core';
-import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
 import { TabId } from '../../types';
-import { TabsNavigationComponent } from '../tabs-navigation/tabs-navigation.component';
-import { TabsService } from '../../services/tabs.service';
+import { TabsNavigationComponent } from '../tabs-navigation';
+import { TabsService } from '../../services';
+import { TabComponent } from '../tab';
 
 @Component({
   selector: 'app-tabs-view',

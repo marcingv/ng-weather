@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { TabComponent } from '../components';
+import { TabComponent } from '../components/tab';
 import { TabId } from '../types';
 
 @Injectable()
