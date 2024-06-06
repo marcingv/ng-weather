@@ -8,14 +8,16 @@ import {
 import { userLocationExistGuard } from './user-location-exist.guard';
 import { Paths } from '@core/router/paths';
 import { inject } from '@angular/core';
-import { LocationService } from '@features/data-access/services';
 import {
   WeatherConditionsPreloadingStrategy,
   ZipcodeAndCity,
 } from '@features/data-access/types';
 import { weatherConditionsPreloadingGuard } from './weather-conditions-preloading.guard';
 import { ZipCode } from '@core/types';
-import { PathParams } from '@core/router/path-params';
+import {
+  getUserLocations,
+  getZipcodePathParam,
+} from '@features/data-access/utils/guard-and-resolvers.utils';
 
 interface GuardOptions {
   preloadingStrategy: WeatherConditionsPreloadingStrategy;
@@ -28,7 +30,7 @@ export const mainPageSequentialGuard: (
   options: GuardOptions
 ) => CanActivateFn = (options: GuardOptions) => {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    const zipcode: ZipCode | undefined = getZipcode(route);
+    const zipcode: ZipCode | undefined = getZipcodePathParam(route);
     const userLocations: ZipcodeAndCity[] = getUserLocations();
 
     if (zipcode && !userLocations.length) {
@@ -82,24 +84,6 @@ const executeWeatherDataPreloadingGuard = (
   });
 
   return preloadingGuard(route, state);
-};
-
-const getZipcode = (route: ActivatedRouteSnapshot): ZipCode | undefined => {
-  if (route.params[PathParams.ZIPCODE]) {
-    return route.params[PathParams.ZIPCODE];
-  }
-
-  if (route.firstChild) {
-    return getZipcode(route.firstChild);
-  }
-
-  return undefined;
-};
-
-const getUserLocations = (): ZipcodeAndCity[] => {
-  const locationsService: LocationService = inject(LocationService);
-
-  return locationsService.userLocations();
 };
 
 const createRedirectUrl = (): string => {

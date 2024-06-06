@@ -1,9 +1,10 @@
 import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
-import { inject } from '@angular/core';
-import { LocationService } from '@features/data-access/services';
 import { ZipCode } from '@core/types';
-import { PathParams } from '@core/router/path-params';
 import { ZipcodeAndCity } from '@features/data-access/types';
+import {
+  getUserLocationByZipcode,
+  getZipcodePathParam,
+} from '@features/data-access/utils/guard-and-resolvers.utils';
 
 declare type ZipcodeAndOptionalCity = Partial<ZipcodeAndCity> &
   Pick<ZipcodeAndCity, 'zipcode'>;
@@ -51,14 +52,13 @@ const formatLocation = (location: ZipcodeAndOptionalCity): string => {
 const getLocation = (
   route: ActivatedRouteSnapshot
 ): ZipcodeAndOptionalCity | undefined => {
-  const locationsService = inject(LocationService);
-  const zipcode: ZipCode | undefined = route.params[PathParams.ZIPCODE];
+  const zipcode: ZipCode | undefined = getZipcodePathParam(route);
   if (!zipcode) {
     return undefined;
   }
 
   const location: ZipcodeAndCity | undefined =
-    locationsService.findLocationByZipcode(zipcode);
+    getUserLocationByZipcode(zipcode);
 
   return location ? location : { zipcode: zipcode };
 };

@@ -3,10 +3,10 @@ import { ResolvedLocationForecast } from '@features/data-access/types';
 import { catchError, map, Observable, of } from 'rxjs';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import { inject } from '@angular/core';
-import { PathParams } from '@core/router/path-params';
 import { Forecast, ZipCode } from '@core/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ENVIRONMENT } from '@environments/environment';
+import { getZipcodePathParam } from '@features/data-access/utils/guard-and-resolvers.utils';
 
 const NOT_FOUND_MESSAGE: string =
   'Location with specified Zip Code does not exist.';
@@ -23,7 +23,7 @@ export const locationForecastResolver: (
     route: ActivatedRouteSnapshot
   ): Observable<ResolvedLocationForecast> => {
     const api: WeatherApiService = inject(WeatherApiService);
-    const zipcode: ZipCode | undefined = route.params[PathParams.ZIPCODE];
+    const zipcode: ZipCode | undefined = getZipcodePathParam(route);
 
     if (!zipcode) {
       return of({

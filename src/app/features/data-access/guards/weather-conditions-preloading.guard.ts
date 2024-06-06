@@ -5,13 +5,13 @@ import {
   ZipcodeAndCity,
 } from '@features/data-access/types';
 import { ZipCode } from '@core/types';
-import { PathParams } from '@core/router/path-params';
 import { inject } from '@angular/core';
-import {
-  LocationService,
-  WeatherService,
-} from '@features/data-access/services';
+import { WeatherService } from '@features/data-access/services';
 import { catchError, forkJoin, map, Observable, of } from 'rxjs';
+import {
+  getUserLocations,
+  getZipcodePathParam,
+} from '@features/data-access/utils/guard-and-resolvers.utils';
 
 interface GuardOptions {
   preloadingStrategy: WeatherConditionsPreloadingStrategy;
@@ -33,7 +33,7 @@ const loadWeatherConditionsLazily = (
   route: ActivatedRouteSnapshot
 ): Observable<true> => {
   const weatherService: WeatherService = inject(WeatherService);
-  const currentZipcode: ZipCode | undefined = getZipcode(route);
+  const currentZipcode: ZipCode | undefined = getZipcodePathParam(route);
   const userLocations: ZipcodeAndCity[] = getUserLocations();
   const userLocationsZipcodes: ZipCode[] = userLocations.map(
     (oneLocation: ZipcodeAndCity) => oneLocation.zipcode
@@ -96,22 +96,4 @@ const loadWeatherConditionsEagerly = (): Observable<true> => {
   });
 
   return forkJoin(requests$).pipe(map((): true => true));
-};
-
-const getZipcode = (route: ActivatedRouteSnapshot): ZipCode | undefined => {
-  if (route.params[PathParams.ZIPCODE]) {
-    return route.params[PathParams.ZIPCODE];
-  }
-
-  if (route.firstChild) {
-    return getZipcode(route.firstChild);
-  }
-
-  return undefined;
-};
-
-const getUserLocations = (): ZipcodeAndCity[] => {
-  const locations: LocationService = inject(LocationService);
-
-  return locations.userLocations();
 };
