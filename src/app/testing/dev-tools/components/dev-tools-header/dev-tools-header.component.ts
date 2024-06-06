@@ -16,6 +16,7 @@ import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
 import { tadaAnimation } from 'angular-animations';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, tap } from 'rxjs';
+import { TimeSpanPipe } from '@ui/pipes';
 
 @Component({
   selector: 'app-dev-tools-header',
@@ -26,6 +27,7 @@ import { distinctUntilChanged, tap } from 'rxjs';
     ChevronDownComponent,
     ChevronUpComponent,
     ButtonDirective,
+    TimeSpanPipe,
   ],
   templateUrl: './dev-tools-header.component.html',
   styleUrl: './dev-tools-header.component.css',
