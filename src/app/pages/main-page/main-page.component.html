@@ -5,13 +5,24 @@
   @if (userLocations().length) {
     <app-tabs-view [(activeTabId)]="zipcode">
       @for (location of userLocations(); track location) {
-        <app-tab
-          [tabId]="location.zipcode"
-          [label]="location.city + ' (' + location.zipcode + ')'"
-          (tabRemoved)="onTabRemoved(location.zipcode)">
-          <app-current-conditions
-            [zipcode]="location.zipcode"></app-current-conditions>
-        </app-tab>
+        @if (LAZY_LOADED_TABS) {
+          <app-tab
+            [tabId]="location.zipcode"
+            [label]="location.city + ' (' + location.zipcode + ')'">
+            <ng-template appTabLazyContentTemplate>
+              <app-current-conditions
+                [zipcode]="location.zipcode"></app-current-conditions>
+            </ng-template>
+          </app-tab>
+        } @else {
+          <app-tab
+            [tabId]="location.zipcode"
+            [label]="location.city + ' (' + location.zipcode + ')'"
+            (tabRemoved)="onTabRemoved(location.zipcode)">
+            <app-current-conditions
+              [zipcode]="location.zipcode"></app-current-conditions>
+          </app-tab>
+        }
       }
     </app-tabs-view>
   } @else {
