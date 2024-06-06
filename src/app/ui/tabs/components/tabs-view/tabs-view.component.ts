@@ -7,9 +7,12 @@ import {
   effect,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
   QueryList,
   signal,
+  SimpleChange,
+  SimpleChanges,
 } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 import { tap } from 'rxjs';
@@ -32,12 +35,12 @@ import { TabsNavigationComponent } from '@ui/tabs/components/tabs-navigation/tab
   styleUrl: './tabs-view.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabsViewComponent implements AfterViewInit {
-  @Input() public activeTabId?: TabId;
+export class TabsViewComponent implements OnChanges, AfterViewInit {
   @Input() public autoScrollToTabs: boolean = true;
   @Input() public showNavigationButtons: boolean = true;
   @Input() public autoShowNavigationButtons: boolean = true;
 
+  @Input() public activeTabId?: TabId;
   @Output() public activeTabIdChange = new EventEmitter<TabId | undefined>();
 
   @ContentChildren(TabComponent) private declaredTabs!: QueryList<TabComponent>;
@@ -53,8 +56,21 @@ export class TabsViewComponent implements AfterViewInit {
   public constructor() {
     effect((): void => {
       this.activeTabId = this.activeTab()?.tabId;
-      this.activeTabIdChange.next(this.activeTab()?.tabId);
+      this.activeTabIdChange.next(this.activeTabId);
     });
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const activeTabIdChange: SimpleChange | undefined = changes['activeTabId'];
+    if (activeTabIdChange && activeTabIdChange.currentValue) {
+      const tab: TabComponent | undefined = this.getTabById(
+        activeTabIdChange.currentValue
+      );
+
+      if (tab && tab !== this.activeTab()) {
+        this.activeTab.set(tab);
+      }
+    }
   }
 
   public ngAfterViewInit(): void {
