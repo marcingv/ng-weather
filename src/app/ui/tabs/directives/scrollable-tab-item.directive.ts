@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { TabId } from '@ui/tabs';
+import { TabId } from '../types';
 
 @Directive({
   selector: '[appScrollableTabItem]',

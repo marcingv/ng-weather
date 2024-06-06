@@ -14,6 +14,7 @@ import { EmptyCollectionPlaceholderComponent } from '@ui/placeholders/empty-coll
 import {
   TabComponent,
   TabLabelTemplateDirective,
+  TabLazyContentTemplateDirective,
   TabsViewComponent,
 } from '@ui/tabs';
 import { ZipcodeAndCity } from '@features/data-access/types';
@@ -33,9 +34,12 @@ import { ToastsService } from '@ui/toasts/services/toasts.service';
     TabsViewComponent,
     TabComponent,
     TabLabelTemplateDirective,
+    TabLazyContentTemplateDirective,
   ],
 })
 export class MainPageComponent {
+  protected readonly LAZY_LOADED_TABS: boolean = false;
+
   private readonly router: Router = inject(Router);
   private readonly locationsService: LocationService = inject(LocationService);
   private readonly toastsService: ToastsService | null = inject(ToastsService, {

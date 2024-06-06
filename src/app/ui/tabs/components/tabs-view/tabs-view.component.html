@@ -5,10 +5,10 @@
     [autoScrollToTabs]="autoScrollToTabs"
     [showNavigationButtons]="showNavigationButtons"
     [autoShowNavigationButtons]="autoShowNavigationButtons"
-    (openTab)="onOpenTab($event)"
-    (closeTab)="onCloseTab($event)"
-    (goToPrevTab)="goToPrevTab()"
-    (goToNextTab)="goToNextTab()"></app-tabs-navigation>
+    (openTab)="tabsService.openTab($event)"
+    (closeTab)="tabsService.closeTab($event)"
+    (goToPrevTab)="tabsService.goToPrevTab()"
+    (goToNextTab)="tabsService.goToNextTab()"></app-tabs-navigation>
 
   <div class="tabs-panels">
     <ng-content></ng-content>

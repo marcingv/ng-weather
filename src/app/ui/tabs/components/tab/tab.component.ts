@@ -9,7 +9,10 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { TabLabelTemplateDirective } from '../../directives';
+import {
+  TabLabelTemplateDirective,
+  TabLazyContentTemplateDirective,
+} from '../../directives';
 import { NgTemplateOutlet } from '@angular/common';
 import { TabId } from '../../types';
 
@@ -31,6 +34,9 @@ export class TabComponent {
 
   @ContentChild(TabLabelTemplateDirective, { static: true })
   public labelTemplate?: TabLabelTemplateDirective;
+
+  @ContentChild(TabLazyContentTemplateDirective, { static: true })
+  public lazyContentTemplate?: TabLazyContentTemplateDirective;
 
   protected activeSignal: WritableSignal<boolean> = signal<boolean>(false);
   protected removedSignal: WritableSignal<boolean> = signal<boolean>(false);
