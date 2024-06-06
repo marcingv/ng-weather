@@ -39,8 +39,18 @@ describe('PageTitlesResolvers', () => {
     route = routeSpy as ActivatedRouteSnapshot;
     state = stateSpy as RouterStateSnapshot;
 
-    locationsSpy = createSpyObj<LocationService>(['userLocations']);
+    locationsSpy = createSpyObj<LocationService>([
+      'userLocations',
+      'findLocationByZipcode',
+    ]);
     locationsSpy.userLocations.and.returnValue(KNOWN_LOCATIONS);
+    locationsSpy.findLocationByZipcode.and.callFake(
+      (zipcode: ZipCode): ZipcodeAndCity | undefined => {
+        return KNOWN_LOCATIONS.find(
+          oneLocation => oneLocation.zipcode === zipcode
+        );
+      }
+    );
   });
 
   describe('Main Page Titles', () => {

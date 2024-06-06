@@ -9,6 +9,8 @@ import {
   locationForecastResolver,
   mainPageTitleResolver,
 } from '@features/data-access/resolvers';
+import { locationForecastGuard } from '@features/data-access/guards';
+import { ENVIRONMENT } from '@environments/environment';
 
 export const appRoutes: Routes = [
   {
@@ -28,6 +30,12 @@ export const appRoutes: Routes = [
       {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,
         component: ForecastDetailsPageComponent,
+        canActivate: [
+          locationForecastGuard({
+            canAccessUnknownLocations:
+              ENVIRONMENT.ALLOW_FORECAST_ACCESS_TO_UNKNOWN_LOCATIONS,
+          }),
+        ],
         resolve: {
           data: locationForecastResolver(),
         },

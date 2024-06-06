@@ -51,15 +51,14 @@ const formatLocation = (location: ZipcodeAndOptionalCity): string => {
 const getLocation = (
   route: ActivatedRouteSnapshot
 ): ZipcodeAndOptionalCity | undefined => {
-  const locationService = inject(LocationService);
+  const locationsService = inject(LocationService);
   const zipcode: ZipCode | undefined = route.params[PathParams.ZIPCODE];
   if (!zipcode) {
     return undefined;
   }
 
-  const location = locationService
-    .userLocations()
-    .find(oneLocation => oneLocation.zipcode === zipcode);
+  const location: ZipcodeAndCity | undefined =
+    locationsService.findLocationByZipcode(zipcode);
 
   return location ? location : { zipcode: zipcode };
 };
