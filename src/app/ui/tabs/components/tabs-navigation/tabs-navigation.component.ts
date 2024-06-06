@@ -12,11 +12,10 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { TabComponent, TabId } from '@ui/tabs';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { ScrollableTabItemDirective } from '@ui/tabs/directives/scrollable-tab-item.directive';
+import { ScrollableTabItemDirective } from '../../directives/scrollable-tab-item.directive';
 import {
   BehaviorSubject,
   combineLatestWith,
@@ -32,6 +31,8 @@ import {
 import { ChevronLeftComponent } from '@ui/icons/chevron-left';
 import { ChevronRightComponent } from '@ui/icons/chevron-right';
 import { ResizeObserverDirective } from '@ui/directives/resize-observer.directive';
+import { TabComponent } from '../tab/tab.component';
+import { TabId } from '@ui/tabs/types';
 
 @Component({
   selector: 'app-tabs-navigation',
