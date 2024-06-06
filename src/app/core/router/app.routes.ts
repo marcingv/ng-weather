@@ -9,9 +9,14 @@ import {
   locationForecastResolver,
   mainPageTitleResolver,
 } from '@features/data-access/resolvers';
-import { locationForecastGuard } from '@features/data-access/guards';
+import {
+  mainPageSequentialGuard,
+  userLocationExistGuard,
+} from '@features/data-access/guards';
 import { ENVIRONMENT } from '@environments/environment';
-import { weatherConditionsPreloadingGuard } from '@features/data-access/guards/weather-conditions-preloading.guard';
+
+const CANNOT_ACCESS_UNKNOWN_USER_LOCATION: string =
+  'You have to first add zipcode location to be able to see the forecast.';
 
 export const appRoutes: Routes = [
   {
@@ -21,7 +26,7 @@ export const appRoutes: Routes = [
       {
         path: '',
         canActivate: [
-          weatherConditionsPreloadingGuard({
+          mainPageSequentialGuard({
             preloadingStrategy:
               ENVIRONMENT.WEATHER_CONDITIONS_PRELOADING_STRATEGY,
           }),
@@ -37,16 +42,17 @@ export const appRoutes: Routes = [
             component: MainPageComponent,
             title: mainPageTitleResolver,
           },
-          { path: Paths.WILDCARD, redirectTo: '' },
         ],
       },
       {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,
         component: ForecastDetailsPageComponent,
         canActivate: [
-          locationForecastGuard({
+          userLocationExistGuard({
             canAccessUnknownLocations:
               ENVIRONMENT.ALLOW_FORECAST_ACCESS_TO_UNKNOWN_LOCATIONS,
+            errorMessage: CANNOT_ACCESS_UNKNOWN_USER_LOCATION,
+            displayToastOnError: true,
           }),
         ],
         resolve: {

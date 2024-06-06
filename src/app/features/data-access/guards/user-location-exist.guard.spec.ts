@@ -7,7 +7,7 @@ import {
   RedirectCommand,
   RouterStateSnapshot,
 } from '@angular/router';
-import { locationForecastGuard } from './location-forecast.guard';
+import { userLocationExistGuard } from './user-location-exist.guard';
 import { LocationService } from '@features/data-access/services';
 import { ZipcodeAndCity } from '@features/data-access/types';
 import { ZipCode } from '@core/types';
@@ -17,7 +17,7 @@ import { Paths } from '@core/router/paths';
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
 
-describe('locationForecastGuard', () => {
+describe('userLocationExistGuard', () => {
   let locationsSpy: SpyObj<LocationService>;
   let toastsServiceSpy: SpyObj<ToastsService>;
 
@@ -71,7 +71,7 @@ describe('locationForecastGuard', () => {
 
       guard = (...guardParameters) =>
         TestBed.runInInjectionContext(() =>
-          locationForecastGuard({ canAccessUnknownLocations: false })(
+          userLocationExistGuard({ canAccessUnknownLocations: false })(
             ...guardParameters
           )
         );
@@ -116,7 +116,7 @@ describe('locationForecastGuard', () => {
 
       guard = (...guardParameters) =>
         TestBed.runInInjectionContext(() =>
-          locationForecastGuard({
+          userLocationExistGuard({
             canAccessUnknownLocations: false,
             onErrorRedirectToUrl: customRedirectPath,
           })(...guardParameters)
@@ -154,7 +154,7 @@ describe('locationForecastGuard', () => {
 
       guard = (...guardParameters) =>
         TestBed.runInInjectionContext(() =>
-          locationForecastGuard({ canAccessUnknownLocations: true })(
+          userLocationExistGuard({ canAccessUnknownLocations: true })(
             ...guardParameters
           )
         );

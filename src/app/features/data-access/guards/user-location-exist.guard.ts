@@ -14,26 +14,29 @@ import { LocationService } from '@features/data-access/services';
 import { ToastsService } from '@ui/toasts/services/toasts.service';
 import { Paths } from '@core/router/paths';
 
-const CANNOT_ACCESS_UNKNOWN_USER_LOCATION =
-  'You have to first add zipcode location to be able to see the forecast.';
+const DEFAULT_ERROR_MESSAGE: string =
+  'Specified zipcode location has not been added yet.';
 
 interface GuardOptions {
   canAccessUnknownLocations: boolean;
   onErrorRedirectToUrl?: string;
+  displayToastOnError?: boolean;
+  errorMessage?: string;
 }
 
-export const locationForecastGuard: (options: GuardOptions) => CanActivateFn = (
+export const userLocationExistGuard: (
   options: GuardOptions
-) => {
+) => CanActivateFn = (options: GuardOptions) => {
   return (route: ActivatedRouteSnapshot): GuardResult => {
     if (options.canAccessUnknownLocations) {
       return true;
     }
 
     const location: ZipcodeAndCity | undefined = getUserLocation(route);
+    if (!location && options.displayToastOnError !== false) {
+      showErrorToast(options.errorMessage ?? DEFAULT_ERROR_MESSAGE);
+    }
     if (!location) {
-      showErrorToast(CANNOT_ACCESS_UNKNOWN_USER_LOCATION);
-
       return createRedirectCommand(options);
     }
 
@@ -42,7 +45,15 @@ export const locationForecastGuard: (options: GuardOptions) => CanActivateFn = (
 };
 
 const getZipcode = (route: ActivatedRouteSnapshot): ZipCode | undefined => {
-  return route.params[PathParams.ZIPCODE];
+  if (route.params[PathParams.ZIPCODE]) {
+    return route.params[PathParams.ZIPCODE];
+  }
+
+  if (route.firstChild) {
+    return getZipcode(route.firstChild);
+  }
+
+  return undefined;
 };
 
 const getUserLocation = (
