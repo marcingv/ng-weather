@@ -29,6 +29,14 @@ export class ToastsService {
     this.hideAfterTimeout(message);
   }
 
+  public showWithDelay(message: ToastMessage, delayMs: number = 300): void {
+    this.zone.runOutsideAngular((): void => {
+      setTimeout((): void => {
+        this.show(message);
+      }, delayMs);
+    });
+  }
+
   private remove(message: ToastMessage): void {
     const updatedMessages: ToastMessage[] = this.messages$.value.slice();
     const idx = updatedMessages.indexOf(message);

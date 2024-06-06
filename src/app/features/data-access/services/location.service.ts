@@ -22,6 +22,12 @@ export class LocationService {
     return this.userLocationsSignal.asReadonly();
   }
 
+  public findLocationByZipcode(zipcode: ZipCode): ZipcodeAndCity | undefined {
+    return this.userLocations().find(
+      (oneLocation: ZipcodeAndCity): boolean => oneLocation.zipcode === zipcode
+    );
+  }
+
   public addLocation(location: ZipcodeAndCity): void {
     this.userLocationsSignal.update((prev: ZipcodeAndCity[]) => {
       if (prev.find(oneEntry => oneEntry.zipcode === location.zipcode)) {

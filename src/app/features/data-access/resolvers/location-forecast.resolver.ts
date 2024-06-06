@@ -8,8 +8,10 @@ import { Forecast, ZipCode } from '@core/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ENVIRONMENT } from '@environments/environment';
 
-const NOT_FOUND_MESSAGE = 'Location with specified Zip Code does not exist.';
-const FETCH_ERROR_MESSAGE =
+const NOT_FOUND_MESSAGE: string =
+  'Location with specified Zip Code does not exist.';
+
+const FETCH_ERROR_MESSAGE: string =
   "Could not fetch location's forecast. Try again later.";
 
 export const locationForecastResolver: (
@@ -21,7 +23,7 @@ export const locationForecastResolver: (
     route: ActivatedRouteSnapshot
   ): Observable<ResolvedLocationForecast> => {
     const api: WeatherApiService = inject(WeatherApiService);
-    const zipcode: ZipCode | null = route.paramMap.get(PathParams.ZIPCODE);
+    const zipcode: ZipCode | undefined = route.params[PathParams.ZIPCODE];
 
     if (!zipcode) {
       return of({
