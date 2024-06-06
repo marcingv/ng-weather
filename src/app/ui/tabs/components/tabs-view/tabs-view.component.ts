@@ -69,6 +69,7 @@ export class TabsViewComponent implements OnChanges, AfterViewInit {
 
       if (tab && tab !== this.activeTab()) {
         this.activeTab.set(tab);
+        this.openTab(tab);
       }
     }
   }
