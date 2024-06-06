@@ -3,6 +3,7 @@ import {
   HostBinding,
   inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   signal,
@@ -15,7 +16,9 @@ import { LocalStorageCacheService } from '@core/cache/services';
   selector: '[appCacheEntryFreshIndicator]',
   standalone: true,
 })
-export class CacheEntryFreshIndicatorDirective implements OnInit, OnDestroy {
+export class CacheEntryFreshIndicatorDirective
+  implements OnInit, OnChanges, OnDestroy
+{
   private readonly UPDATE_INTERVAL_MS: number = 1000;
 
   private cacheService = inject(LocalStorageCacheService);
@@ -54,6 +57,10 @@ export class CacheEntryFreshIndicatorDirective implements OnInit, OnDestroy {
     this.updateTimeout = setInterval((): void => {
       this.isFresh?.set(this.isEntryFresh());
     }, this.UPDATE_INTERVAL_MS);
+  }
+
+  public ngOnChanges(): void {
+    this.isFresh?.set(this.isEntryFresh());
   }
 
   public ngOnDestroy(): void {

@@ -28,14 +28,22 @@
       <div class="text-xs" title="Cache timespan">
         <span>Cache lifespan: </span>
         <span class="inline-flex font-normal bg-slate-300 px-2 py-1 rounded">
-          {{ cacheLifespanInSeconds() | number }} secs
+          {{ cacheLifespan() | timeSpan }}
         </span>
       </div>
 
       <div class="text-xs" title="Cached entries count">
         <span>Cached entries: </span>
+
         <span
-          class="inline-flex font-bold bg-red-500 text-white px-2 py-1 rounded">
+          [@tada]="animateCacheCounter()"
+          (@tada.start)="onCounterAnimationStart()"
+          (@tada.done)="onCounterAnimationDone()"
+          [ngClass]="{
+            'bg-slate-700': !isAnimatingCounter(),
+            'bg-slate-500': isAnimatingCounter(),
+          }"
+          class="inline-flex font-bold transition-all duration-500 text-white px-2 py-1 rounded">
           {{ cachedItemsCount() | number }}
         </span>
       </div>

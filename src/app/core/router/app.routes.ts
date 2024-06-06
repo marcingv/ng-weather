@@ -4,7 +4,11 @@ import { PathParams } from './path-params';
 import { Paths } from './paths';
 import { MainLayoutComponent } from '@ui/layouts/main-layout';
 import { ForecastDetailsPageComponent } from '@pages/forecast-details-page';
-import { locationForecastResolver } from '@features/data-access/resolvers';
+import {
+  forecastPageTitleResolver,
+  locationForecastResolver,
+  mainPageTitleResolver,
+} from '@features/data-access/resolvers';
 
 export const appRoutes: Routes = [
   {
@@ -14,10 +18,12 @@ export const appRoutes: Routes = [
       {
         path: '',
         component: MainPageComponent,
+        title: mainPageTitleResolver,
       },
       {
         path: `:${PathParams.ZIPCODE}`,
         component: MainPageComponent,
+        title: mainPageTitleResolver,
       },
       {
         path: `${Paths.FORECAST}/:${PathParams.ZIPCODE}`,
@@ -25,6 +31,7 @@ export const appRoutes: Routes = [
         resolve: {
           data: locationForecastResolver(),
         },
+        title: forecastPageTitleResolver,
       },
       {
         path: Paths.WILDCARD,
