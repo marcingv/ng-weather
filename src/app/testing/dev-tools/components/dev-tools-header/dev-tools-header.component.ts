@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   model,
-  ModelSignal,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -40,16 +38,11 @@ import { TimeSpanPipe } from '@ui/pipes';
   ],
 })
 export class DevToolsHeaderComponent {
-  private readonly ONE_SECOND_MILLIS: number = 1000;
-
   private devToolsService = inject(DevToolsService);
 
   public readonly cachedItemsCount = this.devToolsService.cachedItemsCount;
   public readonly cacheLifespan = this.devToolsService.cacheLifespan;
-  public readonly cacheLifespanInSeconds = computed(
-    () => this.cacheLifespan() / this.ONE_SECOND_MILLIS
-  );
-  public readonly open: ModelSignal<boolean> = model<boolean>(false);
+  public readonly open = model<boolean>(false);
 
   protected readonly animateCacheCounter = signal<boolean>(false);
   protected readonly isAnimatingCounter = signal<boolean>(false);

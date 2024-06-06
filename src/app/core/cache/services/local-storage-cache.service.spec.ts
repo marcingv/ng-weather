@@ -95,7 +95,7 @@ describe('LocalStorageCacheService', (): void => {
       expect(cacheEntry?.data).toEqual(data);
     });
 
-    describe('Identyfing fresh & stale cache entries', (): void => {
+    describe('Identifying fresh & stale cache entries', (): void => {
       beforeEach(() => {
         jasmine.clock().install();
       });

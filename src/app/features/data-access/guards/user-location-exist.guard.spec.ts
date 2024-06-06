@@ -103,7 +103,7 @@ describe('userLocationExistGuard', () => {
 
   describe('Guard with custom error redirect path', () => {
     let guard: CanActivateFn;
-    const customRedirectPath: string = '/my/custor/error/path';
+    const customRedirectPath: string = '/my/custom/error/path';
 
     beforeEach((): void => {
       TestBed.configureTestingModule({

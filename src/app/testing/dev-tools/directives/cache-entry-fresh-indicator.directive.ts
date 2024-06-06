@@ -49,7 +49,7 @@ export class CacheEntryFreshIndicatorDirective
     return this.isFresh() ? 'Fresh entry' : 'Stale entry';
   }
 
-  private updateTimeout?: number;
+  private updateTimeout?: ReturnType<typeof setInterval>;
 
   public ngOnInit(): void {
     this.isFresh = signal<boolean>(this.isEntryFresh());

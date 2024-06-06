@@ -5,9 +5,6 @@
     @apply flex flex-row gap-1 relative;
     margin: 0 calc(var(--navigation-btn-space));
 }
-.tabs-navigation.with-buttons {
-    margin: 0 calc(var(--navigation-btn-space));
-}
 
 .tabs-navigation__list-wrapper {
     @apply flex-1 overflow-x-auto scrollbar-none
