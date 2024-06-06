@@ -1,5 +1,5 @@
 import { BrowserStorage } from '@core/storage';
-import { map, Observable, of, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { CacheEntry } from '@core/cache/types/cache-entry';
 import {
   computed,
@@ -62,10 +62,6 @@ export abstract class BrowserCache {
     cacheKey: CacheEntryKey
   ): Observable<CacheEntry<T> | null> {
     return of((this.cacheData().entries[cacheKey] as CacheEntry<T>) ?? null);
-  }
-
-  public get<T>(cacheKey: CacheEntryKey): Observable<T | null> {
-    return this.getEntry<T>(cacheKey).pipe(map(entry => entry?.data ?? null));
   }
 
   public set<T>(cacheKey: CacheEntryKey, data: T): void {
