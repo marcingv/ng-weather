@@ -21,6 +21,7 @@ You can run unit tests and linting using following commands:
 
 ```bash
 npm run test # run unit tests
+npm run e2e # run e2e test
 npm run lint # run lint checks
 ```
 
