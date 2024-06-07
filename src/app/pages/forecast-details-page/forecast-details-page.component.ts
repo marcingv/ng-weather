@@ -33,6 +33,6 @@ export class ForecastDetailsPageComponent implements OnChanges {
   public fallbackBackUrl?: CustomGoBackNavigationLink;
 
   public ngOnChanges(): void {
-    this.fallbackBackUrl = [Paths.ROOT, this.data.zipcode];
+    this.fallbackBackUrl = [Paths.ROOT, Paths.WEATHER, this.data.zipcode];
   }
 }

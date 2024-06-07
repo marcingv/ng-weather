@@ -60,13 +60,7 @@ export class MainPageComponent {
     this.locationsService.userLocations;
 
   public constructor() {
-    effect((): void => {
-      if (this.zipcode()) {
-        this.router.navigate([Paths.ROOT, this.zipcode()]);
-      } else {
-        this.router.navigate([Paths.ROOT]);
-      }
-    });
+    this.updateRouterUrlOnZipcodeChange();
   }
 
   public removeLocation(zipcode: ZipCode): void {
@@ -86,5 +80,15 @@ export class MainPageComponent {
         message: `${location.city} (${location.zipcode}) - location has been added!`,
       });
     }
+  }
+
+  private updateRouterUrlOnZipcodeChange(): void {
+    effect((): void => {
+      if (this.zipcode()) {
+        this.router.navigate([Paths.ROOT, Paths.WEATHER, this.zipcode()]);
+      } else {
+        this.router.navigate([Paths.ROOT, Paths.WEATHER]);
+      }
+    });
   }
 }

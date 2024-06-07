@@ -18,6 +18,7 @@ import { firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentConditionsFactory } from '@testing/factories';
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
+import { Paths } from '@core/router/paths';
 
 describe('mainPageSequentialGuard', (): void => {
   let guard: CanActivateFn;
@@ -115,7 +116,7 @@ describe('mainPageSequentialGuard', (): void => {
       expect(guardResult).toBeTruthy();
       expect(guardResult).toBeInstanceOf(RedirectCommand);
       expect((guardResult as RedirectCommand).redirectTo.toString()).toEqual(
-        `/${KNOWN_LOCATIONS[0].zipcode}`
+        `/${Paths.WEATHER}/${KNOWN_LOCATIONS[0].zipcode}`
       );
       expect(weatherServiceSpy.loadCurrentConditions).not.toHaveBeenCalled();
     });

@@ -24,7 +24,8 @@ export const appRoutes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: '',
+        path: Paths.WEATHER,
+        title: mainPageTitleResolver,
         canActivate: [
           mainPageSequentialGuard({
             preloadingStrategy:
@@ -34,8 +35,8 @@ export const appRoutes: Routes = [
         children: [
           {
             path: '',
-            component: MainPageComponent,
-            title: mainPageTitleResolver,
+            pathMatch: 'full',
+            redirectTo: `${Paths.ROOT}/${Paths.WEATHER}/`,
           },
           {
             path: `:${PathParams.ZIPCODE}`,
@@ -62,7 +63,7 @@ export const appRoutes: Routes = [
       },
       {
         path: Paths.WILDCARD,
-        redirectTo: '',
+        redirectTo: '/' + Paths.WEATHER,
       },
     ],
   },

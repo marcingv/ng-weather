@@ -93,6 +93,7 @@ const createRedirectUrl = (): string => {
   return router
     .createUrlTree([
       Paths.ROOT,
+      Paths.WEATHER,
       ...(defaultLocation ? [defaultLocation.zipcode] : []),
     ])
     .toString();
