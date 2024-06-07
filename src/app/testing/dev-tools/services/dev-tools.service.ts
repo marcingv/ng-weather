@@ -70,6 +70,10 @@ export class DevToolsService {
     this.devToolsEnvManager.resetSettingsToDefaults();
   }
 
+  public clearCache(): void {
+    this.cacheService.clear();
+  }
+
   public overrideCacheLifespan(timeInMillis: number): void {
     this.devToolsEnvManager.settings.update(
       (prevSettings: DevToolsSettings) => {

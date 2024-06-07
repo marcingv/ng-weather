@@ -3,7 +3,6 @@ import {
   Component,
   inject,
   model,
-  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingsIconComponent } from '@ui/icons/settings-icon';
@@ -11,10 +10,8 @@ import { ChevronDownComponent } from '@ui/icons/chevron-down';
 import { ChevronUpComponent } from '@ui/icons/chevron-up';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
-import { tadaAnimation } from 'angular-animations';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged, tap } from 'rxjs';
 import { TimeSpanPipe } from '@ui/pipes';
+import { DevToolsCacheItemsCounterComponent } from '@testing/dev-tools/components/dev-tools-cache-items-counter/dev-tools-cache-items-counter.component';
 
 @Component({
   selector: 'app-dev-tools-header',
@@ -26,51 +23,19 @@ import { TimeSpanPipe } from '@ui/pipes';
     ChevronUpComponent,
     ButtonDirective,
     TimeSpanPipe,
+    DevToolsCacheItemsCounterComponent,
   ],
   templateUrl: './dev-tools-header.component.html',
   styleUrl: './dev-tools-header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    tadaAnimation({
-      direction: '=>',
-      duration: 700,
-    }),
-  ],
 })
 export class DevToolsHeaderComponent {
-  private devToolsService = inject(DevToolsService);
+  private devToolsService: DevToolsService = inject(DevToolsService);
 
-  public readonly cachedItemsCount = this.devToolsService.cachedItemsCount;
   public readonly cacheLifespan = this.devToolsService.cacheLifespan;
   public readonly open = model<boolean>(false);
 
-  protected readonly animateCacheCounter = signal<boolean>(false);
-  protected readonly isAnimatingCounter = signal<boolean>(false);
-
   protected toggleOpen(): void {
     this.open.update((isOpened: boolean) => !isOpened);
-  }
-
-  public constructor() {
-    this.setUpCounterAnimations();
-  }
-
-  private setUpCounterAnimations(): void {
-    toObservable(this.cachedItemsCount)
-      .pipe(
-        distinctUntilChanged(),
-        tap(() => this.animateCacheCounter.set(true)),
-        takeUntilDestroyed()
-      )
-      .subscribe();
-  }
-
-  protected onCounterAnimationStart(): void {
-    this.isAnimatingCounter.set(true);
-  }
-
-  protected onCounterAnimationDone(): void {
-    this.animateCacheCounter.set(false);
-    this.isAnimatingCounter.set(false);
   }
 }

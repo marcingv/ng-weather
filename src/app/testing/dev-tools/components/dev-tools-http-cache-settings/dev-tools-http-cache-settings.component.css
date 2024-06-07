@@ -1,5 +1,5 @@
 .dev-tools-cache__settings {
-    @apply flex flex-col gap-4 text-xs items-stretch;
+    @apply flex flex-col gap-4 text-xs items-stretch justify-between;
     @apply lg:flex-row;
 }
 
@@ -7,15 +7,11 @@
     @apply flex flex-row gap-4;
 }
 
-.dev-tools-cache__form button {
-    @apply gap-2 !ps-2 !pe-3 !py-2;
+.dev-tools-cache__settings button {
+    @apply gap-2 !p-2;
 }
 
 .dev-tools-cache__form input {
     @apply flex-1 text-xs py-2;
     @apply lg:min-w-44;
-}
-
-.dev-tools-cache__note {
-    @apply flex-1 px-4 py-2 bg-gray-50 text-gray-700 rounded;
 }

@@ -1,24 +1,51 @@
 <div class="dev-tools-cache__settings">
   <div class="dev-tools-cache__form">
-    <input
-      appFormControl
-      [formControl]="cacheLifespanCtrl"
-      min="0"
-      name="cacheLifespan"
-      type="number"
-      placeholder="Cache lifespan in milliseconds" />
+    <div class="flex flex-1 relative">
+      <input
+        appFormControl
+        [formControl]="cacheLifespanCtrl"
+        min="0"
+        name="cacheLifespan"
+        type="number"
+        placeholder="" />
+
+      <div class="absolute top-0 right-0 bottom-0 pointer-events-none">
+        <div
+          class="h-full flex flex-row gap-1 pe-10 items-center text-gray-500">
+          <span>Cache in</span>
+          <span class="font-normal underline">seconds</span>
+        </div>
+      </div>
+    </div>
 
     <button
       appButton="secondary"
       (click)="resetToDefaults()"
       title="Reset to default settings">
       <app-close-icon></app-close-icon>
-      <span>Reset</span>
     </button>
   </div>
 
-  <div class="dev-tools-cache__note">
-    Here you can modify cache lifespan in
-    <span class="font-normal underline">seconds</span>.
+  <div class="flex flex-row gap-4 items-center justify-between">
+    <div class="flex flex-row gap-4">
+      <div class="flex flex-row gap-2 items-center" title="Fresh entries">
+        <app-dev-tools-cache-items-counter
+          type="fresh"></app-dev-tools-cache-items-counter>
+        <span>Fresh</span>
+      </div>
+
+      <div class="flex flex-row gap-2 items-center" title="Stale entries">
+        <app-dev-tools-cache-items-counter
+          type="stale"></app-dev-tools-cache-items-counter>
+        <span>Stale</span>
+      </div>
+    </div>
+
+    <div>
+      <button appButton="secondary" title="Clear cache" (click)="clearCache()">
+        <app-no-symbol-icon></app-no-symbol-icon>
+        <span class="hidden md:inline">Clear</span>
+      </button>
+    </div>
   </div>
 </div>

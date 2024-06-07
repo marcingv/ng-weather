@@ -12,6 +12,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map, Observable, tap } from 'rxjs';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
+import { NoSymbolIconComponent } from '@ui/icons/no-symbol-icon';
+import { DevToolsCacheItemsCounterComponent } from '../dev-tools-cache-items-counter/dev-tools-cache-items-counter.component';
 
 @Component({
   selector: 'app-dev-tools-http-cache-settings',
@@ -21,6 +23,8 @@ import { CloseIconComponent } from '@ui/icons/close-icon';
     ReactiveFormsModule,
     ButtonDirective,
     CloseIconComponent,
+    NoSymbolIconComponent,
+    DevToolsCacheItemsCounterComponent,
   ],
   templateUrl: './dev-tools-http-cache-settings.component.html',
   styleUrl: './dev-tools-http-cache-settings.component.css',
@@ -77,5 +81,9 @@ export class DevToolsHttpCacheSettingsComponent {
 
   protected resetToDefaults(): void {
     this.devToolsService.resetSettingsToDefaults();
+  }
+
+  protected clearCache(): void {
+    this.devToolsService.clearCache();
   }
 }

@@ -37,7 +37,7 @@ export class CacheEntryFreshIndicatorDirective
     if (this.isFresh()) {
       return `${css} bg-green-500`;
     } else {
-      return `${css} bg-red-500`;
+      return `${css} bg-rose-500`;
     }
   }
 
