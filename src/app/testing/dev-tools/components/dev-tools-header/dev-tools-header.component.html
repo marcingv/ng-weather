@@ -32,20 +32,11 @@
         </span>
       </div>
 
-      <div class="text-xs" title="Cached entries count">
+      <div class="text-xs">
         <span>Cached entries: </span>
 
-        <span
-          [@tada]="animateCacheCounter()"
-          (@tada.start)="onCounterAnimationStart()"
-          (@tada.done)="onCounterAnimationDone()"
-          [ngClass]="{
-            'bg-slate-700': !isAnimatingCounter(),
-            'bg-slate-500': isAnimatingCounter(),
-          }"
-          class="inline-flex font-bold transition-all duration-500 text-white px-2 py-1 rounded">
-          {{ cachedItemsCount() | number }}
-        </span>
+        <app-dev-tools-cache-items-counter type="all">
+        </app-dev-tools-cache-items-counter>
       </div>
     </div>
   </div>

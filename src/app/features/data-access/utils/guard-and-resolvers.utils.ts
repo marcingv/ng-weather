@@ -4,7 +4,7 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ZipCode } from '@core/types';
 import { PathParams } from '@core/router/path-params';
-import { ToastsService } from '@ui/toasts/services/toasts.service';
+import { ToastsService } from '@ui/toasts';
 
 export const getZipcodePathParam = (
   route: ActivatedRouteSnapshot

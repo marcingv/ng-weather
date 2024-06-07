@@ -58,6 +58,16 @@ export abstract class BrowserCache {
     return this.count$;
   }
 
+  public freshEntriesCount(): number {
+    return this.cacheEntries().filter(oneEntry => this.isEntryFresh(oneEntry))
+      .length;
+  }
+
+  public staleEntriesCount(): number {
+    return this.cacheEntries().filter(oneEntry => this.isEntryStale(oneEntry))
+      .length;
+  }
+
   public getEntry<T>(
     cacheKey: CacheEntryKey
   ): Observable<CacheEntry<T> | null> {

@@ -23,13 +23,13 @@ import {
 } from '@features/data-access/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
-import { ToastsService } from '@ui/toasts/services/toasts.service';
+import { ToastsService } from '@ui/toasts';
 import { ENVIRONMENT } from '@environments/environment';
 
 @Component({
-  selector: 'app-main-page',
+  selector: 'app-weather-conditions-page',
   standalone: true,
-  templateUrl: './main-page.component.html',
+  templateUrl: './weather-conditions-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ZipcodeEntryComponent,
@@ -41,7 +41,7 @@ import { ENVIRONMENT } from '@environments/environment';
     TabLazyContentTemplateDirective,
   ],
 })
-export class MainPageComponent {
+export class WeatherConditionsPageComponent {
   private readonly PRELOADING_STRATEGY: WeatherConditionsPreloadingStrategy =
     ENVIRONMENT.WEATHER_CONDITIONS_PRELOADING_STRATEGY;
 
@@ -60,13 +60,7 @@ export class MainPageComponent {
     this.locationsService.userLocations;
 
   public constructor() {
-    effect((): void => {
-      if (this.zipcode()) {
-        this.router.navigate([Paths.ROOT, this.zipcode()]);
-      } else {
-        this.router.navigate([Paths.ROOT]);
-      }
-    });
+    this.updateRouterUrlOnZipcodeChange();
   }
 
   public removeLocation(zipcode: ZipCode): void {
@@ -86,5 +80,15 @@ export class MainPageComponent {
         message: `${location.city} (${location.zipcode}) - location has been added!`,
       });
     }
+  }
+
+  private updateRouterUrlOnZipcodeChange(): void {
+    effect((): void => {
+      if (this.zipcode()) {
+        this.router.navigate([Paths.ROOT, Paths.WEATHER, this.zipcode()]);
+      } else {
+        this.router.navigate([Paths.ROOT, Paths.WEATHER]);
+      }
+    });
   }
 }

@@ -6,7 +6,7 @@ import {
   RedirectCommand,
   RouterStateSnapshot,
 } from '@angular/router';
-import { mainPageSequentialGuard } from './main-page-sequential.guard';
+import { weatherConditionsPageGuard } from './weather-conditions-page.guard';
 import {
   LocationService,
   WeatherService,
@@ -18,8 +18,9 @@ import { firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentConditionsFactory } from '@testing/factories';
 import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
+import { Paths } from '@core/router/paths';
 
-describe('mainPageSequentialGuard', (): void => {
+describe('weatherConditionsPageGuard', (): void => {
   let guard: CanActivateFn;
 
   let locationsSpy: SpyObj<LocationService>;
@@ -61,7 +62,7 @@ describe('mainPageSequentialGuard', (): void => {
     weatherServiceSpy = createSpyObj<WeatherService>(['loadCurrentConditions']);
     weatherServiceSpy.loadCurrentConditions.and.callFake((zipcode: ZipCode) => {
       return of({
-        zip: zipcode,
+        zipcode: zipcode,
         data: CurrentConditionsFactory.createInstance(),
         isLoading: false,
         isLoadError: false,
@@ -80,7 +81,7 @@ describe('mainPageSequentialGuard', (): void => {
 
     guard = (...guardParameters) =>
       TestBed.runInInjectionContext(() =>
-        mainPageSequentialGuard({
+        weatherConditionsPageGuard({
           preloadingStrategy: 'on-demand-data-fetching',
         })(...guardParameters)
       );
@@ -115,7 +116,7 @@ describe('mainPageSequentialGuard', (): void => {
       expect(guardResult).toBeTruthy();
       expect(guardResult).toBeInstanceOf(RedirectCommand);
       expect((guardResult as RedirectCommand).redirectTo.toString()).toEqual(
-        `/${KNOWN_LOCATIONS[0].zipcode}`
+        `/${Paths.WEATHER}/${KNOWN_LOCATIONS[0].zipcode}`
       );
       expect(weatherServiceSpy.loadCurrentConditions).not.toHaveBeenCalled();
     });

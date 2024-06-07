@@ -15,7 +15,7 @@ export const PAGE_TITLES = {
   WEATHER_FORECAST: 'Forecast',
 };
 
-export const mainPageTitleResolver: ResolveFn<string> = (
+export const weatherConditionsPageTitleResolver: ResolveFn<string> = (
   route: ActivatedRouteSnapshot
 ): string => {
   const location: ZipcodeAndOptionalCity | undefined = getLocation(route);

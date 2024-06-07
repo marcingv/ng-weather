@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http/testing';
 import { CurrentConditions, Forecast, ZipCode } from '@core/types';
 import { ENVIRONMENT } from '@environments/environment';
+import { CurrentConditionsFactory, ForecastFactory } from '@testing/factories';
 
 describe('WeatherApiService', () => {
   let service: WeatherApiService;
@@ -40,7 +41,7 @@ describe('WeatherApiService', () => {
       httpTestingController.expectOne(expectedRequestUrl);
     expect(request.request.method).toEqual('GET');
 
-    request.flush({});
+    request.flush(CurrentConditionsFactory.createInstance());
     httpTestingController.verify();
 
     expect(fetchedData).not.toBeUndefined();
@@ -58,7 +59,7 @@ describe('WeatherApiService', () => {
       httpTestingController.expectOne(expectedRequestUrl);
     expect(request.request.method).toEqual('GET');
 
-    request.flush({});
+    request.flush(ForecastFactory.createInstance());
     httpTestingController.verify();
 
     expect(fetchedData).not.toBeUndefined();

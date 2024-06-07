@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DevToolsHttpCachePreviewComponent } from '@testing/dev-tools/components/dev-tools-http-cache-preview/dev-tools-http-cache-preview.component';
-import { DevToolsHttpCacheSettingsComponent } from '@testing/dev-tools/components/dev-tools-http-cache-settings/dev-tools-http-cache-settings.component';
+import { DevToolsHttpCachePreviewComponent } from '@testing/dev-tools/components/dev-tools-http-cache-preview';
+import { DevToolsHttpCacheSettingsComponent } from '@testing/dev-tools/components/dev-tools-http-cache-settings';
 
 @Component({
   selector: 'app-dev-tools-content',

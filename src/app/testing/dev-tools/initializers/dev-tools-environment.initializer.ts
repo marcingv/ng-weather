@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { DevToolsEnvManagerService } from '@testing/dev-tools/services/dev-tools-env-manager.service';
+import { DevToolsEnvManagerService } from '@testing/dev-tools/services';
 
 export function devToolsEnvironmentInitializer() {
   const devToolsEnv = inject(DevToolsEnvManagerService);

@@ -1,0 +1,34 @@
+<div
+  class="inline-flex font-bold transition-all duration-500 text-white"
+  [@tada]="animateCacheCounter()"
+  (@tada.start)="onCounterAnimationStart()"
+  (@tada.done)="onCounterAnimationDone()">
+  @if (type === 'all') {
+    <span
+      [ngClass]="{
+        'bg-slate-700': !isAnimatingCounter(),
+        'bg-slate-500': isAnimatingCounter(),
+      }"
+      class="px-2 py-1 rounded">
+      {{ allItemsCount$ | async | number }}
+    </span>
+  } @else if (type === 'fresh') {
+    <span
+      [ngClass]="{
+        'bg-green-500': !isAnimatingCounter(),
+        'bg-green-600': isAnimatingCounter(),
+      }"
+      class="px-2 py-1 rounded">
+      {{ freshItemsCount$ | async | number }}
+    </span>
+  } @else {
+    <span
+      [ngClass]="{
+        'bg-rose-500': !isAnimatingCounter(),
+        'bg-rose-600': isAnimatingCounter(),
+      }"
+      class="px-2 py-1 rounded">
+      {{ staleItemsCount$ | async | number }}
+    </span>
+  }
+</div>

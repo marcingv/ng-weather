@@ -1,5 +1,9 @@
 import { AppEnvironmentConfig } from './app-environment-config';
 
+/**
+ * This file contains configuration defaults for all environments.
+ */
+
 export const BASE_ENVIRONMENT: AppEnvironmentConfig = {
   PRODUCTION: false,
   OPEN_WEATHER: {

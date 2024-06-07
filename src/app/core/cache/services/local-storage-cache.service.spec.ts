@@ -242,6 +242,8 @@ describe('LocalStorageCacheService', (): void => {
     it('should remove stale cache entries while loading initial cache data from storage', async () => {
       const entriesCount = await firstValueFrom(service.count());
       expect(entriesCount).toEqual(2);
+      expect(service.freshEntriesCount()).toEqual(2);
+      expect(service.staleEntriesCount()).toEqual(0);
 
       const freshEntry1 = await firstValueFrom(service.getEntry('freshData1'));
       expect(freshEntry1).toBeTruthy();

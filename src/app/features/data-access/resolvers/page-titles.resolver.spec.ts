@@ -7,7 +7,7 @@ import {
 
 import {
   forecastPageTitleResolver,
-  mainPageTitleResolver,
+  weatherConditionsPageTitleResolver,
   PAGE_TITLES,
 } from './page-titles.resolver';
 import { PathParams } from '@core/router/path-params';
@@ -53,7 +53,7 @@ describe('PageTitlesResolvers', () => {
     );
   });
 
-  describe('Main Page Titles', () => {
+  describe('Weather Conditions Page Titles', () => {
     let resolver: ResolveFn<string>;
 
     beforeEach(() => {
@@ -63,7 +63,7 @@ describe('PageTitlesResolvers', () => {
 
       resolver = (...resolverParameters) =>
         TestBed.runInInjectionContext(() =>
-          mainPageTitleResolver(...resolverParameters)
+          weatherConditionsPageTitleResolver(...resolverParameters)
         );
     });
 
