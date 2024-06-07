@@ -75,6 +75,23 @@ describe('Weather Conditions Page', (): void => {
     );
   });
 
+  it('should display persisted user locations', (): void => {
+    cy.visit('');
+
+    cy.get('app-zipcode-entry input').as('zipcodeInput');
+    cy.get('app-zipcode-entry button').as('submitBtn');
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_10001);
+    cy.get('@submitBtn').click();
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_95742);
+    cy.get('@submitBtn').click();
+
+    cy.reload();
+
+    cy.get('app-tab').should('exist').should('have.length', 2);
+  });
+
   it('should navigate between tabs', (): void => {
     cy.visit('');
 
@@ -202,7 +219,7 @@ describe('Weather Conditions Page', (): void => {
     );
   });
 
-  it.only('should navigate to forecast page', (): void => {
+  it('should navigate to forecast page', (): void => {
     cy.visit('/');
 
     cy.get('app-zipcode-entry input').as('zipcodeInput');
