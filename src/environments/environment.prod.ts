@@ -1,6 +1,10 @@
 import { AppEnvironmentConfig } from './app-environment-config';
 import { BASE_ENVIRONMENT } from './_environment.base';
 
+/**
+ * This file configures PROD environment.
+ */
+
 export const ENVIRONMENT: AppEnvironmentConfig = {
   ...BASE_ENVIRONMENT,
   PRODUCTION: true,
