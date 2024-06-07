@@ -59,7 +59,7 @@ describe('weatherConditionsPreloadingGuard', (): void => {
     weatherServiceSpy = createSpyObj<WeatherService>(['loadCurrentConditions']);
     weatherServiceSpy.loadCurrentConditions.and.callFake((zipcode: ZipCode) => {
       return of({
-        zip: zipcode,
+        zipcode: zipcode,
         data: CurrentConditionsFactory.createInstance(),
         isLoading: false,
         isLoadError: false,

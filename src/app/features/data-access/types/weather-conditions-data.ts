@@ -1,7 +1,7 @@
 import { CurrentConditions, ZipCode } from '@core/types';
 
 export interface WeatherConditionsData {
-  zip: ZipCode;
+  zipcode: ZipCode;
   data?: CurrentConditions;
   isLoading?: boolean;
   isLoadError?: boolean;

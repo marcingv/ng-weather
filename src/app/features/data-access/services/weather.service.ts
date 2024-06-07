@@ -48,7 +48,7 @@ export class WeatherService {
 
       // Notify is loading:
       return {
-        zip: zipcode,
+        zipcode: zipcode,
         isLoading: true,
       } satisfies WeatherConditionsData;
     });
@@ -59,7 +59,7 @@ export class WeatherService {
       let conditions = prevData[zipcode];
       if (!conditions) {
         conditions = {
-          zip: zipcode,
+          zipcode: zipcode,
           isLoading: true,
         };
       } else {
@@ -90,14 +90,14 @@ export class WeatherService {
         map(
           (data: CurrentConditions) =>
             ({
-              zip: zipcode,
+              zipcode: zipcode,
               data: data,
               fetchTimestamp: Date.now(),
             }) satisfies WeatherConditionsData
         ),
         catchError((error: HttpErrorResponse) => {
           return of({
-            zip: zipcode,
+            zipcode: zipcode,
             isLoadError: true,
             errorMessage: error.message,
             fetchTimestamp: Date.now(),

@@ -42,7 +42,7 @@ describe('WeatherService', () => {
       const data: WeatherConditionsData = dataSignal();
 
       expect(data).toBeTruthy();
-      expect(data.zip).toEqual('10001');
+      expect(data.zipcode).toEqual('10001');
       expect(data.isLoading).toBeFalsy();
       expect(data.isLoadError).toBeFalsy();
       expect(data.errorMessage).toBeFalsy();
@@ -63,7 +63,7 @@ describe('WeatherService', () => {
       const data: WeatherConditionsData = dataSignal();
 
       expect(data).toBeTruthy();
-      expect(data.zip).toEqual('10001');
+      expect(data.zipcode).toEqual('10001');
       expect(data.isLoading).toBeFalsy();
       expect(data.isLoadError).toBeTrue();
       expect(data.errorMessage).toBeTruthy();
@@ -78,11 +78,11 @@ describe('WeatherService', () => {
       const dataBefore: WeatherConditionsData = dataSignal();
 
       service.refreshConditions('10001');
-      expect(api.getCurrentConditions).toHaveBeenCalledWith(dataBefore.zip);
+      expect(api.getCurrentConditions).toHaveBeenCalledWith(dataBefore.zipcode);
 
       const dataAfter: WeatherConditionsData = dataSignal();
 
-      expect(dataBefore.zip).toEqual(dataAfter.zip);
+      expect(dataBefore.zipcode).toEqual(dataAfter.zipcode);
       expect(dataBefore).not.toBe(dataAfter);
     });
   });

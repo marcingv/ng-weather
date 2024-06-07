@@ -87,7 +87,7 @@ const loadWeatherConditionsEagerly = (): Observable<true> => {
            * should be displayed (but it's not the responsibility of this guard).
            */
           return of({
-            zip: oneLocation.zipcode,
+            zipcode: oneLocation.zipcode,
             isLoadError: true,
           } satisfies WeatherConditionsData);
         })
