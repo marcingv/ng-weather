@@ -6,7 +6,15 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import {
+  catchError,
+  combineLatestWith,
+  map,
+  Observable,
+  of,
+  tap,
+  timer,
+} from 'rxjs';
 import { CurrentConditions, ZipCode } from '@core/types';
 import { WeatherApiService } from '@core/api/weather-api.service';
 import {
@@ -22,9 +30,12 @@ export class WeatherService {
   private readonly weatherData: WritableSignal<WeatherConditionsDictionary> =
     signal<WeatherConditionsDictionary>({});
 
-  public getConditions(zipcode: ZipCode): Signal<WeatherConditionsData> {
+  public getConditions(
+    zipcode: ZipCode,
+    minResolveTimeMillis?: number
+  ): Signal<WeatherConditionsData> {
     if (!this.weatherData()[zipcode]) {
-      this.loadCurrentConditions(zipcode).subscribe();
+      this.loadCurrentConditions(zipcode, minResolveTimeMillis).subscribe();
     }
 
     return computed(() => {
@@ -70,25 +81,38 @@ export class WeatherService {
   }
 
   public loadCurrentConditions(
-    zipcode: ZipCode
+    zipcode: ZipCode,
+    minResolveTimeMillis?: number
   ): Observable<WeatherConditionsData> {
-    return this.api.getCurrentConditions(zipcode).pipe(
-      map(
-        (data: CurrentConditions) =>
-          ({
+    let data$: Observable<WeatherConditionsData> = this.api
+      .getCurrentConditions(zipcode)
+      .pipe(
+        map(
+          (data: CurrentConditions) =>
+            ({
+              zip: zipcode,
+              data: data,
+              fetchTimestamp: Date.now(),
+            }) satisfies WeatherConditionsData
+        ),
+        catchError((error: HttpErrorResponse) => {
+          return of({
             zip: zipcode,
-            data: data,
+            isLoadError: true,
+            errorMessage: error.message,
             fetchTimestamp: Date.now(),
-          }) satisfies WeatherConditionsData
-      ),
-      catchError((error: HttpErrorResponse) => {
-        return of({
-          zip: zipcode,
-          isLoadError: true,
-          errorMessage: error.message,
-          fetchTimestamp: Date.now(),
-        } satisfies WeatherConditionsData);
-      }),
+          } satisfies WeatherConditionsData);
+        })
+      );
+
+    if (minResolveTimeMillis) {
+      data$ = data$.pipe(
+        combineLatestWith(timer(minResolveTimeMillis)),
+        map(data => data[0])
+      );
+    }
+
+    return data$.pipe(
       tap((data: WeatherConditionsData) => {
         this.weatherData.update((prevData: WeatherConditionsDictionary) => ({
           ...prevData,
