@@ -53,7 +53,7 @@ export class ZipcodeEntryComponent {
   private readonly existingZipCodeValidator = inject(ExistingZipcodeValidator);
   private readonly locationLookupPendingSignal = signal<boolean>(false);
 
-  protected formGroup = new FormGroup({
+  public readonly formGroup = new FormGroup({
     zipcode: new FormControl<string>(
       '',
       [
