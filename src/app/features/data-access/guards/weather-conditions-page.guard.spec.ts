@@ -6,7 +6,7 @@ import {
   RedirectCommand,
   RouterStateSnapshot,
 } from '@angular/router';
-import { mainPageSequentialGuard } from './main-page-sequential.guard';
+import { weatherConditionsPageGuard } from './weather-conditions-page.guard';
 import {
   LocationService,
   WeatherService,
@@ -20,7 +20,7 @@ import SpyObj = jasmine.SpyObj;
 import createSpyObj = jasmine.createSpyObj;
 import { Paths } from '@core/router/paths';
 
-describe('mainPageSequentialGuard', (): void => {
+describe('weatherConditionsPageGuard', (): void => {
   let guard: CanActivateFn;
 
   let locationsSpy: SpyObj<LocationService>;
@@ -81,7 +81,7 @@ describe('mainPageSequentialGuard', (): void => {
 
     guard = (...guardParameters) =>
       TestBed.runInInjectionContext(() =>
-        mainPageSequentialGuard({
+        weatherConditionsPageGuard({
           preloadingStrategy: 'on-demand-data-fetching',
         })(...guardParameters)
       );

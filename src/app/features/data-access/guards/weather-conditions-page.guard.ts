@@ -26,7 +26,7 @@ interface GuardOptions {
 /**
  * This guard uses and synchronizes two other guards to perform its task
  */
-export const mainPageSequentialGuard: (
+export const weatherConditionsPageGuard: (
   options: GuardOptions
 ) => CanActivateFn = (options: GuardOptions) => {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {

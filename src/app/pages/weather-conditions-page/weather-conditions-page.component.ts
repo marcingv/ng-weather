@@ -27,9 +27,9 @@ import { ToastsService } from '@ui/toasts';
 import { ENVIRONMENT } from '@environments/environment';
 
 @Component({
-  selector: 'app-main-page',
+  selector: 'app-weather-conditions-page',
   standalone: true,
-  templateUrl: './main-page.component.html',
+  templateUrl: './weather-conditions-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ZipcodeEntryComponent,
@@ -41,7 +41,7 @@ import { ENVIRONMENT } from '@environments/environment';
     TabLazyContentTemplateDirective,
   ],
 })
-export class MainPageComponent {
+export class WeatherConditionsPageComponent {
   private readonly PRELOADING_STRATEGY: WeatherConditionsPreloadingStrategy =
     ENVIRONMENT.WEATHER_CONDITIONS_PRELOADING_STRATEGY;
 
