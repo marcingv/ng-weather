@@ -15,3 +15,29 @@
 
 // When a command from ./commands is ready to use, import with `import './commands'` syntax
 // import './commands';
+
+import {
+  CURRENT_CONDITIONS_RESPONSES,
+  REQUEST_ZIPCODES,
+} from '../fixtures/current-conditions.fixtures';
+
+beforeEach(() => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '**/data/2.5/weather*',
+    },
+    req => {
+      const zipQueryParam: string = req.query['zip'] + '';
+      const zipQueryParamParts = zipQueryParam.split(',');
+      const zipcode: REQUEST_ZIPCODES | undefined =
+        zipQueryParamParts[0] as REQUEST_ZIPCODES;
+      console.warn(zipcode);
+      if (zipcode && CURRENT_CONDITIONS_RESPONSES[zipcode]) {
+        req.reply(200, CURRENT_CONDITIONS_RESPONSES[zipcode]);
+      } else {
+        req.reply(404);
+      }
+    }
+  ).as('weatherConditionsResponse');
+});
