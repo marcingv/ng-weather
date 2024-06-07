@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
+    "e2e:ci": "ng e2e --watch false",
     "docker-prod-build": "docker build --file ./prod.Dockerfile --tag marcingv/ng-weather:latest .",
     "docker-prod-publish": "docker push marcingv/ng-weather:latest",
     "cypress:open": "cypress open",
