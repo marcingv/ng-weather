@@ -18,8 +18,9 @@
 
 import {
   CURRENT_CONDITIONS_RESPONSES,
+  FORECAST_RESPONSES,
   REQUEST_ZIPCODES,
-} from '../fixtures/current-conditions.fixtures';
+} from '../fixtures/data.fixtures';
 
 beforeEach(() => {
   cy.intercept(
@@ -32,7 +33,7 @@ beforeEach(() => {
       const zipQueryParamParts = zipQueryParam.split(',');
       const zipcode: REQUEST_ZIPCODES | undefined =
         zipQueryParamParts[0] as REQUEST_ZIPCODES;
-      console.warn(zipcode);
+
       if (zipcode && CURRENT_CONDITIONS_RESPONSES[zipcode]) {
         req.reply(200, CURRENT_CONDITIONS_RESPONSES[zipcode]);
       } else {
@@ -40,4 +41,23 @@ beforeEach(() => {
       }
     }
   ).as('weatherConditionsResponse');
+
+  cy.intercept(
+    {
+      method: 'GET',
+      url: '**/data/2.5/forecast/daily*',
+    },
+    req => {
+      const zipQueryParam: string = req.query['zip'] + '';
+      const zipQueryParamParts = zipQueryParam.split(',');
+      const zipcode: REQUEST_ZIPCODES | undefined =
+        zipQueryParamParts[0] as REQUEST_ZIPCODES;
+
+      if (zipcode && FORECAST_RESPONSES[zipcode]) {
+        req.reply(200, FORECAST_RESPONSES[zipcode]);
+      } else {
+        req.reply(404);
+      }
+    }
+  ).as('dailyForecastResponse');
 });

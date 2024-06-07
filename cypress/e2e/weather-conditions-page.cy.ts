@@ -1,4 +1,4 @@
-import { REQUEST_ZIPCODES } from '../fixtures/current-conditions.fixtures';
+import { REQUEST_ZIPCODES } from '../fixtures/data.fixtures';
 
 describe('Weather Conditions Page', (): void => {
   it('should initially have no user locations', (): void => {
@@ -6,6 +6,13 @@ describe('Weather Conditions Page', (): void => {
     cy.get('app-tabs-view').should('not.exist');
     cy.get('app-empty-collection-placeholder');
     cy.contains('Please add locations to see weather conditions here.');
+  });
+
+  it('should redirect to root when zipcode in url is unknown', (): void => {
+    cy.visit('/weather/NOT_KNOWN_ZIPCODE');
+    cy.location().should((location): void => {
+      expect(location.pathname).to.eq(`/weather/`);
+    });
   });
 
   it('should add first location', (): void => {
@@ -118,7 +125,7 @@ describe('Weather Conditions Page', (): void => {
     });
   });
 
-  it.only('should remove tabs one by one', (): void => {
+  it('should remove tabs one by one', (): void => {
     cy.visit('');
 
     cy.get('app-zipcode-entry input').as('zipcodeInput');
@@ -154,5 +161,61 @@ describe('Weather Conditions Page', (): void => {
 
     cy.get('app-tabs-view').should('not.exist');
     cy.get('app-empty-collection-placeholder');
+  });
+
+  it('should redirect user to first location by default', (): void => {
+    cy.visit('/');
+
+    cy.get('app-zipcode-entry input').as('zipcodeInput');
+    cy.get('app-zipcode-entry button').as('submitBtn');
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_10001);
+    cy.get('@submitBtn').click();
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_30002);
+    cy.get('@submitBtn').click();
+
+    cy.visit('/');
+    cy.location().should((location): void => {
+      expect(location.pathname).to.eq(`/weather/${REQUEST_ZIPCODES.ZIP_10001}`);
+    });
+  });
+
+  it('should open location tab with zipcode specified in url', (): void => {
+    cy.visit('/');
+
+    cy.get('app-zipcode-entry input').as('zipcodeInput');
+    cy.get('app-zipcode-entry button').as('submitBtn');
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_10001);
+    cy.get('@submitBtn').click();
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_30002);
+    cy.get('@submitBtn').click();
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_95742);
+    cy.get('@submitBtn').click();
+
+    cy.visit(`/weather/${REQUEST_ZIPCODES.ZIP_30002}`);
+    cy.get('.tabs-navigation__item.active').contains(
+      REQUEST_ZIPCODES.ZIP_30002
+    );
+  });
+
+  it.only('should navigate to forecast page', (): void => {
+    cy.visit('/');
+
+    cy.get('app-zipcode-entry input').as('zipcodeInput');
+    cy.get('app-zipcode-entry button').as('submitBtn');
+
+    cy.get('@zipcodeInput').type(REQUEST_ZIPCODES.ZIP_10001);
+    cy.get('@submitBtn').click();
+
+    cy.get('app-tab a').click();
+    cy.location().should((location): void => {
+      expect(location.pathname).to.eq(
+        `/forecast/${REQUEST_ZIPCODES.ZIP_10001}`
+      );
+    });
   });
 });
