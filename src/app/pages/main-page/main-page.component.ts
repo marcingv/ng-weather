@@ -23,7 +23,7 @@ import {
 } from '@features/data-access/types';
 import { Router } from '@angular/router';
 import { Paths } from '@core/router/paths';
-import { ToastsService } from '@ui/toasts/services/toasts.service';
+import { ToastsService } from '@ui/toasts';
 import { ENVIRONMENT } from '@environments/environment';
 
 @Component({

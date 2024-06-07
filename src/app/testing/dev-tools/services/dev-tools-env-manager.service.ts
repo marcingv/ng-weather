@@ -1,7 +1,7 @@
 import { effect, inject, Injectable, signal, Signal } from '@angular/core';
 import { AppEnvironmentConfig } from '@environments/app-environment-config';
 import { ENVIRONMENT } from '@environments/environment';
-import { DevToolsSettings } from '@testing/dev-tools/types/dev-tools-settings';
+import { DevToolsSettings } from '@testing/dev-tools/types';
 import { LocalStorageService } from '@core/storage';
 import { tap } from 'rxjs';
 

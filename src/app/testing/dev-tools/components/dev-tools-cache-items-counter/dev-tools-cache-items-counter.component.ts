@@ -7,7 +7,7 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
+import { DevToolsService } from '@testing/dev-tools/services';
 import { LocalStorageCacheService } from '@core/cache/services';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {

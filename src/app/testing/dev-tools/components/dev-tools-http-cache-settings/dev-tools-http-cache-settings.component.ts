@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 import { FormControlDirective } from '@ui/forms';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DevToolsService } from '@testing/dev-tools/services/dev-tools.service';
+import { DevToolsService } from '@testing/dev-tools/services';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map, Observable, tap } from 'rxjs';
 import { ButtonDirective } from '@ui/buttons/directives';
 import { CloseIconComponent } from '@ui/icons/close-icon';
 import { NoSymbolIconComponent } from '@ui/icons/no-symbol-icon';
-import { DevToolsCacheItemsCounterComponent } from '../dev-tools-cache-items-counter/dev-tools-cache-items-counter.component';
+import { DevToolsCacheItemsCounterComponent } from '@testing/dev-tools/components/dev-tools-cache-items-counter';
 
 @Component({
   selector: 'app-dev-tools-http-cache-settings',

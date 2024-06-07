@@ -11,7 +11,7 @@ import { userLocationExistGuard } from './user-location-exist.guard';
 import { LocationService } from '@features/data-access/services';
 import { ZipcodeAndCity } from '@features/data-access/types';
 import { ZipCode } from '@core/types';
-import { ToastsService } from '@ui/toasts/services/toasts.service';
+import { ToastsService } from '@ui/toasts';
 import { PathParams } from '@core/router/path-params';
 import { Paths } from '@core/router/paths';
 import SpyObj = jasmine.SpyObj;

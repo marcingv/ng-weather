@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ENVIRONMENT } from '@environments/environment';
-import { DevToolsComponent } from 'src/app/testing/dev-tools';
-import { ToastsContainerComponent } from '@ui/toasts/components/toasts-container/toasts-container.component';
+import { DevToolsComponent } from '@testing/dev-tools';
+import { ToastsContainerComponent } from '@ui/toasts';
 
 @Component({
   selector: 'app-root',
