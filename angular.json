@@ -17,8 +17,14 @@
             },
             "index": "src/index.html",
             "tsConfig": "tsconfig.app.json",
-            "polyfills": ["zone.js"],
-            "assets": ["src/assets", "src/favicon.ico", "src/manifest.json"],
+            "polyfills": [
+              "zone.js"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/manifest.json"
+            ],
             "styles": [
               "src/styles.css"
             ],
@@ -79,19 +85,60 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "scripts": [],
             "styles": [
               "src/styles.css"
             ],
-            "assets": ["src/assets", "src/favicon.ico", "src/manifest.json"]
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/manifest.json"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "ng-weather:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-weather:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "ng-weather:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-weather:serve:production"
+            }
           }
         }
       }
@@ -107,7 +154,11 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"],
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@angular-eslint/schematics",
+      "@schematics/angular"
+    ],
     "analytics": false
   }
 }
